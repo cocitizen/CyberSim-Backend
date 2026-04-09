@@ -1,4 +1,3 @@
-CREATE USER test WITH PASSWORD 'test' CREATEDB;
 CREATE DATABASE cybersim_test
     WITH
     OWNER = cybersim

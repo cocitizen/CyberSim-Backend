@@ -1,0 +1,90 @@
+{
+  "title": "Mitigation Data Flow: Static Catalog vs Game State",
+  "description": "Traces the two mitigation data paths — static reference data (REST) and per-game purchase state (Socket.IO) — from the database models through the backend API to the frontend components where they merge.",
+  "steps": [
+    {
+      "title": "1. Database Schema — `mitigation` Table (Static Catalog)",
+      "description": "The `mitigation` table holds the **reference catalog** of all available mitigations. Each row describes what a mitigation *is* — its description, category, and cost. This data is the same across all games.\n\n**Columns:** `id` (PK), `description`, `category`, `cost`, `is_hq`, `is_local`\n\nThis table is seeded from JSON files during database setup and never modified during gameplay.",
+      "file": "migrations/20200611095430_initial.js",
+      "line": 9
+    },
+    {
+      "title": "2. Database Schema — `game_mitigation` Table (Per-Game State)",
+      "description": "The `game_mitigation` table tracks **per-game purchase state**. When a game is created, one row is inserted for every mitigation, all with `state: false`.\n\n**Columns:** `id` (PK, auto-increment), `game_id` (FK → game), `mitigation_id` (FK → mitigation), `state` (boolean), `preparation` (boolean)\n\n- `state` — whether this mitigation is currently purchased in this game\n- `preparation` — whether it was purchased during the preparation phase\n\nThis is the table that gets mutated during gameplay.",
+      "file": "migrations/20200611095430_initial.js",
+      "line": 116
+    },
+    {
+      "title": "3. Migration — Unified Cost Column",
+      "description": "This migration removed the old `hq_cost` and `local_cost` columns from the `mitigation` table and replaced them with a single `cost` column. The `is_hq` and `is_local` boolean flags remain.",
+      "file": "migrations/20231011122402_remove_location_from_mitigations.js",
+      "line": 21
+    },
+    {
+      "title": "4. Seed Data — Populating the Mitigation Catalog",
+      "description": "During database seeding, mitigation records are loaded from a dataset JSON file (e.g. `seeds/datasets/<scenario>/<revision>/data/mitigation.json`) and bulk-inserted into the `mitigation` table.\n\nEach record has: `{ id, description, category, cost, is_hq, is_local }`.",
+      "file": "seeds/02_dataset_seed.js",
+      "line": 162
+    },
+    {
+      "title": "5. Backend REST — GET /mitigations (Static Catalog)",
+      "description": "This endpoint serves the **full mitigation catalog** as a JSON array. It's a simple pass-through — `db('mitigation')` returns all rows with no filtering or transformation.\n\nCalled once on frontend app load by `StaticDataProvider`.",
+      "file": "src/app.js",
+      "line": 152
+    },
+    {
+      "title": "6. Frontend — StaticDataProvider Fetches the Catalog",
+      "description": "On mount, this effect fetches `GET /mitigations` and transforms the response array into an **object keyed by ID** using lodash `_keyBy`.\n\n**Before:** `[{ id: 'rec123', description: '...', cost: 500 }, ...]`\n**After:** `{ 'rec123': { id: 'rec123', description: '...', cost: 500 }, ... }`\n\nThis keyed object becomes `staticMitigations` — optimised for O(1) lookup by mitigation ID.",
+      "file": "../CyberSim-UI/src/components/StaticDataProvider.jsx",
+      "line": 152
+    },
+    {
+      "title": "7. Game Model — createGame() Seeds game_mitigation Rows",
+      "description": "When a new game is created, `createGame()` inserts one `game_mitigation` row for every mitigation in the catalog. All start with `state: false` (not purchased) and `preparation: false`.\n\nThis is how the per-game purchase tracking is initialised.",
+      "file": "src/models/game.js",
+      "line": 41
+    },
+    {
+      "title": "8. Game Model — getGame() Aggregates Mitigations via JOIN",
+      "description": "When a game is loaded (join, reconnect, or after any mutation), `getGame()` uses a `LEFT JOIN` with `array_agg(to_json(gm))` to bundle all `game_mitigation` rows into a single JSON array on the game object.\n\n**Result shape:**\n```json\n{ mitigations: [{ id, game_id, mitigation_id, state, preparation }, ...] }\n```\n\nThis array travels over the WebSocket to the frontend.",
+      "file": "src/models/game.js",
+      "line": 27
+    },
+    {
+      "title": "9. Game Model — changeMitigation() Toggles Purchase State",
+      "description": "This function handles buying/selling a mitigation:\n1. Looks up the mitigation's cost from the `mitigation` table\n2. Checks if the game has enough budget\n3. Updates `game_mitigation.state` (and `preparation` if in PREPARATION phase)\n4. Adjusts the game's budget\n5. Logs a budget item purchase event\n6. If the mitigation prevents an injection, marks that injection as prevented\n\nAfter this, the updated game is broadcast to all connected clients.",
+      "file": "src/models/game.js",
+      "line": 86
+    },
+    {
+      "title": "10. Backend Socket — CHANGEMITIGATION Handler",
+      "description": "When a facilitator clicks a mitigation toggle, the frontend emits `CHANGEMITIGATION` with `{ id, value }`. This handler calls `changeMitigation()` on the game model, then broadcasts the full updated game state to the room via `GAMEUPDATED`.",
+      "file": "src/socketio.js",
+      "line": 86
+    },
+    {
+      "title": "11. Frontend GameStore — setGame() Reduces to Boolean Map",
+      "description": "When game state arrives (via `JOINGAME` callback or `GAMEUPDATED` event), `setGame()` transforms the mitigations array into a **flat boolean map**:\n\n**Before (from server):** `[{ mitigation_id: 'rec123', state: true }, { mitigation_id: 'rec456', state: false }]`\n**After (in store):** `{ 'rec123': true, 'rec456': false }`\n\nA separate `preparationMitigations` map is also built from the `preparation` field.\n\nThis is the key transformation — the rich server data is reduced to just `{ [mitigation_id]: boolean }`.",
+      "file": "../CyberSim-UI/src/components/GameStore.jsx",
+      "line": 46
+    },
+    {
+      "title": "12. Frontend GameStore — Socket Event Listeners",
+      "description": "The `GAMEUPDATED` listener (line 103) calls `setGame()` whenever the server broadcasts a state change. This keeps `gameStore.mitigations` in sync across all connected facilitators in real time.\n\nThe `JOINGAME` handler (line 108) does the same on initial connection.",
+      "file": "../CyberSim-UI/src/components/GameStore.jsx",
+      "line": 103
+    },
+    {
+      "title": "13. PurchasedMitigations — Where Both Data Sources Merge",
+      "description": "This is where the two data paths converge:\n- `staticMitigations` (line 10) — the catalog with descriptions, costs, and categories\n- `mitigations` (line 11) — the per-game boolean map of purchase states\n\nThe `purchased` memo (lines 15-18) joins them:\n1. `Object.entries(mitigations)` — iterate the boolean map\n2. `.filter(([, state]) => state)` — keep only purchased (truthy) ones\n3. `.map(([id]) => staticMitigations[id])` — look up full catalog data by ID\n4. `.filter(Boolean)` — drop any IDs missing from the catalog\n\n**Result:** An array of full mitigation objects for purchased items only.",
+      "file": "../CyberSim-UI/src/components/Projector/PurchasedMitigations.jsx",
+      "line": 13
+    },
+    {
+      "title": "14. PurchasedMitigations — Grouping by Category",
+      "description": "The `byCategory` memo groups the purchased mitigations by their `category` field (which came from `staticMitigations`). The result is rendered as categorised lists showing each mitigation's `description` and `cost`.\n\nThis demonstrates why both data sources are needed: game state tells you *what was bought*, static data tells you *what it is*.",
+      "file": "../CyberSim-UI/src/components/Projector/PurchasedMitigations.jsx",
+      "line": 22
+    }
+  ]
+}

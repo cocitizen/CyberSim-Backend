@@ -24,11 +24,21 @@ https://github.com/cdoten/CyberSim-UI
 
 ### Local Hosting Quick Start
 
+Use convenient script:
+
+```bash
+npm run project:start
+```
+
 docker compose -f docker-compose-dev.yaml up -d
 cp .env.example .env
 npm install
 npm run reset-db
 npm start
+
+### Debug
+
+Use VsCode Debug Configs!
 
 ## Local Development
 
@@ -95,7 +105,7 @@ Local development typically uses `3001`, while production uses `8080`.
 - `/src` — Application source code
 - `/migrations` — Database schema migrations
 - `/seeds` — Fixture data and dataset snapshots
-- `/docker-compose-dev.yaml` — Local Postgres container for development 
+- `/docker-compose-dev.yaml` — Local Postgres container for development
 - `/Dockerfile` — Production container definition
 
 ## Health Endpoints
@@ -189,12 +199,16 @@ npm run seed
 Run automated tests:
 
 ```bash
+cp .env.test.example .env.test
+```
+
+```bash
 npm run test
 ```
 
-Tests use the `cybersim_test` database. Ensure your `.env` is configured to point to a test database before running tests.
+Tests use the `cybersim_test` database. Ensure your `.env.test` is configured to point to a test database before running tests.
 
-The test suite resets and reseeds the database as part of execution.
+**WARN!** The test suite resets and reseeds the database as part of execution.
 
 ## Environment Variables
 
@@ -224,11 +238,13 @@ postgres://<USER>:<PASSWORD>@<HOST>:<PORT>/<DB_NAME>
 Comma-separated list of frontend origins allowed to access the API via CORS. Do not include trailing slashes.
 
 Local development:
+
 ```
 UI_ORIGINS=http://localhost:3000
 ```
 
 Production (one origin per scenario subdomain):
+
 ```
 UI_ORIGINS=https://cso.cybersim.app,https://tnr.cybersim.app
 ```

@@ -1,0 +1,126 @@
+{
+  "title": "Initial Page Flow: Frontend → Backend",
+  "description": "A guided tour of what happens from the moment a user opens CyberSim to the start of a simulation. Crosses the UI (CyberSim-UI) and API (CyberSim-Backend).",
+  "steps": [
+    {
+      "title": "1. HTML Shell — Where the App Mounts",
+      "description": "The browser loads this HTML file first. React will inject the entire application into the `<div id=\"root\">` element. Nothing is rendered yet — it's just a blank shell.",
+      "file": "../CyberSim-UI/public/index.html",
+      "line": 1
+    },
+    {
+      "title": "2. React Entry Point — Mounting the App",
+      "description": "`ReactDOM.render(<App />, document.getElementById('root'))` kicks everything off. The entire component tree is mounted here from a single call.",
+      "file": "../CyberSim-UI/src/index.jsx",
+      "line": 9
+    },
+    {
+      "title": "3. App Component — Router and Global Providers",
+      "description": "The `App` component sets up two things simultaneously:\n- `StaticDataProvider` wraps all routes and immediately starts fetching static game data from the backend REST API.\n- React Router defines two routes: `/` → `<Game />` and `/scenario/import` → `<ScenarioImport />`.\n\nThe `view()` HOC from `react-easy-state` makes this component reactively re-render whenever observed stores change.",
+      "file": "../CyberSim-UI/src/App.jsx",
+      "line": 1
+    },
+    {
+      "title": "4. StaticDataProvider — REST API Calls on Mount",
+      "description": "Before any game screen renders, this component fires parallel HTTP GET requests to the backend for all static scenario data: `/systems`, `/mitigations`, `/injections`, `/responses`, `/actions`, `/curveballs`, `/locations`, and `/dictionary`.\n\nThe `loading` flag (line ~276) is `true` until all required resources have resolved. The `Game` component will show a spinner until this resolves.",
+      "file": "../CyberSim-UI/src/components/StaticDataProvider.jsx",
+      "line": 136
+    },
+    {
+      "title": "5. Backend — Express App and Static REST Endpoints",
+      "description": "Here on the backend is where those REST calls land. Each endpoint reads from the database via Knex and returns the full dataset. These are read-only, unauthenticated, and called exactly once on app load.\n\nNote the CORS setup above (lines 37–58) — only origins listed in the `UI_ORIGINS` env var are allowed.",
+      "file": "src/app.js",
+      "line": 152
+    },
+    {
+      "title": "6. Backend Entry Point — Server Startup Sequence",
+      "description": "When the backend starts, `index.js` orchestrates the full boot sequence:\n1. Validates environment variables\n2. Confirms DB connectivity\n3. Runs Knex migrations and seeds\n4. Creates the HTTP server\n5. Attaches Socket.IO\n6. Begins listening on port 8080\n\nIf any step fails, the process exits with a clear error.",
+      "file": "index.js",
+      "line": 75
+    },
+    {
+      "title": "7. Game Component — Spinner, Socket, and State Routing",
+      "description": "The `Game` component is the main state router. On mount (line 21), it calls `gameStore.ensureSocket()` to open the WebSocket connection.\n\nWhile either the socket isn't connected or static data is still loading, a spinner displays (lines 24–32).\n\nOnce both are ready, the component checks `gameStore.game`:\n- `null` → show `<EnterGame />`\n- state `PREPARATION` → show `<Mitigations />`\n- state `SIMULATION` → show `<Simulation />`\n- `?isProjectorView=true` in URL → show `<Projector />`",
+      "file": "../CyberSim-UI/src/components/Game.jsx",
+      "line": 14
+    },
+    {
+      "title": "8. GameStore — Opening the WebSocket Connection",
+      "description": "`ensureSocket()` creates a Socket.IO connection to the backend URL (`process.env.REACT_APP_API_URL`). It registers the critical listeners:\n- `CONNECT` — marks socket as ready\n- `DISCONNECT` — marks socket as not ready\n- `CONNECT_ERROR` — shows an error popup\n- `GAMEUPDATED` — receives new game state from the server and calls `setGame()`\n- `RECONNECT` — re-joins the active game room after a dropped connection\n\nIf a `gameId` is found in the URL query string, `joinGame` is automatically emitted after connect.",
+      "file": "../CyberSim-UI/src/components/GameStore.jsx",
+      "line": 70
+    },
+    {
+      "title": "9. Backend — Socket.IO Setup and Authentication",
+      "description": "The backend initialises Socket.IO here, including its own CORS policy. An `auth` middleware (lines 23–38) validates each connecting socket before the connection is accepted.\n\nAll real-time game logic is handled through events registered on each socket inside the `connection` handler below.",
+      "file": "src/socketio.js",
+      "line": 23
+    },
+    {
+      "title": "10. EnterGame — Create or Join a Game",
+      "description": "When no game is loaded the user sees this screen. It reads `gameId` from `localStorage` (line 9) to pre-fill the input for returning users.\n\nTwo actions are available:\n- **Create Game** — emits `CREATEGAME` with a new ID, initial budget, and poll percentage\n- **Join Game** — emits `JOINGAME` with an existing game ID\n\nBoth pass a callback that receives the resulting game state (or an error) directly from the server.",
+      "file": "../CyberSim-UI/src/components/EnterGame.jsx",
+      "line": 9
+    },
+    {
+      "title": "11. Backend — CREATEGAME Handler",
+      "description": "When `CREATEGAME` arrives, the server calls `createGame()` which:\n1. Inserts the game record with budget and poll percentage\n2. Creates a `game_system` row for every system (all online by default)\n3. Creates a `game_mitigation` row for every mitigation (none purchased)\n4. Creates a `game_injection` row for every injection event\n\nThe socket then joins the game's Socket.IO room so all future broadcasts reach only participants of this game.",
+      "file": "src/socketio.js",
+      "line": 48
+    },
+    {
+      "title": "12. Game Model — createGame()",
+      "description": "This is the core database setup for a new game. The three bulk inserts (game_systems, game_mitigations, game_injections) establish the full starting state. Every subsequent socket event will read and mutate these rows.",
+      "file": "src/models/game.js",
+      "line": 41
+    },
+    {
+      "title": "13. JOINGAME — Reconnecting to an Existing Game",
+      "description": "For a `JOINGAME` event, the server calls `getGame(id)` which returns the full game record joined with its systems, mitigations, injections, and logs. The socket joins the same room so it receives all future `GAMEUPDATED` broadcasts alongside other connected facilitators.",
+      "file": "src/socketio.js",
+      "line": 70
+    },
+    {
+      "title": "14. Game States — The Three Phases",
+      "description": "The game transitions through exactly three states, defined here:\n- `PREPARATION` — facilitators allocate budget to mitigations before the simulation\n- `SIMULATION` — the timed exercise is running\n- `ASSESSMENT` — the simulation has ended and results are reviewed\n\nThe frontend `Game` component routes to a completely different UI for each state.",
+      "file": "../CyberSim-UI/src/constants/GameStates.js",
+      "line": 1
+    },
+    {
+      "title": "15. Mitigations Screen — Budget Allocation (PREPARATION)",
+      "description": "In the `PREPARATION` state, facilitators see this screen. Every click on a mitigation item emits a `CHANGEMITIGATION` event. The sticky header tracks budget allocated vs remaining in real time as the server broadcasts updates back via `GAMEUPDATED`.\n\nThe footer's \"SAVE Items and START Simulation\" button (line 131) emits `STARTSIMULATION` to transition to the `SIMULATION` state.",
+      "file": "../CyberSim-UI/src/components/Mitigations/Mitigations.jsx",
+      "line": 28
+    },
+    {
+      "title": "16. Backend — STARTSIMULATION Handler",
+      "description": "When `STARTSIMULATION` is received:\n1. Validates the game isn't already in `ASSESSMENT`\n2. Records `started_at` timestamp (this is the simulation clock origin)\n3. Transitions game state `PREPARATION → SIMULATION`\n4. Evaluates which injections are pre-blocked by already-purchased mitigations\n5. Logs a \"Simulation Started\" event\n6. Broadcasts the updated game to all sockets in the room",
+      "file": "src/socketio.js",
+      "line": 114
+    },
+    {
+      "title": "17. Backend — startSimulation() Model",
+      "description": "The model function that performs the state transition. Notice how it zeroes out remaining budget (line ~202) when moving from PREPARATION, and how it queries `game_mitigation` and `game_injection` to pre-mark injections that are already prevented by purchased items.",
+      "file": "src/models/game.js",
+      "line": 185
+    },
+    {
+      "title": "18. Simulation Screen — The Active Exercise",
+      "description": "Once in `SIMULATION` state, `Game` renders this component. It hosts a tabbed layout:\n- **Action Table** — the main facilitator view (actions, systems, curveballs)\n- **Campaign HQ** — facilitator table for the HQ location\n- **Local Branch** — facilitator table for the local branch\n- **Logs & Threats** — event log and active injection events\n\nAll tabs share the same `Header` and `Footer` components.",
+      "file": "../CyberSim-UI/src/components/Simulation/Simulation.jsx",
+      "line": 1
+    },
+    {
+      "title": "19. BPT Component — Live Budget / Poll / Timer",
+      "description": "The BPT (Budget / Poll / Timer) bar runs throughout the simulation. Budget and poll percentage come directly from the game state in `gameStore`. The timer is computed on the client using `useTimeTaken()` — it reads `game.started_at` and `game.millis_taken_before_started` and advances every second while not paused. No server round-trip needed for the clock display.",
+      "file": "../CyberSim-UI/src/components/BPT.jsx",
+      "line": 33
+    },
+    {
+      "title": "20. GAMEUPDATED — The Real-Time Update Loop",
+      "description": "Every backend mutation (mitigation change, action, injection response, system restore, pause/resume) ends with the server emitting `GAMEUPDATED` to the entire game room. The frontend `GameStore` receives it here, calls `setGame()`, and `react-easy-state` re-renders every subscribed component automatically.\n\nThis single event is the backbone of real-time multi-facilitator synchronisation.",
+      "file": "../CyberSim-UI/src/components/GameStore.jsx",
+      "line": 103
+    }
+  ]
+}
