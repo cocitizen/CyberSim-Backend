@@ -30,7 +30,8 @@
     "dependencies:up": "docker compose -f docker-compose-dev.yaml up -d --wait",
     "dependencies:purge":"docker compose -f docker-compose-dev.yaml down -v",
     "project:start":"npm run copy_dotenv && npm i && npm run dependencies:up && SCENARIO_TAG=cso@2026-03-19.1 npm run reset-db:scenario && npm run start",
-    "build-deploy": "zip -r deploy.zip . -x \"node_modules/*\" -x \"*.env*\" -x \".git/*\" -x \"*.zip\" -x \".vscode/*\" -x \".claude/*\""
+    "build-deploy": "zip -r deploy.zip . -x \"node_modules/*\" -x \"*.env*\" -x \".git/*\" -x \"*.zip\" -x \".vscode/*\" -x \".claude/*\"",
+    "prepare-aar-test": "node -r dotenv/config scripts/prepare-aar-test.js"
   },
   "dependencies": {
     "@types/jest": "^26.0.8",

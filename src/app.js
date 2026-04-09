@@ -15,6 +15,7 @@ const {
   deleteScenarioBySlug,
 } = require('./models/scenario');
 const { listGames, finishGame, deleteGame } = require('./models/game');
+const { getAARData } = require('./models/aar');
 const { getResponsesByScenarioId } = require('./models/response');
 const { getInjectionsByScenarioId } = require('./models/injection');
 const { getActionsByScenarioId } = require('./models/action');
@@ -614,6 +615,15 @@ app.post('/admin/scenarios/import', async (req, res) => {
     });
   }
 });
+
+// GET /games/:gameId/aar — After Action Review data for a completed game
+app.get(
+  '/games/:gameId/aar',
+  asyncRoute(async (req, res) => {
+    const data = await getAARData(req.params.gameId);
+    res.json(data);
+  }),
+);
 
 // Final error handler (must be after routes)
 // eslint-disable-next-line no-unused-vars
