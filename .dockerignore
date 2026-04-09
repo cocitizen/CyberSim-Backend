@@ -1,3 +1,10 @@
 node_modules
 .git
 .env
+.env.*
+!.env.example
+deploy.zip
+coverage
+.vscode
+.claude
+*.log
