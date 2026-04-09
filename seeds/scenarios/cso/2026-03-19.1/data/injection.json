@@ -12,7 +12,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": -3,
-    "followup_injection": null
+    "followup_injection": null,
+    "budget_change": -500
   },
   {
     "id": "rec5DdiqcRiIVArKd",
@@ -93,7 +94,8 @@
     "skipper_mitigation": "recfGugD4McHPVEiy",
     "systems_to_disable": null,
     "poll_change": -3,
-    "followup_injection": null
+    "followup_injection": null,
+    "budget_change": -1000
   },
   {
     "id": "recaV5aL9GR8xYZdD",
@@ -204,7 +206,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "recSP74Xd4cjh1bWz"
+    "followup_injection": "recSP74Xd4cjh1bWz",
+    "budget_change": 750
   },
   {
     "id": "recG6SwPJFiVBX9wM",
@@ -249,7 +252,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "rec5DdiqcRiIVArKd"
+    "followup_injection": "rec5DdiqcRiIVArKd",
+    "budget_change": 300
   },
   {
     "id": "rechCyEFqkDxd0n3H",
@@ -330,7 +334,8 @@
       "recDDBwyEgTHiwTjA"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "budget_change": -2000
   },
   {
     "id": "recj00cDZ1uASA6fN",
@@ -568,7 +573,8 @@
       "recDDBwyEgTHiwTjA"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "budget_change": -750
   },
   {
     "id": "recVTV1Xuz1oynkJE",

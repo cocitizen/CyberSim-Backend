@@ -132,6 +132,7 @@ module.exports = async function seedTestData(db) {
       recipient_role: 'LB role',
       asset_code: '1',
       poll_change: -0.5,
+      budget_change: -500,
       systems_to_disable: ['S1'],
       skipper_mitigation: 'M1',
       recommendations: 'Placeholder recommendation 1',
