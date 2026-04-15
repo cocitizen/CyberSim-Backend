@@ -30,7 +30,7 @@ services:
       - key: SCENARIO_SLUG
         value: cso
       - key: IMPORT_PASSWORD
-        generateValue: true
+        value: nothanks
       # Set manually after first deploy:
       - key: UI_ORIGINS
         sync: false
