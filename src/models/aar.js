@@ -92,6 +92,54 @@ const getAARData = async (gameId) => {
     gmByMitigationId[gm.mitigation_id] = gm;
   });
 
+  // If a top-level injection references a followup_injection that has no game_injection row
+  // (e.g. the scenario link was added after this game was created), fall back to the static
+  // injection table so the chain can still be rendered.
+  const referencedFollowupIds = [
+    ...new Set(gameInjections.map((gi) => gi.followup_injection).filter(Boolean)),
+  ];
+  const missingFollowupIds = referencedFollowupIds.filter((id) => !giByInjectionId[id]);
+
+  if (missingFollowupIds.length > 0) {
+    const staticFollowups = await db('injection')
+      .select(
+        'id',
+        'title',
+        'description',
+        'trigger_time',
+        'poll_change',
+        'budget_change',
+        'systems_to_disable',
+        'recommendations',
+        'followup_injection',
+      )
+      .whereIn('id', missingFollowupIds)
+      .where('scenario_id', game.scenario_id);
+
+    staticFollowups.forEach((inj) => {
+      // Synthetic entry: never delivered, never prevented (not tracked in this game).
+      giByInjectionId[inj.id] = {
+        injection_id: inj.id,
+        title: inj.title,
+        description: inj.description,
+        trigger_time: inj.trigger_time,
+        poll_change: inj.poll_change,
+        budget_change: inj.budget_change,
+        systems_to_disable: inj.systems_to_disable,
+        recommendations: inj.recommendations,
+        followup_injection: inj.followup_injection,
+        delivered: false,
+        delivered_at: null,
+        prevented: false,
+        prevented_at: null,
+        is_response_correct: null,
+        response_made_at: null,
+        custom_response: null,
+        predefined_responses_made: null,
+      };
+    });
+  }
+
   // Identify injections that are follow-ups of another (skip them as top-level entries).
   const followupIds = new Set();
   gameInjections.forEach((gi) => {
