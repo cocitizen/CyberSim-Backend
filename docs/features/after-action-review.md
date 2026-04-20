@@ -518,8 +518,11 @@ For each top-level injection (not a followup of another injection):
 
 ```
 IF injection.prevented AND injection.skipper_mitigation purchased:
-  → BLUE card: "EVENT PREVENTED thanks to... {mitigation_name}"
-  → Show the followup as also prevented (blue, nested)
+  → BLUE card: "EVENT PREVENTED via {mitigation_name}"
+  → If injection has followup_injection:
+      → "Followup event" connector
+      → BLUE follow-up card: "EVENT PREVENTED" + "AVOIDED DAMAGE: {poll_change}%"
+        (rendered from static data; follow-up's own delivered/prevented flags are false)
   → Expanded view still shows all actions/mitigations
 
 ELSE IF injection.delivered:
@@ -548,8 +551,9 @@ ELSE (not delivered, not prevented — game ended early):
 ### Scenario 1: Spearphishing prevented by 2FA purchase
 - Injection has `skipper_mitigation` = "2FA for Director"
 - `game_mitigation` for that mitigation has `state: true`, `preparation: true`
-- **Display:** BLUE card header: `"07:00 - EVENT PREVENTED thanks to... IMPLEMENTING 2FA FOR DIRECTOR"`
-- Followup (13:00 - "Sensitive strategy stolen") also shown as BLUE: `"25:00 - EVENT PREVENTED"` + `"AVOIDED DAMAGE: -3%"`
+- **Display:** BLUE parent card: `"07:00 - EVENT PREVENTED via IMPLEMENTING 2FA FOR DIRECTOR"`
+- Below the parent: a **"Followup event"** connector, then a second BLUE card for the follow-up: `"25:00 - EVENT PREVENTED"` + `"AVOIDED DAMAGE: -3%"`
+- The follow-up's own `delivered` and `prevented` flags are both `false` (it was never triggered); the blue rendering is driven by the parent's `category === 'prevented'` state, not the follow-up's own state
 - Expanded view shows all actions/mitigations even though event was prevented
 
 ### Scenario 2: USB malware → correct response → followup avoided
@@ -572,6 +576,25 @@ ELSE (not delivered, not prevented — game ended early):
 ### Scenario 5: Followup shows up only once (under parent)
 - Per client request: followup events should NOT appear as separate entries in the timeline
 - They only appear as nested cards under their parent event chain
+
+### Scenario 6: Skipper mitigation purchase prevents parent AND renders follow-up as nested BLUE card
+- Injection **1005** (_Incoming email — Spearphishing_) has a `skipper_mitigation` (2FA for Director) **and** a `followup_injection` pointing to **1022** (_Strategy leaked_).
+- When the skipper mitigation is purchased in the Preparation phase, `startSimulation` marks injection **1005** as `prevented: true`.
+- Injection **1022** is never delivered by the simulation — its `game_injection` row stays with `delivered=false, prevented=false`. The follow-up's own state is irrelevant for rendering purposes; what matters is the **parent's category**.
+- **Display:**
+  ```
+  BLUE card (1005) — "EVENT PREVENTED via IMPLEMENT TWO-FACTOR AUTHENTICATION FOR DIRECTOR"
+     │
+  [Followup event connector]
+     │
+  BLUE card (1022) — "EVENT PREVENTED" + "AVOIDED DAMAGE: -3%"
+  ```
+  - `AAREventChain` detects `category === 'prevented' && followup` and renders the connector + `<AARFollowupCard parentPrevented />`.
+  - `AARFollowupCard` renders the blue card from the follow-up's static data (`title`, `poll_change`) rather than from its runtime delivery state.
+  - Injection **1022** does **not** appear as a separate top-level chain (the backend excludes follow-up IDs from the top-level list; the frontend renders it only as a nested card).
+- **Why this matters:** This is the only scenario where a single budget purchase simultaneously prevents a parent injection _and_ its downstream follow-up before the simulation clock starts. It is distinct from TC-4 (correct response prevents follow-up during simulation) because the entire chain is cut at prep time.
+- Implementation: `AAREventChain.jsx` (`showPreventedFollowup`), `AARFollowupCard.jsx` (`parentPrevented` prop).
+- Covered by: **TC-11** in `CyberSim-UI/e2e/after-action-review.spec.js`.
 
 ---
 

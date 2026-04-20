@@ -21,8 +21,15 @@
  *
  * Card types and which injections produce them:
  *
- *   BLUE  (TC-3) — Injection 1005 prevented by mitigation in Prep phase
- *                  (follow-up 1022 suppressed from timeline)
+ *   BLUE  (TC-3, TC-11) — Injection 1005 prevented by mitigation in Prep phase.
+ *                         The BLUE chain also covers TC-11: because 1005 has a
+ *                         followup_injection (→ 1022 "Strategy leaked"), buying the
+ *                         skipper mitigation simultaneously prevents the parent AND
+ *                         suppresses the follow-up from the top-level timeline entirely.
+ *                         Expected on the AAR page:
+ *                           • BLUE card for 1005 (EVENT PREVENTED)
+ *                           • No connector below the blue card
+ *                           • No card for 1022 anywhere (not gray, not nested blue)
  *
  *   GREEN (TC-4) — Injection 1000 delivered + correct response "Reformat computers"
  *                  → follow-up 1055 prevented
@@ -38,6 +45,12 @@
  *                              → GREEN connector → ORANGE
  *
  *   BLACK (TC-1/2/8) — Injection 1006 delivered, no response, no follow-up
+ *
+ *   BLACK+GRAY — Injection 1001 (Amazon DataBreach) delivered, no response.
+ *                Follow-up 1046 ("Executive Director's OFD emails leaked") left
+ *                not-delivered and not-prevented, simulating a follow-up that was
+ *                never triggered (e.g. game ended before its trigger time).
+ *                Chain: BLACK(1001) → [connector] → GRAY(1046, NOT REACHED)
  *
  *   GRAY (TC-7/9) — All remaining injections left not-delivered
  *
@@ -80,6 +93,10 @@ const INJ = {
 
   // BLACK standalone: delivered, no follow-up
   id1006: 'recaV5aL9GR8xYZdD', // Access to Facebook blocked in area around Vario; trigger 1 860 000 ms; no followup
+
+  // BLACK+GRAY: 1001 delivered, follow-up 1046 NOT delivered
+  id1001: 'recaxARH7iyFC7Ngl', // Amazon databreach; trigger 180 000 ms; followup → 1046
+  id1046: 'rechlZaoEnfCUQQq9', // Executive Director's OFD emails leaked; trigger 2 580 000 ms; follow-up of 1001
 };
 
 // Response IDs
@@ -171,9 +188,14 @@ async function setupAllCards(gameId) {
   // 4. Apply per-card-type state in a single transaction
 
   await db.transaction(async (trx) => {
-    // ── BLUE (TC-3) ────────────────────────────────────────────────────────
+    // ── BLUE (TC-3, TC-11) ────────────────────────────────────────────────
     // Purchase the 2FA mitigation in Preparation; this causes injection 1005
     // to be prevented when the simulation starts.
+    // TC-11: because 1005 has followup_injection → 1022 ("Strategy leaked"),
+    // buying the skipper mitigation also suppresses 1022 from the AAR timeline
+    // entirely. Injection 1022 stays in the default not-delivered state but
+    // the AAR chain-builder excludes it as a top-level entry (it is neither
+    // shown as a gray NOT REACHED card nor as a nested blue card).
     await trx('game_mitigation')
       .where({ game_id: gameId, mitigation_id: MIT.twoFA })
       .update({ state: true, preparation: true });
@@ -234,6 +256,15 @@ async function setupAllCards(gameId) {
       .where({ game_id: gameId, injection_id: INJ.id1006 })
       .update({ delivered: true, delivered_at: 1860000 });
 
+    // ── BLACK + undelivered follow-up ──────────────────────────────────────
+    // Injection 1001 (Amazon DataBreach) delivered with no response.
+    // Its follow-up 1046 is left in the default state (delivered=false,
+    // prevented=false), simulating a follow-up that was never triggered.
+    await trx('game_injection')
+      .where({ game_id: gameId, injection_id: INJ.id1001 })
+      .update({ delivered: true, delivered_at: 180000 });
+    // id1046 stays default: delivered=false, prevented=false
+
     // ── GRAY (TC-7/9) ──────────────────────────────────────────────────────
     // All remaining injections stay in the default not-delivered state.
     // No update needed — they were created with delivered=false, prevented=false.
@@ -244,12 +275,15 @@ async function setupAllCards(gameId) {
 
   console.log(`\nGame "${gameId}" is ready for AAR testing (scenario: ${SCENARIO_SLUG}).\n`);
   console.log('Card types present in the AAR timeline:');
-  console.log('  BLUE   — injection 1005 (prevented by 2FA mitigation purchased in Prep)');
-  console.log('  GREEN  — injection 1000 (correct response) → follow-up 1055 avoided');
-  console.log('  RED    — injection 1016 (no response) → follow-up 1029 delivered');
-  console.log('  RED+ORANGE — injection 1011 (no response) → follow-up 1048 + post-event mitigation');
-  console.log('  BLACK  — injection 1006 (standalone, no follow-up)');
-  console.log('  GRAY   — all remaining injections (not reached)');
+  console.log('  BLUE   — injection 1005 (prevented by 2FA mitigation purchased in Prep)  [TC-3]');
+  console.log('           ↳ TC-11: follow-up 1022 "Strategy leaked" also shown as BLUE');
+  console.log('              Chain: BLUE(1005) → [Followup event] → BLUE(1022, AVOIDED DAMAGE)');
+  console.log('  GREEN  — injection 1000 (correct response) → follow-up 1055 avoided      [TC-4]');
+  console.log('  RED    — injection 1016 (no response) → follow-up 1029 delivered          [TC-5]');
+  console.log('  RED+ORANGE — injection 1011 (no response) → follow-up 1048 + post-event  [TC-6]');
+  console.log('  BLACK  — injection 1006 (standalone, no follow-up)                        [TC-2]');
+  console.log('  BLACK+GRAY — injection 1001 (Amazon DataBreach) delivered, follow-up 1046 not reached');
+  console.log('  GRAY   — all remaining injections (not reached)                           [TC-7]');
 }
 
 // ---------------------------------------------------------------------------
