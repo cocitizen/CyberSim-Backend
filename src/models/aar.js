@@ -232,6 +232,20 @@ function buildChainEntry(
         gmByMitigationId,
       );
 
+      let followupSkipperMitigation = null;
+      if (followupGi.skipper_mitigation) {
+        const gm = gmByMitigationId[followupGi.skipper_mitigation];
+        followupSkipperMitigation = {
+          mitigation_id: followupGi.skipper_mitigation,
+          description: gm?.description || null,
+          purchased: gm?.state || false,
+          purchased_in_preparation: gm?.preparation || false,
+          purchased_at:
+            mitigationPurchaseTime[followupGi.skipper_mitigation] ??
+            (gm?.preparation ? 0 : null),
+        };
+      }
+
       followup = {
         injection_id: followupGi.injection_id,
         title: followupGi.title,
@@ -250,6 +264,7 @@ function buildChainEntry(
         is_response_correct: followupGi.is_response_correct,
         response_made_at: followupGi.response_made_at,
         custom_response: followupGi.custom_response,
+        skipper_mitigation: followupSkipperMitigation,
       };
     }
   }
