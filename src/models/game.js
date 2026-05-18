@@ -741,7 +741,9 @@ const advanceTime = async (id, minutes = 60) => {
     game_id: id,
     game_timer: currentTimeTaken + deltaMs,
     type: 'Game State Changed',
-    description: `Time advanced by ${minutes} minute${minutes === 1 ? '' : 's'} (admin action).`,
+    description: `Time advanced by ${minutes} minute${
+      minutes === 1 ? '' : 's'
+    } (admin action).`,
   });
 
   return getGame(id);

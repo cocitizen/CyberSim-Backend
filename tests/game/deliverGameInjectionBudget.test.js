@@ -1,7 +1,11 @@
 const db = require('../../src/models/db');
 const resetGameTables = require('../resetGameTables');
 const { deliverGameInjection } = require('../../src/models/game');
-const { dummyGame, dummyGameInjections, dummyGameSystems } = require('../testData');
+const {
+  dummyGame,
+  dummyGameInjections,
+  dummyGameSystems,
+} = require('../testData');
 
 const gameId = dummyGame.id;
 // I1 has budget_change: -500 (seeded in seedTestData)

@@ -1,5 +1,155 @@
 const db = require('./db');
 
+function buildResponsesMade(
+  predefinedResponsesMade,
+  possibleResponses,
+  gmByMitigationId,
+) {
+  return (predefinedResponsesMade || []).map((rId) => {
+    const resp = possibleResponses.find((r) => r.id === rId) || {};
+    const mitigation = resp.mitigation_id
+      ? gmByMitigationId[resp.mitigation_id]
+      : null;
+    return {
+      response_id: rId,
+      description: resp.description || null,
+      cost: resp.cost || null,
+      mitigation_id: resp.mitigation_id || null,
+      mitigation_description: mitigation?.description || null,
+      systems_to_restore: resp.systems_to_restore || [],
+    };
+  });
+}
+
+function buildChainEntry(
+  gi,
+  giByInjectionId,
+  responsesByInjectionId,
+  gmByMitigationId,
+  mitigationPurchaseTime,
+) {
+  const possibleResponses = responsesByInjectionId[gi.injection_id] || [];
+
+  // Determine event category
+  let category;
+  if (gi.prevented) {
+    category = 'prevented';
+  } else if (gi.delivered) {
+    category = 'injected';
+  } else {
+    category = 'not_delivered';
+  }
+
+  // Skipper mitigation info (what purchase prevents this event)
+  let skipperMitigation = null;
+  if (gi.skipper_mitigation) {
+    const gm = gmByMitigationId[gi.skipper_mitigation];
+    skipperMitigation = {
+      mitigation_id: gi.skipper_mitigation,
+      description: gm?.description || null,
+      purchased: gm?.state || false,
+      purchased_in_preparation: gm?.preparation || false,
+      purchased_at:
+        mitigationPurchaseTime[gi.skipper_mitigation] ??
+        (gm?.preparation ? 0 : null),
+    };
+  }
+
+  const responsesMade = buildResponsesMade(
+    gi.predefined_responses_made,
+    possibleResponses,
+    gmByMitigationId,
+  );
+
+  // Follow-up injection chain
+  let followup = null;
+  if (gi.followup_injection) {
+    const followupGi = giByInjectionId[gi.followup_injection];
+    if (followupGi) {
+      const followupResponses =
+        responsesByInjectionId[followupGi.injection_id] || [];
+      const followupResponsesMade = buildResponsesMade(
+        followupGi.predefined_responses_made,
+        followupResponses,
+        gmByMitigationId,
+      );
+
+      let followupSkipperMitigation = null;
+      if (followupGi.skipper_mitigation) {
+        const gm = gmByMitigationId[followupGi.skipper_mitigation];
+        followupSkipperMitigation = {
+          mitigation_id: followupGi.skipper_mitigation,
+          description: gm?.description || null,
+          purchased: gm?.state || false,
+          purchased_in_preparation: gm?.preparation || false,
+          purchased_at:
+            mitigationPurchaseTime[followupGi.skipper_mitigation] ??
+            (gm?.preparation ? 0 : null),
+        };
+      }
+
+      followup = {
+        injection_id: followupGi.injection_id,
+        title: followupGi.title,
+        description: followupGi.description
+          ? followupGi.description.replace(/^READ TO TABLE:\s*/i, '')
+          : followupGi.description,
+        trigger_time: followupGi.trigger_time,
+        poll_change: followupGi.poll_change,
+        budget_change: followupGi.budget_change,
+        systems_to_disable: followupGi.systems_to_disable,
+        delivered: followupGi.delivered,
+        delivered_at: followupGi.delivered_at,
+        prevented: followupGi.prevented,
+        prevented_at: followupGi.prevented_at,
+        recommendations: followupGi.recommendations,
+        possible_responses: followupResponses,
+        responses_made: followupResponsesMade,
+        is_response_correct: followupGi.is_response_correct,
+        response_made_at: followupGi.response_made_at,
+        custom_response: followupGi.custom_response,
+        skipper_mitigation: followupSkipperMitigation,
+      };
+    }
+  }
+
+  return {
+    injection_id: gi.injection_id,
+    title: gi.title,
+    description: gi.description
+      ? gi.description.replace(/^READ TO TABLE:\s*/i, '')
+      : gi.description,
+    trigger_time: gi.trigger_time,
+    location: gi.location,
+    type: gi.type,
+    recipient_role: gi.recipient_role,
+    asset_code: gi.asset_code,
+    recommendations: gi.recommendations,
+    systems_to_disable: gi.systems_to_disable,
+    poll_change: gi.poll_change,
+    budget_change: gi.budget_change,
+
+    // Game-specific state
+    category,
+    delivered: gi.delivered,
+    delivered_at: gi.delivered_at,
+    prevented: gi.prevented,
+    prevented_at: gi.prevented_at,
+
+    // What purchase prevents this event (if any)
+    skipper_mitigation: skipperMitigation,
+
+    // Player responses to this injection
+    possible_responses: possibleResponses,
+    responses_made: responsesMade,
+    is_response_correct: gi.is_response_correct,
+    response_made_at: gi.response_made_at,
+    custom_response: gi.custom_response,
+
+    followup,
+  };
+}
+
 const getAARData = async (gameId) => {
   // 1. Fetch game state (need scenario_id for joins)
   const game = await db('game')
@@ -96,9 +246,13 @@ const getAARData = async (gameId) => {
   // (e.g. the scenario link was added after this game was created), fall back to the static
   // injection table so the chain can still be rendered.
   const referencedFollowupIds = [
-    ...new Set(gameInjections.map((gi) => gi.followup_injection).filter(Boolean)),
+    ...new Set(
+      gameInjections.map((gi) => gi.followup_injection).filter(Boolean),
+    ),
   ];
-  const missingFollowupIds = referencedFollowupIds.filter((id) => !giByInjectionId[id]);
+  const missingFollowupIds = referencedFollowupIds.filter(
+    (id) => !giByInjectionId[id],
+  );
 
   if (missingFollowupIds.length > 0) {
     const staticFollowups = await db('injection')
@@ -121,7 +275,9 @@ const getAARData = async (gameId) => {
       giByInjectionId[inj.id] = {
         injection_id: inj.id,
         title: inj.title,
-        description: inj.description,
+        description: inj.description
+          ? inj.description.replace(/^READ TO TABLE:\s*/i, '')
+          : inj.description,
         trigger_time: inj.trigger_time,
         poll_change: inj.poll_change,
         budget_change: inj.budget_change,
@@ -164,144 +320,5 @@ const getAARData = async (gameId) => {
 
   return { game, chains, mitigations: gameMitigations };
 };
-
-function buildResponsesMade(predefinedResponsesMade, possibleResponses, gmByMitigationId) {
-  return (predefinedResponsesMade || []).map((rId) => {
-    const resp = possibleResponses.find((r) => r.id === rId) || {};
-    const mitigation = resp.mitigation_id ? gmByMitigationId[resp.mitigation_id] : null;
-    return {
-      response_id: rId,
-      description: resp.description || null,
-      cost: resp.cost || null,
-      mitigation_id: resp.mitigation_id || null,
-      mitigation_description: mitigation?.description || null,
-      systems_to_restore: resp.systems_to_restore || [],
-    };
-  });
-}
-
-function buildChainEntry(
-  gi,
-  giByInjectionId,
-  responsesByInjectionId,
-  gmByMitigationId,
-  mitigationPurchaseTime,
-) {
-  const possibleResponses = responsesByInjectionId[gi.injection_id] || [];
-
-  // Determine event category
-  let category;
-  if (gi.prevented) {
-    category = 'prevented';
-  } else if (gi.delivered) {
-    category = 'injected';
-  } else {
-    category = 'not_delivered';
-  }
-
-  // Skipper mitigation info (what purchase prevents this event)
-  let skipperMitigation = null;
-  if (gi.skipper_mitigation) {
-    const gm = gmByMitigationId[gi.skipper_mitigation];
-    skipperMitigation = {
-      mitigation_id: gi.skipper_mitigation,
-      description: gm?.description || null,
-      purchased: gm?.state || false,
-      purchased_in_preparation: gm?.preparation || false,
-      purchased_at:
-        mitigationPurchaseTime[gi.skipper_mitigation] ??
-        (gm?.preparation ? 0 : null),
-    };
-  }
-
-  const responsesMade = buildResponsesMade(
-    gi.predefined_responses_made,
-    possibleResponses,
-    gmByMitigationId,
-  );
-
-  // Follow-up injection chain
-  let followup = null;
-  if (gi.followup_injection) {
-    const followupGi = giByInjectionId[gi.followup_injection];
-    if (followupGi) {
-      const followupResponses = responsesByInjectionId[followupGi.injection_id] || [];
-      const followupResponsesMade = buildResponsesMade(
-        followupGi.predefined_responses_made,
-        followupResponses,
-        gmByMitigationId,
-      );
-
-      let followupSkipperMitigation = null;
-      if (followupGi.skipper_mitigation) {
-        const gm = gmByMitigationId[followupGi.skipper_mitigation];
-        followupSkipperMitigation = {
-          mitigation_id: followupGi.skipper_mitigation,
-          description: gm?.description || null,
-          purchased: gm?.state || false,
-          purchased_in_preparation: gm?.preparation || false,
-          purchased_at:
-            mitigationPurchaseTime[followupGi.skipper_mitigation] ??
-            (gm?.preparation ? 0 : null),
-        };
-      }
-
-      followup = {
-        injection_id: followupGi.injection_id,
-        title: followupGi.title,
-        description: followupGi.description,
-        trigger_time: followupGi.trigger_time,
-        poll_change: followupGi.poll_change,
-        budget_change: followupGi.budget_change,
-        systems_to_disable: followupGi.systems_to_disable,
-        delivered: followupGi.delivered,
-        delivered_at: followupGi.delivered_at,
-        prevented: followupGi.prevented,
-        prevented_at: followupGi.prevented_at,
-        recommendations: followupGi.recommendations,
-        possible_responses: followupResponses,
-        responses_made: followupResponsesMade,
-        is_response_correct: followupGi.is_response_correct,
-        response_made_at: followupGi.response_made_at,
-        custom_response: followupGi.custom_response,
-        skipper_mitigation: followupSkipperMitigation,
-      };
-    }
-  }
-
-  return {
-    injection_id: gi.injection_id,
-    title: gi.title,
-    description: gi.description,
-    trigger_time: gi.trigger_time,
-    location: gi.location,
-    type: gi.type,
-    recipient_role: gi.recipient_role,
-    asset_code: gi.asset_code,
-    recommendations: gi.recommendations,
-    systems_to_disable: gi.systems_to_disable,
-    poll_change: gi.poll_change,
-    budget_change: gi.budget_change,
-
-    // Game-specific state
-    category,
-    delivered: gi.delivered,
-    delivered_at: gi.delivered_at,
-    prevented: gi.prevented,
-    prevented_at: gi.prevented_at,
-
-    // What purchase prevents this event (if any)
-    skipper_mitigation: skipperMitigation,
-
-    // Player responses to this injection
-    possible_responses: possibleResponses,
-    responses_made: responsesMade,
-    is_response_correct: gi.is_response_correct,
-    response_made_at: gi.response_made_at,
-    custom_response: gi.custom_response,
-
-    followup,
-  };
-}
 
 module.exports = { getAARData };
