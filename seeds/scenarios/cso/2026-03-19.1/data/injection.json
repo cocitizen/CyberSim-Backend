@@ -595,7 +595,7 @@
     "id": "recw1zsFvRJd4pOu2",
     "title": "Incoming email (Spearphishing message at GN) (1005)",
     "description": "An email (spearphishing attack) from the personal account of OFD's Executive Director arrives in volunteers' inbox.",
-    "recommendations": "Accounts: Require 2FA on all organizational accounts, and encourage use for personal accounts as well.",
+    "recommendations": "Accounts: Require 2FA on all organizational accounts, and encourage use for personal accounts as well.\nRegularly train staff on what phishing is, how to spot it and defend against it, including targeted spearphishing attacks",
     "trigger_time": 420000,
     "location": "local",
     "type": "Table",

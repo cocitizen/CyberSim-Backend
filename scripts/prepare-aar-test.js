@@ -39,12 +39,12 @@
  *                     → follow-up 1029 delivered, no post-event response
  *                     Chain: BLACK(1016) → RED connector → RED(1029)
  *
- *   RED+ORANGE (TC-6) — Injection 1011 delivered, no response
+ *   RED+ORANGE (TC-6) — Injection 1011 delivered, custom incorrect response
  *                       → follow-up 1048 delivered + post-event response
  *                       Chain: BLACK(1011) → RED connector → RED(1048)
  *                              → GREEN connector → ORANGE
  *
- *   BLACK (TC-1/2/8) — Injection 1006 delivered, no response, no follow-up
+ *   BLACK (TC-1/2/8) — Injection 1006 delivered, custom incorrect response, no follow-up
  *
  *   BLACK+GRAY — Injection 1001 (Amazon DataBreach) delivered, no response.
  *                Follow-up 1046 ("Executive Director's OFD emails leaked") left
@@ -63,8 +63,6 @@
  *     script runs. This means the game stays live and the timer continues from
  *     the 1-hour mark.
  */
-
-'use strict';
 
 const db = require('../src/models/db');
 
@@ -91,8 +89,9 @@ const INJ = {
   id1011: 'recgVVHrq7Xq5Qt9r', // Juran Knott leaves the party; trigger 660 000 ms; followup → 1048
   id1048: 'recHhJpOvsfUi3x7L', // Contact management system deleted; trigger 2 400 000 ms; follow-up of 1011
 
-  // BLACK standalone: delivered, no follow-up
+  // BLACK standalone: delivered, no response, no follow-up
   id1006: 'recaV5aL9GR8xYZdD', // Access to Facebook blocked in area around Vario; trigger 1 860 000 ms; no followup
+  id1035: 'rec9WtN8StuxHPMY7', // Email server hacked; trigger 2 280 000 ms; no response, no followup
 
   // BLACK+GRAY: 1001 delivered, follow-up 1046 NOT delivered
   id1001: 'recaxARH7iyFC7Ngl', // Amazon databreach; trigger 180 000 ms; followup → 1046
@@ -102,7 +101,7 @@ const INJ = {
 // Response IDs
 const RESP = {
   reformatComputers: 'recrsPq1oq92DWMB8', // Correct response for injection 1000; cost 0
-  payCMS: 'recUiufBbQTDq0uoX',            // "Pay $1500 to restore CMS" — post-event response for injection 1048; cost 1500
+  payCMS: 'recUiufBbQTDq0uoX', // "Pay $1500 to restore CMS" — post-event response for injection 1048; cost 1500
 };
 
 // Mitigation ID
@@ -140,7 +139,9 @@ async function setupAllCards(gameId) {
   // 1. Verify the game does not already exist
   const existing = await db('game').where({ id: gameId }).first();
   if (existing) {
-    console.error(`Game "${gameId}" already exists. Delete it first or choose a different ID.`);
+    console.error(
+      `Game "${gameId}" already exists. Delete it first or choose a different ID.`,
+    );
     process.exit(1);
   }
 
@@ -163,21 +164,35 @@ async function setupAllCards(gameId) {
       scenario_id: scenario.id,
     });
 
-    const systems = await trx('system').select('id').where({ scenario_id: scenario.id });
+    const systems = await trx('system')
+      .select('id')
+      .where({ scenario_id: scenario.id });
     if (systems.length) {
       await trx('game_system').insert(
-        systems.map(({ id }) => ({ game_id: gameId, system_id: id, state: true })),
+        systems.map(({ id }) => ({
+          game_id: gameId,
+          system_id: id,
+          state: true,
+        })),
       );
     }
 
-    const mitigations = await trx('mitigation').select('id').where({ scenario_id: scenario.id });
+    const mitigations = await trx('mitigation')
+      .select('id')
+      .where({ scenario_id: scenario.id });
     if (mitigations.length) {
       await trx('game_mitigation').insert(
-        mitigations.map(({ id }) => ({ game_id: gameId, mitigation_id: id, state: false })),
+        mitigations.map(({ id }) => ({
+          game_id: gameId,
+          mitigation_id: id,
+          state: false,
+        })),
       );
     }
 
-    const injections = await trx('injection').select('id').where({ scenario_id: scenario.id });
+    const injections = await trx('injection')
+      .select('id')
+      .where({ scenario_id: scenario.id });
     if (injections.length) {
       await trx('game_injection').insert(
         injections.map(({ id }) => ({ game_id: gameId, injection_id: id })),
@@ -238,7 +253,13 @@ async function setupAllCards(gameId) {
     // marked with the post-event mitigation response "Pay $1500 to restore CMS".
     await trx('game_injection')
       .where({ game_id: gameId, injection_id: INJ.id1011 })
-      .update({ delivered: true, delivered_at: 660000 });
+      .update({
+        delivered: true,
+        delivered_at: 660000,
+        custom_response: 'We told Knott the decision was final and moved on.',
+        is_response_correct: false,
+        response_made_at: 720000,
+      });
 
     await trx('game_injection')
       .where({ game_id: gameId, injection_id: INJ.id1048 })
@@ -251,10 +272,21 @@ async function setupAllCards(gameId) {
       });
 
     // ── BLACK standalone (TC-1/2/8) ────────────────────────────────────────
-    // Injection 1006 delivered with no response and no follow-up defined.
+    // Injection 1006 delivered with a custom incorrect response and no follow-up.
     await trx('game_injection')
       .where({ game_id: gameId, injection_id: INJ.id1006 })
-      .update({ delivered: true, delivered_at: 1860000 });
+      .update({
+        delivered: true,
+        delivered_at: 1860000,
+        custom_response: 'We asked staff to use mobile data instead.',
+        is_response_correct: false,
+        response_made_at: 1960000,
+      });
+
+    // Injection 1035 delivered with no response and no follow-up defined.
+    await trx('game_injection')
+      .where({ game_id: gameId, injection_id: INJ.id1035 })
+      .update({ delivered: true, delivered_at: 2280000 });
 
     // ── BLACK + undelivered follow-up ──────────────────────────────────────
     // Injection 1001 (Amazon DataBreach) delivered with no response.
@@ -273,17 +305,40 @@ async function setupAllCards(gameId) {
     await trx('game').where({ id: gameId }).update({ state: 'ASSESSMENT' });
   });
 
-  console.log(`\nGame "${gameId}" is ready for AAR testing (scenario: ${SCENARIO_SLUG}).\n`);
+  console.log(
+    `\nGame "${gameId}" is ready for AAR testing (scenario: ${SCENARIO_SLUG}).\n`,
+  );
   console.log('Card types present in the AAR timeline:');
-  console.log('  BLUE   — injection 1005 (prevented by 2FA mitigation purchased in Prep)  [TC-3]');
-  console.log('           ↳ TC-11: follow-up 1022 "Strategy leaked" also shown as BLUE');
-  console.log('              Chain: BLUE(1005) → [Followup event] → BLUE(1022, AVOIDED DAMAGE)');
-  console.log('  GREEN  — injection 1000 (correct response) → follow-up 1055 avoided      [TC-4]');
-  console.log('  RED    — injection 1016 (no response) → follow-up 1029 delivered          [TC-5]');
-  console.log('  RED+ORANGE — injection 1011 (no response) → follow-up 1048 + post-event  [TC-6]');
-  console.log('  BLACK  — injection 1006 (standalone, no follow-up)                        [TC-2]');
-  console.log('  BLACK+GRAY — injection 1001 (Amazon DataBreach) delivered, follow-up 1046 not reached');
-  console.log('  GRAY   — all remaining injections (not reached)                           [TC-7]');
+  console.log(
+    '  BLUE   — injection 1005 (prevented by 2FA mitigation purchased in Prep)  [TC-3]',
+  );
+  console.log(
+    '           ↳ TC-11: follow-up 1022 "Strategy leaked" also shown as BLUE',
+  );
+  console.log(
+    '              Chain: BLUE(1005) → [Followup event] → BLUE(1022, AVOIDED DAMAGE)',
+  );
+  console.log(
+    '  GREEN  — injection 1000 (correct response) → follow-up 1055 avoided      [TC-4]',
+  );
+  console.log(
+    '  RED    — injection 1016 (no response) → follow-up 1029 delivered          [TC-5]',
+  );
+  console.log(
+    '  RED+ORANGE — injection 1011 (no response) → follow-up 1048 + post-event  [TC-6]',
+  );
+  console.log(
+    '  BLACK  — injection 1006 (custom incorrect response, no follow-up)          [TC-2]',
+  );
+  console.log(
+    '           injection 1035 (Email server hacked, no response, no follow-up)',
+  );
+  console.log(
+    '  BLACK+GRAY — injection 1001 (Amazon DataBreach) delivered, follow-up 1046 not reached',
+  );
+  console.log(
+    '  GRAY   — all remaining injections (not reached)                           [TC-7]',
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -292,7 +347,13 @@ async function setupAllCards(gameId) {
 async function prepareExistingGame(gameId) {
   // 1. Load the game row
   const game = await db('game')
-    .select('id', 'state', 'paused', 'millis_taken_before_started', 'started_at')
+    .select(
+      'id',
+      'state',
+      'paused',
+      'millis_taken_before_started',
+      'started_at',
+    )
     .where({ id: gameId })
     .first();
 
@@ -322,7 +383,9 @@ async function prepareExistingGame(gameId) {
     paused: false,
   });
 
-  console.log(`[1/2] Game clock set to 1 hour elapsed (started_at = NOW, millis_taken_before_started = ${ONE_HOUR_MS}).`);
+  console.log(
+    `[1/2] Game clock set to 1 hour elapsed (started_at = NOW, millis_taken_before_started = ${ONE_HOUR_MS}).`,
+  );
 
   // 3. Fetch all game_injection rows that have not been prevented
   const injections = await db('game_injection')
@@ -347,17 +410,17 @@ async function prepareExistingGame(gameId) {
     // delivered_at = the injection's trigger_time (or 0 if NULL) so the event
     // appears at a sensible point in the game timeline.
     await db.transaction(async (trx) => {
-      for (const injection of toDeliver) {
-        const deliveredAt =
-          injection.trigger_time != null ? injection.trigger_time : 0;
+      await Promise.all(
+        toDeliver.map((injection) => {
+          const deliveredAt =
+            injection.trigger_time != null ? injection.trigger_time : 0;
 
-        await trx('game_injection')
-          .where({ id: injection.id })
-          .update({
+          return trx('game_injection').where({ id: injection.id }).update({
             delivered: true,
             delivered_at: deliveredAt,
           });
-      }
+        }),
+      );
     });
 
     console.log(
