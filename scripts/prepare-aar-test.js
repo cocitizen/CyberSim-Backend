@@ -44,6 +44,11 @@
  *                       Chain: BLACK(1011) → RED connector → RED(1048)
  *                              → GREEN connector → ORANGE
  *
+ *   YELLOW — Injection 1010 delivered, correct response "Report phishing attempt"
+ *             but response_made_at (900 000) > followup.delivered_at (780 000) → late.
+ *             Follow-up 1012 already delivered by then.
+ *             Chain: BLACK(1010) → YELLOW connector → RED(1012)
+ *
  *   BLACK (TC-1/2/8) — Injection 1006 delivered, custom incorrect response, no follow-up
  *
  *   BLACK+GRAY — Injection 1001 (Amazon DataBreach) delivered, no response.
@@ -96,12 +101,17 @@ const INJ = {
   // BLACK+GRAY: 1001 delivered, follow-up 1046 NOT delivered
   id1001: 'recaxARH7iyFC7Ngl', // Amazon databreach; trigger 180 000 ms; followup → 1046
   id1046: 'rechlZaoEnfCUQQq9', // Executive Director's OFD emails leaked; trigger 2 580 000 ms; follow-up of 1001
+
+  // YELLOW chain: correct but late response to 1010 → follow-up 1012 still delivered
+  id1010: 'rechCyEFqkDxd0n3H', // Facebook password reset phishing email; trigger 540 000 ms; followup → 1012
+  id1012: 'recBBjpZwdawGLEdZ', // FB account hacked - embarrassing post; trigger 780 000 ms; follow-up of 1010
 };
 
 // Response IDs
 const RESP = {
   reformatComputers: 'recrsPq1oq92DWMB8', // Correct response for injection 1000; cost 0
   payCMS: 'recUiufBbQTDq0uoX', // "Pay $1500 to restore CMS" — post-event response for injection 1048; cost 1500
+  reportPhishing: 'recmfVJNJiMJIwRvZ', // "Report phishing attempt" — correct but late response for injection 1010; cost 0
 };
 
 // Mitigation ID
@@ -297,6 +307,25 @@ async function setupAllCards(gameId) {
       .update({ delivered: true, delivered_at: 180000 });
     // id1046 stays default: delivered=false, prevented=false
 
+    // ── YELLOW chain (correct but late response) ──────────────────────────
+    // Injection 1010 delivered; player reports the phishing attempt correctly
+    // but only after the follow-up (1012) was already delivered
+    // (response_made_at 900 000 > followup.delivered_at 780 000).
+    // AARResponseIndicator shows yellow badge + warning icon.
+    await trx('game_injection')
+      .where({ game_id: gameId, injection_id: INJ.id1010 })
+      .update({
+        delivered: true,
+        delivered_at: 540000,
+        predefined_responses_made: [RESP.reportPhishing],
+        is_response_correct: true,
+        response_made_at: 900000,
+      });
+
+    await trx('game_injection')
+      .where({ game_id: gameId, injection_id: INJ.id1012 })
+      .update({ delivered: true, delivered_at: 780000 });
+
     // ── GRAY (TC-7/9) ──────────────────────────────────────────────────────
     // All remaining injections stay in the default not-delivered state.
     // No update needed — they were created with delivered=false, prevented=false.
@@ -326,6 +355,12 @@ async function setupAllCards(gameId) {
   );
   console.log(
     '  RED+ORANGE — injection 1011 (no response) → follow-up 1048 + post-event  [TC-6]',
+  );
+  console.log(
+    '  YELLOW — injection 1010 (correct but late response) → follow-up 1012 still delivered',
+  );
+  console.log(
+    '           (response_made_at 900 000 > followup.delivered_at 780 000 → yellow badge)',
   );
   console.log(
     '  BLACK  — injection 1006 (custom incorrect response, no follow-up)          [TC-2]',

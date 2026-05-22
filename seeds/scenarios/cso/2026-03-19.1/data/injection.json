@@ -13,7 +13,8 @@
     "systems_to_disable": null,
     "poll_change": -3,
     "followup_injection": null,
-    "budget_change": -500
+    "budget_change": -500,
+    "handbook_category": "Accounts"
   },
   {
     "id": "rec5DdiqcRiIVArKd",
@@ -30,7 +31,8 @@
       "recfoNj0Yu8800LSS"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Devices"
   },
   {
     "id": "rec6A3yIR7Th1kOTw",
@@ -45,7 +47,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "recj7zZ6M8tNXaZ1f"
+    "followup_injection": "recj7zZ6M8tNXaZ1f",
+    "handbook_category": "Culture of Security"
   },
   {
     "id": "rec7Eu57y68akZ7Ga",
@@ -62,7 +65,8 @@
       "recfoNj0Yu8800LSS"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Physical Security"
   },
   {
     "id": "rec8YmuoVZGWoiZgw",
@@ -79,7 +83,8 @@
       "rec2GzCYRmcEnJXI1"
     ],
     "poll_change": -2,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Accounts"
   },
   {
     "id": "rec9WtN8StuxHPMY7",
@@ -95,7 +100,8 @@
     "systems_to_disable": null,
     "poll_change": -3,
     "followup_injection": null,
-    "budget_change": -1000
+    "budget_change": -1000,
+    "handbook_category": "Communications and Sharing Data"
   },
   {
     "id": "recaV5aL9GR8xYZdD",
@@ -112,7 +118,8 @@
       "rec2GzCYRmcEnJXI1"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Internet Security"
   },
   {
     "id": "recaxARH7iyFC7Ngl",
@@ -127,7 +134,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "rechlZaoEnfCUQQq9"
+    "followup_injection": "rechlZaoEnfCUQQq9",
+    "handbook_category": "Accounts"
   },
   {
     "id": "recBBjpZwdawGLEdZ",
@@ -144,7 +152,8 @@
       "rec27VnjYPmpReWfJ"
     ],
     "poll_change": -2,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Accounts"
   },
   {
     "id": "reccCt7XY8uRuGMKb",
@@ -159,7 +168,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "rechW2QnG1DxlEEgZ"
+    "followup_injection": "rechW2QnG1DxlEEgZ",
+    "handbook_category": "Devices"
   },
   {
     "id": "recCokDz5vbA0jT8L",
@@ -176,7 +186,8 @@
       "recf8q03JEA01WQoc"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Physical Security"
   },
   {
     "id": "recDsOgRbY65klUCd",
@@ -191,7 +202,8 @@
     "skipper_mitigation": "rechaekt8UxX9AOZl",
     "systems_to_disable": null,
     "poll_change": -3,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Physical Security"
   },
   {
     "id": "recfguim0DKPvSpmJ",
@@ -207,7 +219,8 @@
     "systems_to_disable": null,
     "poll_change": null,
     "followup_injection": "recSP74Xd4cjh1bWz",
-    "budget_change": 750
+    "budget_change": 750,
+    "handbook_category": null
   },
   {
     "id": "recG6SwPJFiVBX9wM",
@@ -222,7 +235,8 @@
     "skipper_mitigation": "recajyf57Mx8JUmEe",
     "systems_to_disable": null,
     "poll_change": -2,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Devices"
   },
   {
     "id": "recgVVHrq7Xq5Qt9r",
@@ -237,7 +251,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "recHhJpOvsfUi3x7L"
+    "followup_injection": "recHhJpOvsfUi3x7L",
+    "handbook_category": "Culture of Security"
   },
   {
     "id": "recH31GX4bCTQmswf",
@@ -253,7 +268,8 @@
     "systems_to_disable": null,
     "poll_change": null,
     "followup_injection": "rec5DdiqcRiIVArKd",
-    "budget_change": 300
+    "budget_change": 300,
+    "handbook_category": "Devices"
   },
   {
     "id": "rechCyEFqkDxd0n3H",
@@ -268,7 +284,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "recBBjpZwdawGLEdZ"
+    "followup_injection": "recBBjpZwdawGLEdZ",
+    "handbook_category": "Phishing"
   },
   {
     "id": "recHhJpOvsfUi3x7L",
@@ -285,7 +302,8 @@
       "recEQ0O2IJ7pOzNIp"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Culture of Security"
   },
   {
     "id": "recHjjr8PYPMWjXtL",
@@ -302,7 +320,8 @@
       "rec27VnjYPmpReWfJ"
     ],
     "poll_change": -2,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Culture of Security"
   },
   {
     "id": "rechlZaoEnfCUQQq9",
@@ -317,7 +336,8 @@
     "skipper_mitigation": "recXOmmySAvjiHgHR",
     "systems_to_disable": null,
     "poll_change": -2,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Accounts"
   },
   {
     "id": "rechW2QnG1DxlEEgZ",
@@ -335,7 +355,8 @@
     ],
     "poll_change": null,
     "followup_injection": null,
-    "budget_change": -2000
+    "budget_change": -2000,
+    "handbook_category": "Storing Data"
   },
   {
     "id": "recj00cDZ1uASA6fN",
@@ -350,7 +371,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": -2,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Communications and Sharing Data"
   },
   {
     "id": "recj7zZ6M8tNXaZ1f",
@@ -367,7 +389,8 @@
       "recfoNj0Yu8800LSS"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Culture of Security"
   },
   {
     "id": "reckCkKGtcTqFuif0",
@@ -382,7 +405,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "recsD5bHEww2tLtAP"
+    "followup_injection": "recsD5bHEww2tLtAP",
+    "handbook_category": "Culture of Security"
   },
   {
     "id": "reckUAi6KTWV22KUO",
@@ -399,7 +423,8 @@
       "rec2uCcJcHAT7wJEX"
     ],
     "poll_change": -3,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Internet Security"
   },
   {
     "id": "reclS00b5fbh4jkbl",
@@ -414,7 +439,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "recHjjr8PYPMWjXtL"
+    "followup_injection": "recHjjr8PYPMWjXtL",
+    "handbook_category": "Culture of Security"
   },
   {
     "id": "recMaeiV3ieL4bt5I",
@@ -432,7 +458,8 @@
       "recf8q03JEA01WQoc"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Storing Data"
   },
   {
     "id": "recNGQ7CkESWeKGSr",
@@ -447,7 +474,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": -3,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Devices"
   },
   {
     "id": "reco9bWdM33hgnW84",
@@ -464,7 +492,8 @@
       "rec2uCcJcHAT7wJEX"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Internet Security"
   },
   {
     "id": "recOrdsasLtCSWA3U",
@@ -481,7 +510,8 @@
       "recGUfJEcYPqk9SsC"
     ],
     "poll_change": null,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Devices"
   },
   {
     "id": "recqjwn1nJCbjO22y",
@@ -496,7 +526,8 @@
     "skipper_mitigation": "recfH61ofSFiSuayJ",
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "recNGQ7CkESWeKGSr"
+    "followup_injection": "recNGQ7CkESWeKGSr",
+    "handbook_category": "Devices"
   },
   {
     "id": "recRJh7cpEgDrAbQ0",
@@ -511,7 +542,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "recWTfBD6BpH1RG8L"
+    "followup_injection": "recWTfBD6BpH1RG8L",
+    "handbook_category": "Devices"
   },
   {
     "id": "recsD5bHEww2tLtAP",
@@ -526,7 +558,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": -2,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Culture of Security"
   },
   {
     "id": "recSP74Xd4cjh1bWz",
@@ -541,7 +574,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": -4,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": null
   },
   {
     "id": "recsrZV20rd7wzeUz",
@@ -556,7 +590,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": -3,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Phishing"
   },
   {
     "id": "recth3Hpy9yYNHH6P",
@@ -574,7 +609,8 @@
     ],
     "poll_change": null,
     "followup_injection": null,
-    "budget_change": -750
+    "budget_change": -750,
+    "handbook_category": "Storing Data"
   },
   {
     "id": "recVTV1Xuz1oynkJE",
@@ -589,7 +625,8 @@
     "skipper_mitigation": "reciGklqBnEoSJz4n",
     "systems_to_disable": null,
     "poll_change": -2,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Accounts"
   },
   {
     "id": "recw1zsFvRJd4pOu2",
@@ -604,7 +641,8 @@
     "skipper_mitigation": "recwp0KlSovcOxIiI",
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "rec4O6rmlQn51TfbA"
+    "followup_injection": "rec4O6rmlQn51TfbA",
+    "handbook_category": "Accounts"
   },
   {
     "id": "recWslBtEH0kKJyLf",
@@ -619,7 +657,8 @@
     "skipper_mitigation": "recPdPink0pRWfkWJ",
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "recth3Hpy9yYNHH6P"
+    "followup_injection": "recth3Hpy9yYNHH6P",
+    "handbook_category": "Devices"
   },
   {
     "id": "recWTfBD6BpH1RG8L",
@@ -634,7 +673,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": -3,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Devices"
   },
   {
     "id": "recxCNilqLXpxs2Iu",
@@ -651,7 +691,8 @@
       "rec27VnjYPmpReWfJ"
     ],
     "poll_change": -3,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Accounts"
   },
   {
     "id": "recz4cQtNCrqLCPKk",
@@ -666,7 +707,8 @@
     "skipper_mitigation": "recu6vvx0lJYV0C8D",
     "systems_to_disable": null,
     "poll_change": -2,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Accounts"
   },
   {
     "id": "recz5wCEtZ8EAP6Xt",
@@ -681,7 +723,8 @@
     "skipper_mitigation": null,
     "systems_to_disable": null,
     "poll_change": null,
-    "followup_injection": "recsrZV20rd7wzeUz"
+    "followup_injection": "recsrZV20rd7wzeUz",
+    "handbook_category": "Phishing"
   },
   {
     "id": "reczozbfqipzTBJ58",
@@ -698,6 +741,7 @@
       "recEQ0O2IJ7pOzNIp"
     ],
     "poll_change": -2,
-    "followup_injection": null
+    "followup_injection": null,
+    "handbook_category": "Accounts"
   }
 ]
