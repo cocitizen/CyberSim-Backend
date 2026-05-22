@@ -121,6 +121,7 @@ function buildChainEntry(
       : gi.description,
     trigger_time: gi.trigger_time,
     location: gi.location,
+    handbook_category: gi.handbook_category,
     type: gi.type,
     recipient_role: gi.recipient_role,
     asset_code: gi.asset_code,
@@ -180,6 +181,7 @@ const getAARData = async (gameId) => {
       'injection.systems_to_disable',
       'injection.poll_change',
       'injection.budget_change',
+      'injection.handbook_category',
       'injection.skipper_mitigation',
       'injection.followup_injection',
     )

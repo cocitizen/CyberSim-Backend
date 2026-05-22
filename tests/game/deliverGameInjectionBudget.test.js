@@ -49,19 +49,24 @@ describe('Deliver Game Injection - budget_change', () => {
       injectionId: injectionWithBudgetChange.injection_id,
     });
 
-    expect(budgetAfter).toBe(Math.max(0, budgetBefore + budgetChange));
+    expect(budgetAfter).toBe(budgetBefore + budgetChange);
   });
 
-  test('should not reduce budget below 0', async () => {
+  test('should allow budget to go below 0', async () => {
     // budget_change on I1 is -500; set budget to 100 so it would go negative
     await db('game').where({ id: gameId }).update({ budget: 100 });
+
+    const { budget_change: budgetChange } = await db('injection')
+      .select('budget_change')
+      .where({ id: injectionWithBudgetChange.injection_id })
+      .first();
 
     const { budget: budgetAfter } = await deliverGameInjection({
       gameId,
       injectionId: injectionWithBudgetChange.injection_id,
     });
 
-    expect(budgetAfter).toBe(0);
+    expect(budgetAfter).toBe(100 + budgetChange);
   });
 
   test('should not change budget when budget_change is null', async () => {
