@@ -402,7 +402,7 @@ const makeResponses = async ({
       // CHECK AVAILABLE BUDGET
       const cost = responses.reduce((acc, r) => acc + (Number(r.cost) || 0), 0);
 
-      if (game.budget < cost) {
+      if (cost > 0 && game.budget < cost) {
         throw new Error(ERR_NOT_ENOUGH_BUDGET);
       }
       // ALLOCATE BUDGET
@@ -617,7 +617,7 @@ const performAction = async ({ gameId, actionId }) => {
       .where({ id: actionId })
       .first();
 
-    if (game.budget < cost) {
+    if (cost > 0 && game.budget < cost) {
       throw new Error(ERR_NOT_ENOUGH_BUDGET);
     }
 
@@ -633,7 +633,7 @@ const performAction = async ({ gameId, actionId }) => {
     await db('game')
       .where({ id: gameId })
       .update({
-        budget: Math.max(0, game.budget - cost + budgetIncrease),
+        budget: game.budget - cost + budgetIncrease,
         poll: Math.max(0, Math.min(game.poll + pollIncrease, 200)),
       });
     await db('game_log').insert({
