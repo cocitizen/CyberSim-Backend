@@ -14,12 +14,7 @@ const {
   listScenariosWithCounts,
   deleteScenarioBySlug,
 } = require('./models/scenario');
-const {
-  listGames,
-  finishGame,
-  deleteGame,
-  advanceTime,
-} = require('./models/game');
+const { listGames, finishGame, deleteGame } = require('./models/game');
 const { getAARData } = require('./models/aar');
 const { getResponsesByScenarioId } = require('./models/response');
 const { getInjectionsByScenarioId } = require('./models/injection');
@@ -477,44 +472,6 @@ app.post(
       return res
         .status(500)
         .json({ error: 'INTERNAL_ERROR', message: 'Game finish failed.' });
-    }
-  }),
-);
-
-// GET /admin/game/advance/:gameId — advance the in-game clock for testing
-// Query param: ?time=<minutes> (default 60). Game must be in SIMULATION state.
-app.get(
-  '/admin/game/advance/:gameId',
-  requireAdminPassword,
-  asyncRoute(async (req, res) => {
-    const rawTime = req.query.time;
-    const minutes = rawTime === undefined ? 60 : Number(rawTime);
-
-    if (!Number.isFinite(minutes) || minutes <= 0) {
-      return res.status(400).json({
-        error: 'INVALID_TIME',
-        message: 'Query param "time" must be a positive number of minutes.',
-      });
-    }
-
-    try {
-      const game = await advanceTime(req.params.gameId, minutes);
-      return res.json({ ok: true, advancedMinutes: minutes, game });
-    } catch (err) {
-      if (err.code === 'GAME_NOT_FOUND') {
-        return res.status(404).json({ error: err.code, message: err.message });
-      }
-      if (err.code === 'INVALID_GAME_STATE') {
-        return res.status(409).json({ error: err.code, message: err.message });
-      }
-      logger.error(
-        { id: req.params.gameId, err: err.stack },
-        'Game advance time failed',
-      );
-      return res.status(500).json({
-        error: 'INTERNAL_ERROR',
-        message: 'Game advance time failed.',
-      });
     }
   }),
 );

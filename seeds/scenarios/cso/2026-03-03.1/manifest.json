@@ -7,7 +7,7 @@
     "base_id": "appyBBuEsmdRZfnlA"
   },
   "db": {
-    "latest_migration": "20260522000000_add_handbook_category_to_injection.js"
+    "latest_migration": "20260303000100_cleanup_legacy_columns.js"
   },
   "git": {
     "commit": "f46b75738437402d3b9ae348ad5806d15be6c9ca"

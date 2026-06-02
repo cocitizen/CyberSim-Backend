@@ -698,57 +698,6 @@ const performCurveball = async ({ gameId, curveballId }) => {
   return getGame(gameId);
 };
 
-// Advance the in-game clock by a given number of minutes.
-// Works for both paused and running games by adding to millis_taken_before_started.
-// Only allowed while the game is in SIMULATION state.
-const advanceTime = async (id, minutes = 60) => {
-  const game = await db('game')
-    .select(
-      'id',
-      'state',
-      'started_at as startedAt',
-      'paused',
-      'millis_taken_before_started as millisTakenBeforeStarted',
-    )
-    .where({ id })
-    .first();
-
-  if (!game) {
-    const err = new Error(`Game "${id}" not found.`);
-    err.statusCode = 404;
-    err.code = 'GAME_NOT_FOUND';
-    throw err;
-  }
-
-  if (game.state !== GameStates.SIMULATION) {
-    const err = new Error(
-      `Time can only be advanced while the game is in SIMULATION state (current state: ${game.state}).`,
-    );
-    err.statusCode = 409;
-    err.code = 'INVALID_GAME_STATE';
-    throw err;
-  }
-
-  const deltaMs = Math.round(minutes * 60 * 1000);
-  const currentTimeTaken = getTimeTaken(game);
-  const newMillisTakenBeforeStarted = game.millisTakenBeforeStarted + deltaMs;
-
-  await db('game')
-    .where({ id })
-    .update({ millis_taken_before_started: newMillisTakenBeforeStarted });
-
-  await db('game_log').insert({
-    game_id: id,
-    game_timer: currentTimeTaken + deltaMs,
-    type: 'Game State Changed',
-    description: `Time advanced by ${minutes} minute${
-      minutes === 1 ? '' : 's'
-    } (admin action).`,
-  });
-
-  return getGame(id);
-};
-
 // List games joined with their scenario, optionally filtered by scenarioSlug.
 const listGames = async ({ scenarioSlug } = {}) => {
   let query = db('game')
@@ -819,5 +768,4 @@ module.exports = {
   listGames,
   finishGame,
   deleteGame,
-  advanceTime,
 };

@@ -8,7 +8,7 @@
     "base_id": "appUBqXDEAK06rYeC"
   },
   "db": {
-    "latest_migration": "20260522000000_add_handbook_category_to_injection.js"
+    "latest_migration": "20260330000200_remaining_tables_composite_pk.js"
   },
   "git": {
     "commit": "6e160e39d16c3265b8f445ea98b5fa83af283333"

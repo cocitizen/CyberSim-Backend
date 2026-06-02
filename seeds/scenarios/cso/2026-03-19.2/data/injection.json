@@ -14,8 +14,7 @@
       "S1"
     ],
     "poll_change": -0.5,
-    "followup_injection": "I2",
-    "handbook_category": "Category A"
+    "followup_injection": "I2"
   },
   {
     "id": "I2",
@@ -30,8 +29,7 @@
     "skipper_mitigation": null,
     "systems_to_disable": [],
     "poll_change": -0.5,
-    "followup_injection": null,
-    "handbook_category": "Category B"
+    "followup_injection": null
   },
   {
     "id": "I3",
@@ -46,7 +44,6 @@
     "skipper_mitigation": "M2",
     "systems_to_disable": [],
     "poll_change": null,
-    "followup_injection": null,
-    "handbook_category": "Category B"
+    "followup_injection": null
   }
 ]
