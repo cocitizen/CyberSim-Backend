@@ -200,6 +200,8 @@ async function importScenarioFromAirtable({
     injection.asset_code = injection.spreadsheet_id
       ? String(injection.spreadsheet_id)
       : undefined;
+    injection.handbook_category =
+      handbookCategories[injection.handbook_category] ?? null;
   });
   injections.forEach(({ id, response = [] }) => {
     response.forEach((responseId) =>

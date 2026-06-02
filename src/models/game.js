@@ -402,7 +402,7 @@ const makeResponses = async ({
       // CHECK AVAILABLE BUDGET
       const cost = responses.reduce((acc, r) => acc + (Number(r.cost) || 0), 0);
 
-      if (game.budget < cost) {
+      if (cost > 0 && game.budget < cost) {
         throw new Error(ERR_NOT_ENOUGH_BUDGET);
       }
       // ALLOCATE BUDGET
@@ -518,13 +518,15 @@ const deliverGameInjection = async ({ gameId, injectionId }) => {
         'paused',
         'millis_taken_before_started as millisTakenBeforeStarted',
         'poll',
+        'budget',
       )
       .where({ id: gameId })
       .first();
-    const { systemsToDisable, pollChange } = await db('injection')
+    const { systemsToDisable, pollChange, budgetChange } = await db('injection')
       .select(
         'systems_to_disable as systemsToDisable',
         'poll_change as pollChange',
+        'budget_change as budgetChange',
       )
       .where({ id: injectionId })
       .first();
@@ -534,12 +536,15 @@ const deliverGameInjection = async ({ gameId, injectionId }) => {
         .whereIn('system_id', systemsToDisable)
         .update({ state: false });
     }
-    if (pollChange) {
-      await db('game')
-        .where({ id: gameId })
-        .update({
-          poll: Math.max(0, Math.min(game.poll + pollChange, 200)),
-        });
+    if (pollChange || budgetChange) {
+      const update = {};
+      if (pollChange) {
+        update.poll = Math.max(0, Math.min(game.poll + pollChange, 200));
+      }
+      if (budgetChange) {
+        update.budget = game.budget + budgetChange;
+      }
+      await db('game').where({ id: gameId }).update(update);
     }
     await db('game_injection')
       .where({
@@ -612,7 +617,7 @@ const performAction = async ({ gameId, actionId }) => {
       .where({ id: actionId })
       .first();
 
-    if (game.budget < cost) {
+    if (cost > 0 && game.budget < cost) {
       throw new Error(ERR_NOT_ENOUGH_BUDGET);
     }
 
@@ -628,7 +633,7 @@ const performAction = async ({ gameId, actionId }) => {
     await db('game')
       .where({ id: gameId })
       .update({
-        budget: Math.max(0, game.budget - cost + budgetIncrease),
+        budget: game.budget - cost + budgetIncrease,
         poll: Math.max(0, Math.min(game.poll + pollIncrease, 200)),
       });
     await db('game_log').insert({
@@ -676,7 +681,7 @@ const performCurveball = async ({ gameId, curveballId }) => {
     await db('game')
       .where({ id: gameId })
       .update({
-        budget: loseAllBudget ? 0 : Math.max(0, game.budget + budgetChange),
+        budget: loseAllBudget ? 0 : game.budget + budgetChange,
         poll: Math.min(Math.max(game.poll + pollChange, 0), 200),
       });
 

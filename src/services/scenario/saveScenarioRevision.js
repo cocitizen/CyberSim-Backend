@@ -80,6 +80,7 @@ function normalizeRow(row) {
 
   if (out.poll_change != null) out.poll_change = Number(out.poll_change);
   if (out.poll_increase != null) out.poll_increase = Number(out.poll_increase);
+  if (out.budget_change != null) out.budget_change = Number(out.budget_change);
 
   return out;
 }
