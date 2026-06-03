@@ -16,7 +16,9 @@ const getActions = async () => {
 const getActionsByScenarioId = async (scenarioId) => {
   const records = await db('action')
     .select('action.*', 'r.roles')
-    .where({ 'action.scenario_id': scenarioId }).joinRaw(`
+    .where({ 'action.scenario_id': scenarioId })
+    .joinRaw(
+      `
       LEFT JOIN (
         SELECT ar.action_id, array_agg(role.name) AS roles
         FROM action_role ar
@@ -26,7 +28,9 @@ const getActionsByScenarioId = async (scenarioId) => {
         WHERE ar.scenario_id = ?
         GROUP BY ar.action_id
       ) r ON r.action_id = action.id
-    `, [scenarioId]);
+    `,
+      [scenarioId],
+    );
   return records;
 };
 
