@@ -48,7 +48,6 @@ eb-config-template-working-2026-03-23-smaller.json
 
 # Terraform
 **/.terraform/
-**/.terraform.lock.hcl
 **/terraform.tfstate
 **/terraform.tfstate.backup
 **/*.tfvars
