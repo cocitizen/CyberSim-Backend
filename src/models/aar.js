@@ -194,7 +194,12 @@ const getAARData = async (gameId) => {
   // 3. Fetch all injection_response rows for this scenario, including response details.
   const injectionResponses = await db('injection_response')
     .select('injection_response.injection_id', 'response.*')
-    .join('response', 'injection_response.response_id', 'response.id')
+    .join('response', function joinResponse() {
+      this.on('injection_response.response_id', 'response.id').andOn(
+        'response.scenario_id',
+        'injection_response.scenario_id',
+      );
+    })
     .where('injection_response.scenario_id', game.scenario_id);
 
   // 4. Fetch game_mitigation rows with mitigation details.
