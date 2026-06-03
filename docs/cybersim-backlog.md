@@ -86,6 +86,14 @@ Possible checks:
 - scenario data routes return expected values;
 - frontend origin is allowed by CORS.
 
+### Add EB deployment script
+
+Create `scripts/deploy-eb.sh` to package the backend, create an EB application version, and deploy it to the selected EB environment.
+
+### Add Terraform documentation
+
+Document the Terraform-managed backend environment, what it creates, what it reuses, and how to safely destroy/recreate the test environment.
+
 ## Admin UX improvements
 
 Improvements to screens or workflows used by admins and facilitators.
