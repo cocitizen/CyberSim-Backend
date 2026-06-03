@@ -9,12 +9,17 @@ const getResponseWithCost = (responseWithMitigationCosts) => {
   return { ...response, cost: mitCost || 0 };
 };
 
-const getResponsesById = async (responseIds) => {
-  const responses = await db('response')
+const getResponsesById = async (responseIds, scenarioId) => {
+  const query = db('response')
     .select('response.*', 'mitigation.cost as mitCost')
     .leftOuterJoin('mitigation', 'response.mitigation_id', 'mitigation.id')
     .whereIn('response.id', responseIds);
 
+  if (scenarioId) {
+    query.where({ 'response.scenario_id': scenarioId });
+  }
+
+  const responses = await query;
   return responses.map((response) => getResponseWithCost(response));
 };
 

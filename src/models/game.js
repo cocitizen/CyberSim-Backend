@@ -327,6 +327,7 @@ const makeResponses = async ({
     const game = await db('game')
       .select(
         'game.id',
+        'game.scenario_id as scenarioId',
         'game.budget',
         'game.started_at as startedAt',
         'game.paused',
@@ -340,7 +341,7 @@ const makeResponses = async ({
       .first();
     const timeTaken = getTimeTaken(game);
     if (responseIds?.length) {
-      const responses = await getResponsesById(responseIds);
+      const responses = await getResponsesById(responseIds, game.scenarioId);
       // Which mitigations are active (purchased) in this game?
       const purchased = new Set(
         (game.mitigations || [])
@@ -357,6 +358,7 @@ const makeResponses = async ({
         ? await db('mitigation')
             .select('id', 'is_hq', 'is_local')
             .whereIn('id', requiredIds)
+            .where({ scenario_id: game.scenarioId })
         : [];
 
       const applicability = applicabilityRows.reduce((acc, m) => {
