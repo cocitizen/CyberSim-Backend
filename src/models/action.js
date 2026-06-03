@@ -22,9 +22,11 @@ const getActionsByScenarioId = async (scenarioId) => {
         FROM action_role ar
         LEFT JOIN role
         ON role.id = ar.role_id
+        AND role.scenario_id = ar.scenario_id
+        WHERE ar.scenario_id = ?
         GROUP BY ar.action_id
       ) r ON r.action_id = action.id
-    `);
+    `, [scenarioId]);
   return records;
 };
 
