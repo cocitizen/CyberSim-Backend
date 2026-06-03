@@ -1,0 +1,237 @@
+{
+    "SecurityGroups": [
+        {
+            "GroupId": "sg-0da84f7944e46db1b",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Environment",
+                    "Value": "Production"
+                },
+                {
+                    "Key": "Service",
+                    "Value": "Backend"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "ElasticBeanstalk"
+                },
+                {
+                    "Key": "Project",
+                    "Value": "Cybersim"
+                }
+            ],
+            "VpcId": "vpc-a4de9ade",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:592016371171:security-group/sg-0da84f7944e46db1b",
+            "OwnerId": "592016371171",
+            "GroupName": "cybersim-eb-backend-production-sg",
+            "Description": "Permit HTTP/S and limited SSH into the Cybersim backend Express server",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 80,
+                    "ToPort": 80,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 443,
+                    "ToPort": 443,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-070d28b7afb7b6937",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 80,
+                    "ToPort": 80,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "AWSEBLoadBalancerSecurityGroup"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "awseb-e-dnm7znhgvn-stack"
+                },
+                {
+                    "Key": "elasticbeanstalk:environment-id",
+                    "Value": "e-dnm7znhgvn"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "Cybersim-backend-env"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-east-1:592016371171:stack/awseb-e-dnm7znhgvn-stack/da1880d0-2689-11f1-924e-0ec4e2f57843"
+                },
+                {
+                    "Key": "elasticbeanstalk:environment-name",
+                    "Value": "Cybersim-backend-env"
+                }
+            ],
+            "VpcId": "vpc-a4de9ade",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:592016371171:security-group/sg-070d28b7afb7b6937",
+            "OwnerId": "592016371171",
+            "GroupName": "awseb-e-dnm7znhgvn-stack-AWSEBLoadBalancerSecurityGroup-Ag21ErT3wAdV",
+            "Description": "Load Balancer Security Group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 80,
+                    "ToPort": 80,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 443,
+                    "ToPort": 443,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        },
+        {
+            "GroupId": "sg-02734b561eb817a3f",
+            "IpPermissionsEgress": [
+                {
+                    "IpProtocol": "-1",
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "awseb-e-dnm7znhgvn-stack"
+                },
+                {
+                    "Key": "elasticbeanstalk:environment-id",
+                    "Value": "e-dnm7znhgvn"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "AWSEBSecurityGroup"
+                },
+                {
+                    "Key": "elasticbeanstalk:environment-name",
+                    "Value": "Cybersim-backend-env"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-east-1:592016371171:stack/awseb-e-dnm7znhgvn-stack/da1880d0-2689-11f1-924e-0ec4e2f57843"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "Cybersim-backend-env"
+                }
+            ],
+            "VpcId": "vpc-a4de9ade",
+            "SecurityGroupArn": "arn:aws:ec2:us-east-1:592016371171:security-group/sg-02734b561eb817a3f",
+            "OwnerId": "592016371171",
+            "GroupName": "awseb-e-dnm7znhgvn-stack-AWSEBSecurityGroup-CUdF7ai4YJv0",
+            "Description": "VPC Security Group",
+            "IpPermissions": [
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 80,
+                    "ToPort": 80,
+                    "UserIdGroupPairs": [
+                        {
+                            "UserId": "592016371171",
+                            "GroupId": "sg-070d28b7afb7b6937"
+                        }
+                    ],
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                },
+                {
+                    "IpProtocol": "tcp",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "UserIdGroupPairs": [],
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": []
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,46 @@
+aws_region = "us-east-1"
+
+project_name     = "cybersim"
+environment_name = "terraform-test"
+
+vpc_id = "vpc-a4de9ade"
+
+subnet_ids = [
+  "subnet-c7f60d8a",
+  "subnet-8a291dd6",
+  "subnet-e989a18e",
+  "subnet-9b1422b5",
+  "subnet-9a9e7394"
+]
+
+rds_security_group_id = "sg-5ebed200"
+
+api_certificate_arn = "arn:aws:acm:us-east-1:592016371171:certificate/864874fd-b4ce-47d1-bf08-54d7850c5df6"
+
+eb_service_role_arn = "arn:aws:iam::592016371171:role/service-role/aws-elasticbeanstalk-service-role"
+
+eb_instance_profile_name = "aws-elasticbeanstalk-ec2-role"
+
+eb_instance_type = "t3.small"
+eb_min_size      = 1
+eb_max_size      = 1
+
+health_check_path = "/"
+
+db_url                = "REPLACE_ME"
+airtable_access_token = "REPLACE_ME"
+import_password       = "REPLACE_ME"
+
+ui_origins = [
+  "https://cso.cybersim.app",
+  "https://rodrum.cybersim.app",
+  "https://tnr.cybersim.app"
+]
+
+airtable_base_ids = {
+  rodrum   = "appFKqwLWbsfvA3R7"
+  tnr      = "appUBqXDEAK06rYeC"
+  cso      = "appyBBuEsmdRZfnlA"
+  observer = "appVYt2fS461KaQIH"
+  parl     = "appWpNcT5njmNbHA5"
+}
