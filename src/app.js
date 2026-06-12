@@ -615,14 +615,32 @@ app.post('/admin/scenarios/import', async (req, res) => {
     }
 
     if (err.error === 'NOT_AUTHORIZED') {
+      logger.error(
+        {
+          scenarioSlug: normalizedScenarioSlug,
+          airtableError: err.error,
+          airtableMessage: err.message,
+          statusCode: err.statusCode,
+          tableName: err.tableName,
+          viewName: err.viewName,
+          stack: err.stack,
+        },
+        'Airtable import authorization error',
+      );
+
+      const authorizationErrorMessage = err.tableName
+        ? `Airtable rejected access while reading table "${err.tableName}"${
+            err.viewName ? ` view "${err.viewName}"` : ''
+          }. Check that the table/view exists and that the token can read it.`
+        : 'Token does not have access to this base or lacks required scopes.';
+
       return res.status(400).send({
         validation: true,
         message:
           'Airtable authorization error. Check the base access and token scopes (data.records:read, schema.bases:read).',
         errors: [
           {
-            message:
-              'Token does not have access to this base or lacks required scopes.',
+            message: authorizationErrorMessage,
           },
         ],
       });
