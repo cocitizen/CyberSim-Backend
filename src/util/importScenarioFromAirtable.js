@@ -46,11 +46,12 @@ async function validate(schema, items = [], tableName) {
 
 function fetchTable(base, tableName) {
   const allFields = [];
+  const viewName = 'Grid view';
 
   return new Promise((resolve, reject) => {
     base(tableName)
       .select({
-        view: 'Grid view',
+        view: viewName,
       })
       .eachPage(
         (records, fetchNextPage) => {
@@ -65,6 +66,7 @@ function fetchTable(base, tableName) {
         function done(err) {
           if (err) {
             err.tableName = tableName;
+            err.viewName = viewName;
             reject(err);
           } else {
             validate(airtableSchemas[tableName], allFields, tableName)

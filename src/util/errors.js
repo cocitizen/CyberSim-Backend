@@ -28,11 +28,27 @@ function transformValidationErrors(validationErrors) {
   return transformValidationError(validationErrors);
 }
 
+// Airtable error codes the import route handles with dedicated responses.
+const airtableAccessErrorCodes = [
+  'AUTHENTICATION_REQUIRED',
+  'NOT_AUTHORIZED',
+  'NOT_FOUND',
+];
+
 function throwNecessaryValidationErrors(validationResponses, message) {
   const errors = validationResponses
     .filter((table) => table.status === 'rejected')
     .map((error) => error.reason);
   if (errors.length) {
+    // Airtable access errors must keep their .error code so the route handler
+    // can branch on it; bundling them into the validation array would mask
+    // them as generic schema errors.
+    const accessError = errors.find((err) =>
+      airtableAccessErrorCodes.includes(err?.error),
+    );
+    if (accessError) {
+      throw accessError;
+    }
     errors.message = message;
     errors.validation = true;
     throw errors;

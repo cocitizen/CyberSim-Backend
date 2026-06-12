@@ -234,6 +234,36 @@ describe('POST /admin/scenarios/import', () => {
   it('returns 400 for Airtable authorization errors', async () => {
     importScenarioFromAirtable.mockRejectedValue({
       error: 'NOT_AUTHORIZED',
+      message: 'You are not authorized to perform this operation',
+      statusCode: 403,
+      tableName: 'events',
+      viewName: 'Grid view',
+    });
+
+    const response = await request(app).post('/admin/scenarios/import').send({
+      scenarioSlug: 'cso',
+      password: 'test-import-password',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      validation: true,
+      message:
+        'Airtable authorization error. Check the base access and token scopes (data.records:read, schema.bases:read).',
+      errors: [
+        {
+          message:
+            'Airtable rejected access while reading table "events" view "Grid view". Check that the table/view exists and that the token can read it.',
+        },
+      ],
+    });
+  });
+
+  it('returns 400 with the fallback message for authorization errors without a table name', async () => {
+    importScenarioFromAirtable.mockRejectedValue({
+      error: 'NOT_AUTHORIZED',
+      message: 'You are not authorized to perform this operation',
+      statusCode: 403,
     });
 
     const response = await request(app).post('/admin/scenarios/import').send({
