@@ -427,43 +427,98 @@ Then verify the public hostname:
     https://api.cybersim.app/health/db
 
 
-## Database Migration and Seeding
+## Operational Access and Database Migrations
 
-Connect to the instance via Session Manager:
+The backend applies pending Knex migrations automatically during application
+startup. The Docker container starts with `npm run start:prod`, which runs
+`index.js`; non-test startup calls `db.migrate.latest()` before the server begins
+listening. A normal Elastic Beanstalk deployment should therefore apply new
+migrations when the replacement container starts.
 
-``` bash
+The manual steps below are still useful for verification, troubleshooting, or
+recovery after a failed deployment. `npm run migrate` is safe to rerun when no
+pending migrations exist.
+
+### Find the EC2 instance for an EB environment
+
+```bash
+aws elasticbeanstalk describe-environment-resources \
+  --environment-name <eb-environment-name> \
+  --query 'EnvironmentResources.Instances[*].Id' \
+  --output text
+```
+
+### Connect with Session Manager
+
+```bash
 aws ssm start-session --target <instance-id>
 ```
 
-Identify the container:
+If Docker access requires root privileges, switch to root after connecting:
 
-``` bash
+```bash
+sudo bash
+```
+
+### Enter the backend container
+
+Identify the running backend container:
+
+```bash
 docker ps
 ```
 
 Enter the container:
 
-``` bash
+```bash
 docker exec -it <container-id> sh
 ```
 
-Run migrations:
+### Check and run migrations
 
-``` bash
+Check migration status:
+
+```bash
+./node_modules/.bin/knex migrate:status
+```
+
+If migrations are pending, run:
+
+```bash
 npm run migrate
 ```
 
-Seed:
+Check status again:
 
-``` bash
-npm run seed
+```bash
+./node_modules/.bin/knex migrate:status
 ```
 
-Dataset seed:
+### Validate after migration
 
-``` bash
-SCENARIO_TAG=cso@YYYY-MM-DD.X npm run seed:dataset
+Verify application and database health:
+
+```bash
+curl -i https://api.cybersim.app/health
+curl -i https://api.cybersim.app/health/db
 ```
+
+If Airtable-backed scenario import is expected, also verify:
+
+```bash
+curl -i https://api.cybersim.app/health/airtable
+```
+
+For a scenario-specific check:
+
+```bash
+curl -i 'https://api.cybersim.app/scenario?scenarioSlug=<slug>'
+curl -i 'https://api.cybersim.app/injections?scenarioSlug=<slug>'
+```
+
+Do not run seed commands in production unless intentionally bootstrapping,
+resetting, or loading scenario data. For scenario setup, use
+`docs/scenario-setup.md`.
 
 ## Logging and Troubleshooting
 
