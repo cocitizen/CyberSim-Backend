@@ -14,11 +14,17 @@ Because Airtable credentials and configuration are not immediately obvious in th
 
 If you are setting up a new scenario or debugging an import issue, start with the credential and verification sections before modifying content.
 
+For the complete new-scenario workflow, including UI subdomain setup,
+backend environment variables, Airtable configuration, import/load, and
+verification, see:
+
+    docs/scenario-setup.md
+
 ## Scenario Import
 
-To import current Airtable data into the database:
+To import current Airtable data into the database for a pre-existing scenario:
 
-    POST /scenario/import
+    POST /admin/scenarios/import
 
 This requires:
 
@@ -192,44 +198,11 @@ This allow scenarios to be versioned, shared, and reproduced without a live Airt
 
 ## Adding a New Scenario
 
-To add a second (or third) scenario to a running CyberSim deployment:
+For the full end-to-end workflow, including UI subdomain setup, backend environment variables, Airtable configuration, import/load, and verification, see:
 
-### 1. Create the Airtable base
+    docs/scenario-setup.md
 
-Duplicate or create a new Airtable base for the scenario. Note its Base ID (`app...` from the URL).
-
-### 2. Grant the PAT access to the new base
-
-In the Airtable Developer Hub, edit your existing Personal Access Token and add the new base under Access → Specific bases. No new token is needed.
-
-### 3. Update backend environment variables
-
-Add the new slug:baseId pair to `AIRTABLE_BASE_IDS`:
-
-    AIRTABLE_BASE_IDS=cso:appXXXXXX,tnr:appYYYYYY
-
-Add the new subdomain to `UI_ORIGINS`:
-
-    UI_ORIGINS=https://cso.cybersim.app,https://tnr.cybersim.app
-
-### 4. Set up the frontend for the new subdomain
-
-In AWS Amplify, add a custom domain for the new subdomain (e.g. `tnr.cybersim.app`) pointing at the same Amplify app. Set the environment variable for that domain:
-
-    REACT_APP_SCENARIO_SLUG=tnr
-
-In Cloudflare DNS, add a CNAME for `tnr.cybersim.app` pointing at the Amplify domain.
-
-### 5. Run the import
-
-Navigate to `https://tnr.cybersim.app/scenario/import`, enter the `IMPORT_PASSWORD`, and click Import. The backend will detect the `tnr` slug from the subdomain, look up its base ID, and load the data.
-
-### 6. Verify
-
-    https://api.cybersim.app/health/airtable
-
-Then test the direct connection for the new base (see "Direct test for a specific base" above).
-
+This handbook remains the reference for Airtable credentials and content rules.
 
 ## Airtable Content Rules
 

@@ -276,7 +276,7 @@ tnr.cybersim.app  →  slug = "tnr"
 localhost         →  slug = REACT_APP_SCENARIO_SLUG env var, or "cso" if not set
 ```
 
-The slug is sent to the backend as part of the CREATEGAME socket event and the `POST /scenario/import` request body.
+The slug is sent to the backend as part of the CREATEGAME socket event and the `POST /admin/scenarios/import` request body.
 
 **Backend:** Uses the slug it receives from the frontend to look up the correct Airtable base in `AIRTABLE_BASE_IDS` and to scope all game data to the correct scenario in the database.
 
@@ -288,7 +288,7 @@ slug from frontend request  →  SCENARIO_SLUG env var  →  "cso"
 
 ### Adding a new scenario
 
-See `docs/airtable-handbook.md` for the full step-by-step process.
+See `docs/scenario-setup.md` for the full end-to-end setup checklist, including UI subdomain, backend configuration, Airtable, import/load, and verification steps.
 
 ## Deployment
 
