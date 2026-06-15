@@ -170,7 +170,6 @@ async function importScenarioFromAirtable({
     (obj, { name, handbook_category, id }) => ({
       ...obj,
       [id]: `${handbookCategories[handbook_category]}: ${name}`,
-      id,
     }),
     {},
   );
@@ -194,7 +193,11 @@ async function importScenarioFromAirtable({
   // process events
   injections.forEach((injection) => {
     injection.location = locationsMap[injection.locations];
-    injection.recommendations = recommendations[injection.recommendations];
+    // An event can link to several recommendations; each is a unitary item, so
+    // resolve every linked id to its name and keep them as a list.
+    injection.recommendations = (injection.recommendations || [])
+      .map((recommendationId) => recommendations[recommendationId])
+      .filter(Boolean);
     injection.type = eventTypes[injection.event_types] || 'Board';
     injection.followup_injection = injection.followup_event;
     injection.trigger_time *= 1000;

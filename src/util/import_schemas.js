@@ -45,7 +45,7 @@ const airtableSchemas = {
     title: yup.string().required(),
     description: yup.string().required(),
     trigger_time: yup.number().integer().positive().required(),
-    recommendations: singleRef,
+    recommendations: multiRef,
     locations: singleRef,
     event_types: singleRef,
     role: singleRef,
@@ -107,7 +107,7 @@ const dbSchemas = {
   injection: yup.object({
     id,
     scenario_id: scenarioId,
-    recommendations: yup.string(),
+    recommendations: yup.array().of(yup.string()).nullable(),
     title: yup.string().required(),
     description: yup.string().required(),
     trigger_time: yup.number().integer().required(),

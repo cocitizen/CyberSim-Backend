@@ -20,6 +20,7 @@ const path = require('path');
 const db = require('../../models/db');
 const assertNoActiveGames = require('./assertNoActiveGames');
 const replaceScenarioContent = require('./replaceScenarioContent');
+const normalizeSnapshotInjections = require('./normalizeSnapshotInjections');
 
 function readJson(absPath) {
   const raw = fs.readFileSync(absPath, 'utf8');
@@ -116,7 +117,9 @@ async function loadScenarioRevision({
   const role = loadJson(scenarioDir, 'role.json') || [];
   const mitigation = loadJson(scenarioDir, 'mitigation.json') || [];
   const response = loadJson(scenarioDir, 'response.json') || [];
-  const injection = loadJson(scenarioDir, 'injection.json') || [];
+  const injection = normalizeSnapshotInjections(
+    loadJson(scenarioDir, 'injection.json') || [],
+  );
   const action = loadJson(scenarioDir, 'action.json') || [];
   const curveball = loadJson(scenarioDir, 'curveball.json') || [];
   const dictionary = loadJson(scenarioDir, 'dictionary.json');
