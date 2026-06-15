@@ -114,7 +114,10 @@ const staticInjections = [
     poll_change: -0.5,
     systems_to_disable: ['S1'],
     skipper_mitigation: 'M1',
-    recommendations: 'Placeholder recommendation 1',
+    recommendations: [
+      'Placeholder recommendation 1',
+      'Placeholder recommendation 1b',
+    ],
     responses: [
       {
         id: 'RP1',
@@ -139,7 +142,7 @@ const staticInjections = [
     poll_change: -0.5,
     systems_to_disable: [],
     skipper_mitigation: null,
-    recommendations: 'Placeholder recommendation 2',
+    recommendations: ['Placeholder recommendation 2'],
     responses: [
       {
         id: 'RP2',
@@ -164,7 +167,7 @@ const staticInjections = [
     poll_change: null,
     systems_to_disable: [],
     skipper_mitigation: 'M2',
-    recommendations: 'Placeholder recommendation 3',
+    recommendations: ['Placeholder recommendation 3'],
     responses: null,
   },
 ];

@@ -8,6 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const normalizeSnapshotInjections = require('../src/services/scenario/normalizeSnapshotInjections');
 
 function formatBullets(items) {
   if (!items || items.length === 0) return '  (none found)';
@@ -173,7 +174,9 @@ exports.seed = async (knex) => {
   const role = loadScenarioJson(scenarioDir, 'role.json') || [];
   const mitigation = loadScenarioJson(scenarioDir, 'mitigation.json') || [];
   const response = loadScenarioJson(scenarioDir, 'response.json') || [];
-  const injection = loadScenarioJson(scenarioDir, 'injection.json') || [];
+  const injection = normalizeSnapshotInjections(
+    loadScenarioJson(scenarioDir, 'injection.json') || [],
+  );
   const action = loadScenarioJson(scenarioDir, 'action.json') || [];
   const curveball = loadScenarioJson(scenarioDir, 'curveball.json') || [];
   const dictionary = loadScenarioJson(scenarioDir, 'dictionary.json'); // optional
