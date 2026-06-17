@@ -124,6 +124,7 @@ const changeMitigation = async ({ mitigationId, mitigationValue, gameId }) => {
         'started_at as startedAt',
         'paused',
         'millis_taken_before_started as millisTakenBeforeStarted',
+        'scenario_id as scenarioId',
       )
       .where({ id: gameId })
       .first();
@@ -141,7 +142,7 @@ const changeMitigation = async ({ mitigationId, mitigationValue, gameId }) => {
     if (gameMitigationValue !== mitigationValue) {
       const mitigation = await db('mitigation')
         .select('cost')
-        .where({ id: mitigationId })
+        .where({ id: mitigationId, scenario_id: game.scenarioId })
         .first();
 
       const cost = mitigation?.cost;
@@ -182,9 +183,10 @@ const changeMitigation = async ({ mitigationId, mitigationValue, gameId }) => {
         await db('game_injection')
           .where({ game_id: gameId, delivered: false })
           .whereIn('injection_id', function findInjectionsToSkip() {
-            this.select('id')
-              .from('injection')
-              .where({ skipper_mitigation: mitigationId });
+            this.select('id').from('injection').where({
+              skipper_mitigation: mitigationId,
+              scenario_id: game.scenarioId,
+            });
           })
           .update({ prevented: true, prevented_at: timeTaken });
 
@@ -216,10 +218,11 @@ const changeMitigation = async ({ mitigationId, mitigationValue, gameId }) => {
 
 const startSimulation = async (gameId) => {
   try {
-    const { state, millisTakenBeforeStarted } = await db('game')
+    const { state, millisTakenBeforeStarted, scenarioId } = await db('game')
       .select(
         'state',
         'millis_taken_before_started as millisTakenBeforeStarted',
+        'scenario_id as scenarioId',
       )
       .where({ id: gameId })
       .first();
@@ -253,7 +256,8 @@ const startSimulation = async (gameId) => {
         .whereIn('injection_id', function findInjectionsToSkip() {
           this.select('id')
             .from('injection')
-            .whereIn('skipper_mitigation', mitigationClauses);
+            .whereIn('skipper_mitigation', mitigationClauses)
+            .andWhere({ scenario_id: scenarioId });
         })
         .update({ prevented: true, prevented_at: millisTakenBeforeStarted });
     }
@@ -428,6 +432,7 @@ const makeResponses = async ({
               .whereIn('injection_id', function findInjectionsToSkip() {
                 this.select('id').from('injection').where({
                   skipper_mitigation: mitigationId,
+                  scenario_id: game.scenarioId,
                 });
               })
               .update({ prevented: true, prevented_at: timeTaken });
@@ -455,7 +460,7 @@ const makeResponses = async ({
     if (injectionId) {
       const { followupInjection } = await db('injection')
         .select('followup_injection as followupInjection')
-        .where('id', injectionId)
+        .where({ id: injectionId, scenario_id: game.scenarioId })
         .first();
       if (followupInjection) {
         await db('game_injection')
@@ -521,6 +526,7 @@ const deliverGameInjection = async ({ gameId, injectionId }) => {
         'millis_taken_before_started as millisTakenBeforeStarted',
         'poll',
         'budget',
+        'scenario_id as scenarioId',
       )
       .where({ id: gameId })
       .first();
@@ -530,7 +536,7 @@ const deliverGameInjection = async ({ gameId, injectionId }) => {
         'poll_change as pollChange',
         'budget_change as budgetChange',
       )
-      .where({ id: injectionId })
+      .where({ id: injectionId, scenario_id: game.scenarioId })
       .first();
     if (systemsToDisable?.length) {
       await db('game_system')
@@ -603,6 +609,7 @@ const performAction = async ({ gameId, actionId }) => {
         'started_at as startedAt',
         'paused',
         'millis_taken_before_started as millisTakenBeforeStarted',
+        'scenario_id as scenarioId',
       )
       .where({ id: gameId })
       .first();
@@ -616,7 +623,7 @@ const performAction = async ({ gameId, actionId }) => {
         'poll_increase as pollIncrease',
         'required_systems as requiredSystems',
       )
-      .where({ id: actionId })
+      .where({ id: actionId, scenario_id: game.scenarioId })
       .first();
 
     if (cost > 0 && game.budget < cost) {
@@ -667,6 +674,7 @@ const performCurveball = async ({ gameId, curveballId }) => {
         'started_at as startedAt',
         'paused',
         'millis_taken_before_started as millisTakenBeforeStarted',
+        'scenario_id as scenarioId',
       )
       .where({ id: gameId })
       .first();
@@ -677,7 +685,7 @@ const performCurveball = async ({ gameId, curveballId }) => {
         'budget_change as budgetChange',
         'poll_change as pollChange',
       )
-      .where({ id: curveballId })
+      .where({ id: curveballId, scenario_id: game.scenarioId })
       .first();
 
     await db('game')

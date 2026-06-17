@@ -244,4 +244,227 @@ module.exports = async function seedTestData(db) {
       scenario_id: scenarioId,
     },
   ]);
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // SECOND SCENARIO (multi-scenario coverage)
+  //
+  // After the composite-PK migrations, two scenarios may share the same Airtable
+  // record ids (id is unique only per scenario). This second scenario reuses the
+  // SAME ids as cso (I1, M1, A1, C4, …) but with deliberately DIFFERENT values,
+  // so any query that looks a static row up by id WITHOUT scoping by scenario_id
+  // will read the wrong row and produce a detectably wrong result.
+  //
+  // Keep the cso values above unchanged: existing single-scenario tests depend
+  // on them. Only ADD rows here.
+  // ───────────────────────────────────────────────────────────────────────────
+  const [tnr] = await db('scenario')
+    .insert({ slug: 'tnr', name: 'TNR Scenario' })
+    .returning('*');
+
+  const tnrId = tnr.id;
+
+  await db('system').insert([
+    {
+      id: 'S1',
+      name: 'TNR website',
+      description: '',
+      type: 'party',
+      scenario_id: tnrId,
+    },
+    {
+      id: 'S2',
+      name: 'TNR DB',
+      description: '',
+      type: 'hq',
+      scenario_id: tnrId,
+    },
+  ]);
+
+  await db('role').insert([
+    { id: 'R1', name: 'TNR Candidate 1', scenario_id: tnrId },
+    { id: 'R2', name: 'TNR Candidate 2', scenario_id: tnrId },
+  ]);
+
+  // Costs differ from cso (M1: 1000 → 2000, M2: 1200 → 2200).
+  await db('mitigation').insert([
+    {
+      id: 'M1',
+      description: 'TNR Mitigation 1',
+      category: 'Operation',
+      cost: 2000,
+      is_hq: true,
+      is_local: true,
+      scenario_id: tnrId,
+    },
+    {
+      id: 'M2',
+      description: 'TNR Mitigation 2',
+      category: 'Operation',
+      cost: 2200,
+      is_hq: false,
+      is_local: true,
+      scenario_id: tnrId,
+    },
+  ]);
+
+  await db('response').insert([
+    {
+      id: 'RP1',
+      description: 'TNR response 1',
+      cost: 0,
+      mitigation_id: null,
+      systems_to_restore: ['S2'],
+      required_mitigation: 'M1',
+      required_mitigation_type: 'local',
+      scenario_id: tnrId,
+    },
+    {
+      id: 'RP2',
+      description: 'TNR response 2',
+      cost: 0,
+      mitigation_id: 'M2',
+      systems_to_restore: [],
+      required_mitigation: null,
+      required_mitigation_type: null,
+      scenario_id: tnrId,
+    },
+  ]);
+
+  await db('dictionary').insert([
+    {
+      id: 'rec8jJttwZ7gSK4F4',
+      word: 'poll',
+      synonym: 'poll',
+      scenario_id: tnrId,
+    },
+    {
+      id: 'recGrOxugbY8ZiF2r',
+      word: 'budget',
+      synonym: 'funds',
+      scenario_id: tnrId,
+    },
+  ]);
+
+  // Injections reuse cso ids but differ on every gameplay value:
+  //   I1 cso: poll -0.5, budget -500, disable [S1], skipper M1, followup I2
+  //   I1 tnr: poll -5,   budget -50,  disable [S2], skipper M2, followup I3
+  await db('injection').insert([
+    {
+      id: 'I1',
+      title: 'TNR Injection 1',
+      description: 'TNR Injection 1',
+      trigger_time: 120000,
+      location: 'local',
+      type: 'Table',
+      handbook_category: 'Category A',
+      recipient_role: 'LB role',
+      asset_code: '1',
+      poll_change: -5,
+      budget_change: -50,
+      systems_to_disable: ['S2'],
+      skipper_mitigation: 'M2',
+      recommendations: ['TNR recommendation 1'],
+      followup_injection: null,
+      scenario_id: tnrId,
+    },
+    {
+      id: 'I2',
+      title: 'TNR Injection 2',
+      description: 'TNR Injection 2',
+      trigger_time: 240000,
+      location: 'hq',
+      type: 'Table',
+      handbook_category: 'Category B',
+      recipient_role: 'Hq role',
+      asset_code: '2',
+      poll_change: -1,
+      budget_change: 250,
+      systems_to_disable: [],
+      skipper_mitigation: null,
+      recommendations: ['TNR recommendation 2'],
+      followup_injection: null,
+      scenario_id: tnrId,
+    },
+    {
+      id: 'I3',
+      title: 'TNR Injection 3',
+      description: 'TNR Injection 3',
+      trigger_time: 340000,
+      location: 'hq',
+      type: 'Table',
+      handbook_category: 'Category C',
+      recipient_role: 'Hq role',
+      asset_code: '3',
+      poll_change: null,
+      budget_change: null,
+      systems_to_disable: [],
+      skipper_mitigation: 'M1',
+      recommendations: ['TNR recommendation 3'],
+      followup_injection: null,
+      scenario_id: tnrId,
+    },
+  ]);
+
+  // I1 → I3 in tnr (cso links I1 → I2), so a misscoped followup lookup is visible.
+  await db('injection')
+    .where({ id: 'I1', scenario_id: tnrId })
+    .update({ followup_injection: 'I3' });
+
+  await db('injection_response').insert([
+    { response_id: 'RP1', injection_id: 'I1', scenario_id: tnrId },
+    { response_id: 'RP2', injection_id: 'I2', scenario_id: tnrId },
+  ]);
+
+  // A1 cso: cost 1000, poll +5, systems [S1,S2]; A1 tnr: cost 2000, poll +9, [S1]
+  await db('action').insert([
+    {
+      id: 'A1',
+      description: 'TNR national rally',
+      type: 'hq',
+      cost: 2000,
+      budget_increase: 0,
+      poll_increase: 9,
+      required_systems: ['S1'],
+      scenario_id: tnrId,
+    },
+    {
+      id: 'A2',
+      description: 'TNR local rally',
+      type: 'local',
+      cost: 500,
+      budget_increase: 0,
+      poll_increase: 2,
+      required_systems: [],
+      scenario_id: tnrId,
+    },
+  ]);
+
+  await db('action_role').insert([
+    { action_id: 'A1', role_id: 'R1', scenario_id: tnrId },
+    { action_id: 'A2', role_id: 'R2', scenario_id: tnrId },
+  ]);
+
+  // C4 cso: budget -1000, poll -10; C4 tnr: budget -100, poll -2
+  await db('curveball').insert([
+    {
+      id: 'C4',
+      description: 'TNR Disaster',
+      budget_change: -100,
+      poll_change: -2,
+      scenario_id: tnrId,
+    },
+    {
+      id: 'C7',
+      description: 'TNR Miracle',
+      budget_change: 300,
+      poll_change: 3,
+      scenario_id: tnrId,
+    },
+    {
+      id: 'C8',
+      description: 'TNR Oh My God',
+      lose_all_budget: true,
+      scenario_id: tnrId,
+    },
+  ]);
 };
