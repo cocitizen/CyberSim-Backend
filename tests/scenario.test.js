@@ -72,13 +72,19 @@ describe('getScenarioBySlug', () => {
 describe('createGame — scenario isolation', () => {
   beforeEach(async () => {
     await resetGameTables();
-    // Remove any previously seeded 'campaign' scenario so we start clean
+    await seedSecondScenario(db);
+  });
+
+  // Tear the 'campaign' scenario down after each test so it never leaks past
+  // this suite. (Runs before the file-level afterAll that closes the pool.)
+  // Clear games FIRST: game.scenario_id has a RESTRICT FK to scenario, so the
+  // scenario row can't be deleted while a game still references it.
+  afterEach(async () => {
+    await resetGameTables();
     await db('injection').where({ id: 'CAMP-I1' }).del();
     await db('mitigation').where({ id: 'CAMP-M1' }).del();
     await db('system').where({ id: 'CAMP-S1' }).del();
     await db('scenario').where({ slug: 'campaign' }).del();
-
-    await seedSecondScenario(db);
   });
 
   test('stores the correct scenario_id on the game row', async () => {

@@ -34,6 +34,13 @@ async function verifyDatabaseConnection(database) {
 module.exports = async () => {
   await verifyDatabaseConnection(db);
 
+  // Clear all data BEFORE rolling back. The composite-PK down-migrations
+  // re-add single-column (id) primary keys, which fail to build a unique index
+  // if multi-scenario rows sharing ids are still present from a previous run.
+  // `latest()` first guarantees the tables exist (fresh DB or stale schema).
+  await db.migrate.latest();
+  await resetAllTables();
+
   await db.migrate.rollback({}, true);
   await db.migrate.latest();
 
