@@ -539,7 +539,7 @@ app.delete(
   }),
 );
 
-app.post('/admin/scenarios/import', async (req, res) => {
+async function handleScenarioImport(req, res, { dryRun }) {
   const { scenarioSlug, password } = req.body || {};
   const normalizedScenarioSlug = scenarioSlug?.trim();
 
@@ -591,15 +591,20 @@ app.post('/admin/scenarios/import', async (req, res) => {
   }
 
   try {
-    await importScenarioFromAirtable({
+    const result = await importScenarioFromAirtable({
       accessToken,
       baseId,
       scenarioSlug: normalizedScenarioSlug,
+      dryRun,
     });
 
     return res.status(200).send({
       ok: true,
-      message: `Scenario "${normalizedScenarioSlug}" imported successfully.`,
+      dryRun,
+      message: dryRun
+        ? `Scenario "${normalizedScenarioSlug}" validated successfully. No changes were made.`
+        : `Scenario "${normalizedScenarioSlug}" imported successfully.`,
+      counts: result?.counts,
     });
   } catch (err) {
     if (err.error === 'AUTHENTICATION_REQUIRED') {
@@ -675,7 +680,15 @@ app.post('/admin/scenarios/import', async (req, res) => {
         'There was an internal server error during scenario import. Please contact the developers to fix it.',
     });
   }
-});
+}
+
+app.post('/admin/scenarios/import', (req, res) =>
+  handleScenarioImport(req, res, { dryRun: false }),
+);
+
+app.post('/admin/scenarios/validate', (req, res) =>
+  handleScenarioImport(req, res, { dryRun: true }),
+);
 
 // GET /games/:gameId/aar — After Action Review data for a completed game
 app.get(

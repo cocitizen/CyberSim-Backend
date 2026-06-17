@@ -20,6 +20,11 @@ verification, see:
 
     docs/scenario-setup.md
 
+For the exact structure the importer expects — every table, field,
+required/optional status, and single vs. multiple links — see:
+
+    docs/airtable-schema.md
+
 ## Scenario Import
 
 To import current Airtable data into the database for a pre-existing scenario:
@@ -205,6 +210,11 @@ For the full end-to-end workflow, including UI subdomain setup, backend environm
 This handbook remains the reference for Airtable credentials and content rules.
 
 ## Airtable Content Rules
+
+> For the complete field-level schema of every table (names, types,
+> required/optional, and link directions), see
+> [`airtable-schema.md`](./airtable-schema.md). The rules below cover the
+> content conventions that field-level validation does not capture.
 
 ### Purchased Mitigations
 

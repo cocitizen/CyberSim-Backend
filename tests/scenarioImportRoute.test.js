@@ -52,6 +52,7 @@ describe('POST /admin/scenarios/import', () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
       ok: true,
+      dryRun: false,
       message: 'Scenario "cso" imported successfully.',
     });
 
@@ -60,6 +61,7 @@ describe('POST /admin/scenarios/import', () => {
       accessToken: 'test-airtable-token',
       baseId: 'appTESTBASE',
       scenarioSlug: 'cso',
+      dryRun: false,
     });
   });
 
@@ -342,6 +344,93 @@ describe('POST /admin/scenarios/import', () => {
     expect(response.body).toEqual({
       message:
         'There was an internal server error during scenario import. Please contact the developers to fix it.',
+    });
+  });
+});
+
+describe('POST /admin/scenarios/validate', () => {
+  const originalEnv = process.env;
+
+  beforeEach(() => {
+    process.env = {
+      ...originalEnv,
+      AIRTABLE_ACCESS_TOKEN: 'test-airtable-token',
+    };
+
+    jest.clearAllMocks();
+    getAirtableBaseId.mockReturnValue('appTESTBASE');
+    importScenarioFromAirtable.mockResolvedValue();
+  });
+
+  afterAll(() => {
+    process.env = originalEnv;
+  });
+
+  it('returns 200 with counts and runs a dry run that writes nothing', async () => {
+    importScenarioFromAirtable.mockResolvedValue({
+      dryRun: true,
+      counts: { injections: 24, responses: 18 },
+    });
+
+    const response = await request(app).post('/admin/scenarios/validate').send({
+      scenarioSlug: 'cso',
+      password: 'test-import-password',
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      ok: true,
+      dryRun: true,
+      message: 'Scenario "cso" validated successfully. No changes were made.',
+      counts: { injections: 24, responses: 18 },
+    });
+
+    expect(importScenarioFromAirtable).toHaveBeenCalledWith({
+      accessToken: 'test-airtable-token',
+      baseId: 'appTESTBASE',
+      scenarioSlug: 'cso',
+      dryRun: true,
+    });
+  });
+
+  it('still requires a valid password', async () => {
+    const response = await request(app).post('/admin/scenarios/validate').send({
+      scenarioSlug: 'cso',
+      password: 'wrong-password',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      password: 'Invalid scenario import password',
+    });
+
+    expect(importScenarioFromAirtable).not.toHaveBeenCalled();
+  });
+
+  it('surfaces importer validation errors the same way import does', async () => {
+    importScenarioFromAirtable.mockRejectedValue({
+      validation: true,
+      message: 'Validation failed',
+      errors: ['[0].Missing required field'],
+      value: [{ id: 'row-1' }],
+      tableName: 'events',
+    });
+
+    const response = await request(app).post('/admin/scenarios/validate').send({
+      scenarioSlug: 'cso',
+      password: 'test-import-password',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      validation: true,
+      message: 'Validation failed',
+      errors: [
+        {
+          value: { id: 'row-1' },
+          message: 'Missing required field in events',
+        },
+      ],
     });
   });
 });

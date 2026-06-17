@@ -92,6 +92,7 @@ async function importScenarioFromAirtable({
   accessToken,
   baseId,
   scenarioSlug = 'cso',
+  dryRun = false,
 }) {
   // connect to the airtable instance
   Airtable.configure({
@@ -247,13 +248,25 @@ async function importScenarioFromAirtable({
   // Upsert the scenario row so any configured slug works, not just the original
   // default scenario from the single-scenario era. If the slug already exists,
   // the merge is a no-op and we get the existing row back.
-  const [scenario] = await db('scenario')
-    .insert({ slug: scenarioSlug, name: scenarioSlug })
-    .onConflict('slug')
-    .merge()
-    .returning('*');
-
-  const scenarioId = scenario.id;
+  // Resolve a scenario_id used to tag rows for the SQL-shape validation below.
+  // A real import upserts the scenario row; a dry run must not write anything,
+  // so it reuses the existing row's id when present and otherwise falls back to
+  // a placeholder. The value only needs to satisfy the integer schema — nothing
+  // is persisted during a dry run.
+  let scenarioId;
+  if (dryRun) {
+    const existing = await db('scenario')
+      .where({ slug: scenarioSlug })
+      .first('id');
+    scenarioId = existing ? existing.id : 0;
+  } else {
+    const [scenario] = await db('scenario')
+      .insert({ slug: scenarioSlug, name: scenarioSlug })
+      .onConflict('slug')
+      .merge()
+      .returning('*');
+    scenarioId = scenario.id;
+  }
 
   const tag = (rows) =>
     rows.map((row) => ({ ...row, scenario_id: scenarioId }));
@@ -291,6 +304,25 @@ async function importScenarioFromAirtable({
     sqlActionRole,
   ] = validatedSqlTables.map((table) => table.value);
 
+  // A dry run has now passed both the Airtable-schema and SQL-shape checks.
+  // Stop here: report what would be imported, touch no game state, write nothing.
+  if (dryRun) {
+    return {
+      dryRun: true,
+      counts: {
+        locations: sqlLocations.length,
+        dictionary: sqlDictionary.length,
+        injections: sqlInjections.length,
+        mitigations: sqlMitigations.length,
+        responses: sqlResponses.length,
+        systems: sqlSystems.length,
+        roles: sqlRoles.length,
+        actions: sqlActions.length,
+        curveballs: sqlCurveballs.length,
+      },
+    };
+  }
+
   await assertNoActiveGames({ scenarioId, scenarioSlug });
 
   await db.transaction(async (trx) => {
@@ -321,6 +353,21 @@ async function importScenarioFromAirtable({
     },
     'Import inserted row counts',
   );
+
+  return {
+    dryRun: false,
+    counts: {
+      locations: sqlLocations.length,
+      dictionary: sqlDictionary.length,
+      injections: sqlInjections.length,
+      mitigations: sqlMitigations.length,
+      responses: sqlResponses.length,
+      systems: sqlSystems.length,
+      roles: sqlRoles.length,
+      actions: sqlActions.length,
+      curveballs: sqlCurveballs.length,
+    },
+  };
 }
 
 module.exports = importScenarioFromAirtable;
