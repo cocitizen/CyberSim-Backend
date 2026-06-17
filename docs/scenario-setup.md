@@ -39,6 +39,10 @@ https://airtable.com/appXXXXXXXXXXXXXX/...
 The `app...` value is the base ID. Do not use table IDs (`tbl...`) or view IDs
 (`viw...`).
 
+The base must contain the tables and fields the importer expects. For the exact
+structure — every table, field, required/optional status, and single vs. multiple
+links — see [`airtable-schema.md`](./airtable-schema.md).
+
 For more detail on finding Airtable credentials, creating tokens, verifying
 base access, and maintaining Airtable content, see `docs/airtable-handbook.md`.
 
