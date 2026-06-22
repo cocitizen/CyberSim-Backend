@@ -5,7 +5,7 @@ This repository contains the backend API for CyberSim, a tabletop simulation pla
 The backend manages game state, scenario data, database persistence, and Airtable imports.
 
 For a high-level overview of CyberSim, see the CyberSim UI repository:
-https://github.com/cdoten/CyberSim-UI
+https://github.com/cocitizen/CyberSim-UI
 
 ## Architecture
 
