@@ -131,7 +131,7 @@ Use this for current Airtable-authored content.
 **Command-line (recommended for local development):**
 
 ```bash
-SCENARIO_SLUG=tnr npm run import:scenario
+IMPORT_SCENARIO_SLUG=tnr npm run import:scenario
 ```
 
 Reads credentials from `.env` and calls Airtable directly — no running server

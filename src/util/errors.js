@@ -29,10 +29,7 @@ function transformValidationErrors(validationErrors) {
 }
 
 // Airtable error codes the import route handles with dedicated responses.
-const airtableAccessErrorCodes = [
-  'AUTHENTICATION_REQUIRED',
-  'NOT_AUTHORIZED',
-];
+const airtableAccessErrorCodes = ['AUTHENTICATION_REQUIRED', 'NOT_AUTHORIZED'];
 
 function throwNecessaryValidationErrors(validationResponses, message) {
   const errors = validationResponses

@@ -3,14 +3,14 @@
  * database.
  *
  * What it does:
- * - Accepts a scenario slug via --slug or SCENARIO_SLUG env var
+ * - Accepts a scenario slug via --slug or IMPORT_SCENARIO_SLUG env var
  * - Resolves the Airtable base ID from AIRTABLE_BASE_IDS
  * - Calls importScenarioFromAirtable and prints row counts on success
  *
  * Important notes:
  * - This is a thin command-line entrypoint only. The real import logic lives
  *   in src/util/importScenarioFromAirtable.js.
- * - --slug takes precedence over SCENARIO_SLUG if both are provided.
+ * - --slug takes precedence over IMPORT_SCENARIO_SLUG if both are provided.
  * - The script always destroys the shared Knex connection before exit.
  */
 
@@ -33,12 +33,12 @@ function parseArgs(argv) {
 async function main(argv = process.argv) {
   try {
     const args = parseArgs(argv);
-    const scenarioSlug = args.slug || process.env.SCENARIO_SLUG;
+    const scenarioSlug = args.slug || process.env.IMPORT_SCENARIO_SLUG;
 
     if (!scenarioSlug) {
       // eslint-disable-next-line no-console
       console.error(
-        'Error: scenario slug is required. Pass --slug <slug> or set SCENARIO_SLUG.',
+        'Error: scenario slug is required. Pass --slug <slug> or set IMPORT_SCENARIO_SLUG.',
       );
       process.exit(1);
     }

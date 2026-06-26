@@ -39,7 +39,7 @@ Both require these environment variables to be set:
 ### Command-line (local development)
 
 ```bash
-SCENARIO_SLUG=cso npm run import:scenario
+IMPORT_SCENARIO_SLUG=cso npm run import:scenario
 ```
 
 This calls Airtable directly — no running server required. The script reads
@@ -218,7 +218,7 @@ so it can be restored later without Airtable access.
 
 ```bash
 # 1. Import from Airtable into local DB
-SCENARIO_SLUG=cso npm run import:scenario
+IMPORT_SCENARIO_SLUG=cso npm run import:scenario
 
 # 2. Save to seed files in the repo
 SCENARIO_TAG=cso@2026-06-26.1 npm run save:scenario
