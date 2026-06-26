@@ -111,22 +111,20 @@ The UI determines the scenario slug from the hostname. For example,
 For real scenario subdomains, `REACT_APP_SCENARIO_SLUG` is not required. It is
 only a fallback for localhost or bare-domain deployments.
 
-For localhost development against a non-`cso` scenario, set the same runtime
-scenario slug in both apps:
+For localhost development against a non-`cso` scenario, set the slug on the
+frontend only — the backend has no scenario variable of its own and binds each
+game to whatever slug the frontend sends:
 
 ```text
 # CyberSim-UI/.env
 REACT_APP_SCENARIO_SLUG=tnr
-
-# CyberSim-Backend/.env
-SCENARIO_SLUG=tnr
 ```
 
-Do not rely on `IMPORT_SCENARIO_SLUG` for runtime game creation. That variable
-is only used by the backend Airtable import script. If `SCENARIO_SLUG` is unset,
-the backend runtime fallback is `cso`, which can make local games appear to have
-missing injections, responses, actions, or logs when the UI is loading a
-different scenario.
+`IMPORT_SCENARIO_SLUG` is unrelated to runtime game creation — it is only used
+by the backend Airtable import script. Note that a game stores its own scenario,
+so if the frontend's slug drifts from the scenario a game was created under
+(e.g. a stale `.env` after a dev-server restart), the UI can end up rendering one
+scenario's static data against another scenario's game state.
 
 The UI does need the backend API URL:
 

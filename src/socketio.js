@@ -55,23 +55,29 @@ module.exports = (http) => {
         callback,
       ) => {
         logger.info('CREATEGAME: %s', id);
+        // scenarioSlug comes from the frontend (subdomain in prod,
+        // REACT_APP_SCENARIO_SLUG in dev) and binds the game to its scenario.
+        // A real frontend always sends one, so a missing slug means a broken or
+        // non-standard client — reject rather than silently guessing a scenario.
+        if (!scenarioSlug) {
+          logger.error('CREATEGAME: missing scenarioSlug for game %s', id);
+          return callback({
+            error: 'No scenario specified — cannot create game.',
+          });
+        }
         try {
-          // scenarioSlug comes from the frontend (derived from the subdomain).
-          // Fall back to the SCENARIO_SLUG env var if not provided, then 'cso'.
-          const resolvedSlug =
-            scenarioSlug || process.env.SCENARIO_SLUG || 'cso';
           const game = await createGame(
             id,
             initialBudget,
             initialPollPercentage,
-            resolvedSlug,
+            scenarioSlug,
           );
           if (gameId) {
             await socket.leave(gameId);
           }
           await socket.join(id);
           gameId = id;
-          callback({ game });
+          return callback({ game });
         } catch (err) {
           // Log the real error so it appears in backend logs, then return a
           // user-facing message. Previously all errors returned "already exists"
@@ -81,7 +87,7 @@ module.exports = (http) => {
             err?.code === '23505'
               ? 'Game id already exists!'
               : `Failed to create game: ${err?.message || 'unknown error'}`;
-          callback({ error: message });
+          return callback({ error: message });
         }
       },
     );

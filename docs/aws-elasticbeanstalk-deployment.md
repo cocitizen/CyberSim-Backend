@@ -302,7 +302,6 @@ Elastic Beanstalk → Configuration → Software → Environment properties
 ### Optional Environment Variables
 
     IMPORT_PASSWORD=<chosen-password>
-    SCENARIO_SLUG=cso
     LOG_LEVEL=error
 
 `IMPORT_PASSWORD` enables the scenario import feature in the UI. Without it, all import requests are rejected.
