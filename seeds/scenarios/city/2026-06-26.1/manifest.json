@@ -1,0 +1,29 @@
+{
+  "tag": "city@2026-06-26.1",
+  "scenario": "city",
+  "revision": "2026-06-26.1",
+  "name": "city",
+  "exported_at": "2026-06-26T15:21:46.162Z",
+  "airtable": {
+    "base_id": "appnBMP81uTjexPOa"
+  },
+  "db": {
+    "latest_migration": "20260615000000_recommendations_to_array.js"
+  },
+  "git": {
+    "commit": "ca9c62e407048b3d6dd7a5b8f0643f80ec8d5f5f"
+  },
+  "counts": {
+    "system": 9,
+    "role": 10,
+    "mitigation": 29,
+    "response": 56,
+    "injection": 46,
+    "action": 15,
+    "curveball": 10,
+    "action_role": 15,
+    "injection_response": 37,
+    "location": 2,
+    "dictionary": 2
+  }
+}

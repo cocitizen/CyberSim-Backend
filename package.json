@@ -22,6 +22,7 @@
     "rebuild-db:schema": "knex migrate:rollback --all && knex migrate:latest",
     "seed:fixtures": "knex seed:run --specific 01_fixture_seed.js",
     "seed:scenario": "knex seed:run --specific 02_scenario_seed.js",
+    "import:scenario": "node -r dotenv/config scripts/import-from-airtable.js",
     "save:scenario": "node -r dotenv/config scripts/save-scenario-revision.js",
     "load:scenario": "node -r dotenv/config scripts/load-scenario-revision.js",
     "reset-db:fixtures": "npm run rebuild-db:schema && npm run seed:fixtures",

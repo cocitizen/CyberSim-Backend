@@ -1,0 +1,234 @@
+[
+  {
+    "id": "rec25xSvrJmeLA4uA",
+    "description": "Ensure third-party vendor service provider contracts include cybersecurity requirements",
+    "category": "Operations",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "rec30nxUzsK3brzEI",
+    "description": "Maintain and enforce network-based URL filters",
+    "category": "Systems & Network",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "rec6EoH8FSkJwXZtz",
+    "description": "Maintain a data classification scheme",
+    "category": "Operations",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "rec6fboipi8qah9XI",
+    "description": "Implement an Allowlist of authorized software",
+    "category": "Systems & Network",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "rec7nxUsS92xhtK3n",
+    "description": "Subscribe to a threat detection & monitoring solution (e.g., MS-ISAC / Albert sensor)",
+    "category": "Operations",
+    "cost": 2000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "rec8cZHYOoKhA5KDj",
+    "description": "Regularly perform automatic updates for enterprise-managed operating systems and applications",
+    "category": "Systems & Network",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recA9oJ4CiSnNqeGV",
+    "description": "Set up multi-factor authentication (MFA) for city email & file sharing",
+    "category": "Accounts & Access",
+    "cost": 1000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recBFuK15LZOwzZLX",
+    "description": "Set up full-disk encryption for laptops & city devices",
+    "category": "Devices",
+    "cost": 1500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recCuYIwvVgNT9dDy",
+    "description": "Configure data access control lists on cloud storage and file shares (least-privilege access to data)",
+    "category": "Systems & Network",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recFNLEKlqqPaOAg6",
+    "description": "Secure and segment wireless networks (change default Wi-Fi credentials; separate guest from staff networks)",
+    "category": "Systems & Network",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recgNwL9mYQJWxGor",
+    "description": "Establish an organizational AI acceptable-use policy",
+    "category": "Operations",
+    "cost": 1000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recHwtpI6UsKuXivB",
+    "description": "Implement anti-phishing filter (DMARC) for city email system",
+    "category": "Accounts & Access",
+    "cost": 1500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recI0iHSg1SCSxy1n",
+    "description": "Ensure all organization-managed devices are configured securely (workstations, servers, printers, routers & other connected devices)",
+    "category": "Systems & Network",
+    "cost": 1000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recI3lmHmEdgQzTgu",
+    "description": "Maintain an isolated instance of recovery data, stored offline, or on an offsite system or service",
+    "category": "Systems & Network",
+    "cost": 1000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recIRvpseS7YAFx6c",
+    "description": "Set up MFA & account-recovery hardening for city social media accounts - REQUIRED for every employee with access to a city social account",
+    "category": "Accounts & Access",
+    "cost": 1000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recM6LoCUSoRms8WQ",
+    "description": "Set up a mobile device management (MDM) system to track city devices and remotely wipe them if lost or stolen",
+    "category": "Devices",
+    "cost": 1500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recN5FU8uJ4ozQ2Pd",
+    "description": "Require employees to follow an end-user acceptable-use & device-use agreement covering personal devices used for city work (e.g. password and security requirements)",
+    "category": "Operations",
+    "cost": 1000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recPoa9WmMQCsn8Zi",
+    "description": "Purchase a cyberinsurance policy",
+    "category": "Operations",
+    "cost": 1500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recQ8s0DSgJMQ81bH",
+    "description": "Develop a business continuity / continuity-of-operations (COOP) plan",
+    "category": "Operations",
+    "cost": 1000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "rectiIEGBaSynKMlO",
+    "description": "Set up DDoS protection for the bond information website",
+    "category": "Systems & Network",
+    "cost": 1000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recu7iIUPyoJh843h",
+    "description": "Deploy and maintain anti-malware software on all organization-managed computers and devices",
+    "category": "Devices",
+    "cost": 1500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recuVYIY5iF6XzMI4",
+    "description": "Implement role-based access control for organizational systems and accounts",
+    "category": "Accounts & Access",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recXxzdJYcSfl1AU1",
+    "description": "Encrypt data on removable devices like USBs or external hard drives",
+    "category": "Devices",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recyFEFeyax7tL4Z8",
+    "description": "Establish and maintain an incident response process",
+    "category": "Operations",
+    "cost": 1000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recyGgqZJg0IwkAfj",
+    "description": "Require multi-factor authentication (MFA) for the Resident Engagement Database and the Capital Projects System ",
+    "category": "Accounts & Access",
+    "cost": 1000,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recyiPm1IKUYOr8pf",
+    "description": "Establish and maintain a data management and secure disposal process for physical documents",
+    "category": "Operations",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recYT8bpDEy5mutd0",
+    "description": "Perform automated backups of enterprise assets on a regular basis",
+    "category": "Systems & Network",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "reczaCwiwOS4DscjD",
+    "description": "Conduct regular independent penetration testing / IT security audits on City software applications",
+    "category": "Systems & Network",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  },
+  {
+    "id": "recztBkwFaIvTIvFL",
+    "description": "Establish and maintain an audit log management process",
+    "category": "Operations",
+    "cost": 500,
+    "is_hq": false,
+    "is_local": false
+  }
+]

@@ -128,9 +128,21 @@ There are two supported ways to get scenario content into PostgreSQL.
 
 Use this for current Airtable-authored content.
 
-The first import for a brand-new scenario may need to be run directly against
-the backend endpoint, because the UI import screen lists scenarios that already
-exist in the database.
+**Command-line (recommended for local development):**
+
+```bash
+SCENARIO_SLUG=tnr npm run import:scenario
+```
+
+Reads credentials from `.env` and calls Airtable directly — no running server
+required. After a successful import, save a snapshot to the repo so others can
+restore without Airtable access:
+
+```bash
+SCENARIO_TAG=tnr@2026-03-19.1 npm run save:scenario
+```
+
+**Web endpoint (production or admin UI):**
 
 ```bash
 curl -X POST https://<backend-api-host>/admin/scenarios/import \
@@ -138,8 +150,9 @@ curl -X POST https://<backend-api-host>/admin/scenarios/import \
   -d '{"scenarioSlug":"tnr","password":"<import-password>"}'
 ```
 
-After the scenario exists in the database, it should appear in the admin
-scenario screens.
+The admin UI calls this same endpoint. Note: the UI import screen only lists
+scenarios that already exist in the database, so the first import for a
+brand-new scenario must be done via the command-line script or curl above.
 
 ### Option B: Load a saved scenario revision
 
@@ -147,11 +160,17 @@ Use this when scenario content has already been exported to the backend repo
 under:
 
 ```text
-seeds/scenarios/<slug>/<revision>/
+seeds/datasets/<slug>/<revision>/
 ```
 
-The backend admin UI can load available revisions from disk, or you can call the
-backend endpoint directly:
+The backend admin UI can load available revisions from disk, or you can restore
+directly from the command line:
+
+```bash
+SCENARIO_TAG=tnr@2026-03-19.1 npm run reset-db:scenario
+```
+
+Or call the backend endpoint directly:
 
 ```bash
 curl -X POST https://<backend-api-host>/admin/scenarios/load \

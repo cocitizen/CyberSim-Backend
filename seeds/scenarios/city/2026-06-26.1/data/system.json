@@ -1,0 +1,56 @@
+[
+  {
+    "id": "recl65MUsdHPv4mWj",
+    "name": "Capital Projects System",
+    "description": null,
+    "type": "party"
+  },
+  {
+    "id": "reclFJ1zlKx41znpB",
+    "name": "Social Media Pages",
+    "description": null,
+    "type": "party"
+  },
+  {
+    "id": "recltMBkG5VjLm9lx",
+    "name": "Website",
+    "description": null,
+    "type": "party"
+  },
+  {
+    "id": "rect9CX5MrxOKMoYh",
+    "name": "Mass Notification System",
+    "description": null,
+    "type": "party"
+  },
+  {
+    "id": "recWCLV98Ee7Wmj0a",
+    "name": "DPW Computers",
+    "description": null,
+    "type": "local"
+  },
+  {
+    "id": "recXPadDc7sPspdpZ",
+    "name": "Resident Engagement Database",
+    "description": null,
+    "type": "party"
+  },
+  {
+    "id": "recy7ApEd2VqFMg5M",
+    "name": "Bond Information App",
+    "description": null,
+    "type": "party"
+  },
+  {
+    "id": "recynXIBsStyEQbzs",
+    "name": "City Hall Computers",
+    "description": null,
+    "type": "hq"
+  },
+  {
+    "id": "recZTp8fGmaQYZi9c",
+    "name": "Email",
+    "description": null,
+    "type": "party"
+  }
+]

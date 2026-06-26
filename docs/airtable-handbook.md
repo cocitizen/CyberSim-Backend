@@ -27,20 +27,44 @@ required/optional status, and single vs. multiple links — see:
 
 ## Scenario Import
 
-To import current Airtable data into the database for a pre-existing scenario:
+There are two ways to import current Airtable data into the database: a
+command-line script for local development and a web endpoint for production or
+the admin UI.
 
-    POST /admin/scenarios/import
+Both require these environment variables to be set:
 
-This requires:
+- `AIRTABLE_ACCESS_TOKEN`
+- `AIRTABLE_BASE_IDS`
 
-- AIRTABLE_ACCESS_TOKEN
-- AIRTABLE_BASE_IDS
-- IMPORT_PASSWORD
+### Command-line (local development)
 
-The scenario to import is determined automatically from the subdomain
-(e.g. `cso.cybersim.app` imports the `cso` scenario). The Airtable
-credentials are backend environment variables — the UI only asks for
-the `IMPORT_PASSWORD`.
+```bash
+SCENARIO_SLUG=cso npm run import:scenario
+```
+
+This calls Airtable directly — no running server required. The script reads
+credentials from your `.env` file automatically.
+
+After a successful import, snapshot the result to seed files so it can be
+restored later without Airtable access:
+
+```bash
+SCENARIO_TAG=cso@2026-06-26.1 npm run save:scenario
+```
+
+See [Scenario Snapshots](#scenario-snapshots) for more on the snapshot workflow.
+
+### Web endpoint (production / admin UI)
+
+```bash
+curl -X POST https://<backend-api-host>/admin/scenarios/import \
+  -H 'Content-Type: application/json' \
+  -d '{"scenarioSlug":"cso","password":"<import-password>"}'
+```
+
+This also requires `IMPORT_PASSWORD` to be set in the backend environment. The
+admin UI calls this same endpoint — it prompts for the password and determines
+the scenario slug from the subdomain (e.g. `cso.cybersim.app` imports `cso`).
 
 ## Finding Your Airtable Credentials
 
@@ -187,19 +211,36 @@ Replace `<BASE_ID>` with the `app...` value for the scenario you want to test (f
 
 ## Scenario Snapshots
 
-After a successful Airtable import, you can export a versioned revision of the database into the repository so it can be restored later without Airtable access:
+After a successful Airtable import, snapshot the database into the repository
+so it can be restored later without Airtable access.
 
-    SCENARIO_TAG=cso@2026-03-03.1 npm run save:scenario
+### Full local workflow
+
+```bash
+# 1. Import from Airtable into local DB
+SCENARIO_SLUG=cso npm run import:scenario
+
+# 2. Save to seed files in the repo
+SCENARIO_TAG=cso@2026-06-26.1 npm run save:scenario
+```
 
 The tag format is `<scenario>@<revision>`. Snapshots are stored under:
 
     seeds/datasets/<scenario>/<revision>/
 
-To restore a scenario revision:
+Commit the saved files so other developers can restore from them without
+needing Airtable credentials.
 
-    SCENARIO_TAG=cso@2026-03-03.1 npm run reset-db:scenario
+### Restoring a snapshot
 
-This allow scenarios to be versioned, shared, and reproduced without a live Airtable connection.
+To wipe and reload a scenario from a saved revision:
+
+```bash
+SCENARIO_TAG=cso@2026-06-26.1 npm run reset-db:scenario
+```
+
+This drops and recreates the schema, then seeds from the saved files. It
+replaces only that scenario's content — other scenarios are untouched.
 
 ## Adding a New Scenario
 

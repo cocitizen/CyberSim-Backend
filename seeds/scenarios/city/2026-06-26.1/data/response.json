@@ -1,0 +1,560 @@
+[
+  {
+    "id": "rec17fVxXxLlGvcZ1",
+    "description": "Report phish",
+    "cost": 1000,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "rec1ZjmGRUxEWVpE9",
+    "description": "Pay $1500 to rebuild and restore the affected computers",
+    "cost": 1500,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recynXIBsStyEQbzs",
+      "recWCLV98Ee7Wmj0a"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "rec2ySDjqBnXDtpiF",
+    "description": "Deploy the incident response plan",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": "recCuYIwvVgNT9dDy",
+    "required_mitigation_type": null
+  },
+  {
+    "id": "rec3IJIZeiq3KZMmq",
+    "description": "Pay $1,000 for a technician to rebuild and restore the affected computers (CH & DPW)",
+    "cost": 1000,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recynXIBsStyEQbzs",
+      "recWCLV98Ee7Wmj0a"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "rec4Z2bUjhK9PoVp9",
+    "description": "Run the automatic update",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "rec5M2vwLMcAmJDrL",
+    "description": "Contact platform to restore the account",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "reclFJ1zlKx41znpB"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "rec6GB9HWSExxJXPX",
+    "description": "Move the website to a secure web hosting provider, restoring website in the process",
+    "cost": 1000,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recltMBkG5VjLm9lx"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "rec7rHaepSB2ziksj",
+    "description": "Purchase two-factor authentication on all administrator accounts for  OFD Facebook pages",
+    "cost": 1000,
+    "mitigation_id": "recN5FU8uJ4ozQ2Pd",
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "rec8w3wGrLfBGP0mh",
+    "description": "Purchase and monitor an advanced malware detection system on all activists' computers",
+    "cost": 2000,
+    "mitigation_id": "rec8cZHYOoKhA5KDj",
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recAQ4kfKTOfEhXOG",
+    "description": "Pay ransomware",
+    "cost": 1500,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recWCLV98Ee7Wmj0a"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recbeBBK976WVVW5g",
+    "description": "Add 2FA for Website and change admin's passwords",
+    "cost": 0,
+    "mitigation_id": "rec25xSvrJmeLA4uA",
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recbsmAWvTxDcMAVf",
+    "description": "Change the password immediately AND notify IT of the phishing attempt",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recccxTMlEi54UFMx",
+    "description": "Access CMS backup",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recXPadDc7sPspdpZ"
+    ],
+    "required_mitigation": "recM6LoCUSoRms8WQ",
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recCrnvTw96M0fmaL",
+    "description": "Change office locks",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recdhEEcFee34QU5x",
+    "description": "Pay $1500 to restore CMS",
+    "cost": 1500,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recXPadDc7sPspdpZ"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recEj6IQNOksxMzbb",
+    "description": "Pay $1000 for emergency mobile hotspot connectivity to bridge the outage. ",
+    "cost": 1000,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recZTp8fGmaQYZi9c"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recFe58odG79mmhcz",
+    "description": "Report phishing attempt",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recGGhfbmnBJi5g65",
+    "description": "Talk to CMS hosting provider; get the site turned back",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recXPadDc7sPspdpZ"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recgQd8tl1vwakqgB",
+    "description": "Recreate all missing donor lists and other documents",
+    "cost": 500,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recWCLV98Ee7Wmj0a"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recgtePErWfi5JcTt",
+    "description": "Have staff change any reused passwords on city accounts",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recHzgGuBE0Bh7yCC",
+    "description": "Pay $500 to verify city ownership with the hosting vendor and recover admin access",
+    "cost": 500,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recXPadDc7sPspdpZ"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recKrZPCSOushMciI",
+    "description": "Verify email with Mayor through alternate channel",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "reclX6EG6oWpfuDtJ",
+    "description": "Purchase new computers",
+    "cost": 1000,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recynXIBsStyEQbzs"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recNcxXxXOIg7YTMZ",
+    "description": "Scan for malware and/or reformat the affected computer",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recNgvzCdSL0q6VHk",
+    "description": "Immediately disconnect/unplug the suspicious printer from the network to contain it",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recns2rGRarXA0f1L",
+    "description": "Follow the documented account-recovery procedure to regain control",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "reclFJ1zlKx41znpB"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recNvrtTEnsvnZtPY",
+    "description": "Restore files from off-site back-ups",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": "recI3lmHmEdgQzTgu",
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recO6KpHxEjWdDqqO",
+    "description": "Wipe/factory reset computer",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recOcQBhFsDMwa79E",
+    "description": "Contact Facebook to restore account",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recl65MUsdHPv4mWj"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recpdZVAf0moBjbwu",
+    "description": "Revoke the transferred staffer's administrator access to all city social media accounts\n",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recpOfhZn1NC6Sdv6",
+    "description": "Pay $1,000 for a technician to rebuild and restore the affected computers (DPW)",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recWCLV98Ee7Wmj0a"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recPxWmgZVElHzWLt",
+    "description": "Contact Facebook to restore OFD FB page",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recl65MUsdHPv4mWj"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recq4soBGhWrjxswp",
+    "description": "Activate Incident Response Plan (Facilitator: Restore 2% confidence)",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recQDfkm36npero7J",
+    "description": "Take down posts and reset GN FB admins' passwords",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "reclFJ1zlKx41znpB"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recQizt3MfKIhSof3",
+    "description": "Purchase emergency DDoS mitigation to restore the website",
+    "cost": 500,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recltMBkG5VjLm9lx"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recQm5GAXHlIhI6oF",
+    "description": "If MDM/remote-wipe was purchased, remotely wipe the lost laptop before its data is read",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": "recM6LoCUSoRms8WQ",
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recRIEWPgAfD30Ohi",
+    "description": "Pay $500 for vendor priority support to lock the account and restore clean data",
+    "cost": 500,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recl65MUsdHPv4mWj"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recs8ryJ35L5uOnbm",
+    "description": "Pay ransomware",
+    "cost": 1500,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recynXIBsStyEQbzs"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recSbXwNrSljOiKY6",
+    "description": "Verify the banking change by calling Olania Paving on a known, previously-used number before paying anything",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recsdjt61pRlWt1Zc",
+    "description": "Add 2FA for Email",
+    "cost": 0,
+    "mitigation_id": "recgNwL9mYQJWxGor",
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recsevm6FU0MVBRb4",
+    "description": "Pay $1500 for outside incident response to contain the intrusion, and notify residents(no cyberinsurance in place)",
+    "cost": 1500,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recsHGxTMUg9zFQlJ",
+    "description": "Pay $1,500 for advanced technical support from the website hosting provider to restore the deleted data\n",
+    "cost": 1500,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recltMBkG5VjLm9lx"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recSPISrL5DqhOxWC",
+    "description": "Develop new supporter list",
+    "cost": 750,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "rectE4xnO8KkeD4Xn",
+    "description": "Pay $1000 for emergency remediation to clean, patch, and restore the app.",
+    "cost": 1000,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recy7ApEd2VqFMg5M"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recut4dkM4NLGznsZ",
+    "description": " Restore files from automated back-ups",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": "recYT8bpDEy5mutd0",
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recWyt9snVC3Ao899",
+    "description": "Report the strange Wifi/database activity to IT ",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recXPadDc7sPspdpZ"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recxdK0OkI58dpq6P",
+    "description": "Revoke the departing/transferring person's physical and system access",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recXFAVZCzrQTeaYg",
+    "description": "Pay $500 for outside incident response to contain the intrusion, and notify residents (cyberinsurance in place)",
+    "cost": 500,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": "recPoa9WmMQCsn8Zi",
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recxv2SulMwjP5kLI",
+    "description": " Pay $1,000 for a technician to rebuild the lists and re-image the computers",
+    "cost": 1000,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recWCLV98Ee7Wmj0a"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recYglrsDtFmTEESc",
+    "description": "Report strange printer activity to IT team",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recYspgWbL8wjeSJO",
+    "description": "Activate Business Continuity Plan",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recZTp8fGmaQYZi9c"
+    ],
+    "required_mitigation": "recQ8s0DSgJMQ81bH",
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recz0FIQjZC11K67u",
+    "description": "Verify the call is legitimate by calling back the City Council's aide directly",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recz6gGyA2sJpjb5F",
+    "description": "Activate the City's Incident Response Plan (if purchased)",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": "recyFEFeyax7tL4Z8",
+    "required_mitigation_type": null
+  },
+  {
+    "id": "recZ6X8e63EYidqvZ",
+    "description": "Add 2FA for Facebook",
+    "cost": 0,
+    "mitigation_id": "recN5FU8uJ4ozQ2Pd",
+    "systems_to_restore": null,
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  },
+  {
+    "id": "reczAkw9rFWwWOEYJ",
+    "description": "Grassroot Network's Event Coordinator's phone remotely wiped (this will only be available to select if the mobile device management system has already been purchased in budget)",
+    "cost": 0,
+    "mitigation_id": null,
+    "systems_to_restore": null,
+    "required_mitigation": "recI3lmHmEdgQzTgu",
+    "required_mitigation_type": null
+  },
+  {
+    "id": "reczeaxwMlzc9oqqW",
+    "description": "Pay technician to reinstall OS on new computers",
+    "cost": 1000,
+    "mitigation_id": null,
+    "systems_to_restore": [
+      "recynXIBsStyEQbzs"
+    ],
+    "required_mitigation": null,
+    "required_mitigation_type": null
+  }
+]

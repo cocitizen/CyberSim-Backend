@@ -32,7 +32,6 @@ function transformValidationErrors(validationErrors) {
 const airtableAccessErrorCodes = [
   'AUTHENTICATION_REQUIRED',
   'NOT_AUTHORIZED',
-  'NOT_FOUND',
 ];
 
 function throwNecessaryValidationErrors(validationResponses, message) {

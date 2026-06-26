@@ -1,0 +1,185 @@
+[
+  {
+    "id": "recd9ibRnRAN8Z2cZ",
+    "description": "Reallocate the Capital Program Outreach Budget",
+    "type": "hq",
+    "cost": 0,
+    "budget_increase": 500,
+    "poll_increase": 0,
+    "required_systems": [
+      "recZTp8fGmaQYZi9c",
+      "recynXIBsStyEQbzs"
+    ]
+  },
+  {
+    "id": "recep5BnzpIheo9Gf",
+    "description": "Post a Security & Transparency Update",
+    "type": "hq",
+    "cost": 500,
+    "budget_increase": 0,
+    "poll_increase": 3,
+    "required_systems": [
+      "recynXIBsStyEQbzs",
+      "recy7ApEd2VqFMg5M"
+    ]
+  },
+  {
+    "id": "receXA9ZvEK6Dak9r",
+    "description": "Secure a Community Partner Venue Contribution",
+    "type": "local",
+    "cost": 0,
+    "budget_increase": 400,
+    "poll_increase": 0,
+    "required_systems": [
+      "recXPadDc7sPspdpZ",
+      "recZTp8fGmaQYZi9c"
+    ]
+  },
+  {
+    "id": "recfx3DUZ5TvR37st",
+    "description": "Host a Community Forum",
+    "type": "local",
+    "cost": 800,
+    "budget_increase": 0,
+    "poll_increase": 4,
+    "required_systems": [
+      "recXPadDc7sPspdpZ",
+      "rect9CX5MrxOKMoYh"
+    ]
+  },
+  {
+    "id": "recgqJ5E5yUQQszwD",
+    "description": "Arrange Interviews on Local News Outlets",
+    "type": "hq",
+    "cost": 400,
+    "budget_increase": 0,
+    "poll_increase": 4,
+    "required_systems": [
+      "reclFJ1zlKx41znpB",
+      "recltMBkG5VjLm9lx",
+      "rect9CX5MrxOKMoYh"
+    ]
+  },
+  {
+    "id": "reciLrbiEFAOdjNYv",
+    "description": "Publish the Interactive Failing Assets Map",
+    "type": "local",
+    "cost": 500,
+    "budget_increase": 0,
+    "poll_increase": 4,
+    "required_systems": [
+      "recy7ApEd2VqFMg5M",
+      "recl65MUsdHPv4mWj"
+    ]
+  },
+  {
+    "id": "recNqzUVw7Xxq8pf7",
+    "description": "Publish Materials about \"Where the $200 Million Goes\"",
+    "type": "hq",
+    "cost": 500,
+    "budget_increase": 0,
+    "poll_increase": 3,
+    "required_systems": [
+      "recy7ApEd2VqFMg5M"
+    ]
+  },
+  {
+    "id": "recRARj8wHtxRtFHd",
+    "description": "Request Capital Planning Funds",
+    "type": "hq",
+    "cost": 0,
+    "budget_increase": 500,
+    "poll_increase": 0,
+    "required_systems": [
+      "recynXIBsStyEQbzs",
+      "recZTp8fGmaQYZi9c"
+    ]
+  },
+  {
+    "id": "recRLpxkMgXTW8PlZ",
+    "description": "Publish Project & Condition List",
+    "type": "hq",
+    "cost": 500,
+    "budget_increase": 0,
+    "poll_increase": 4,
+    "required_systems": [
+      "recl65MUsdHPv4mWj",
+      "recltMBkG5VjLm9lx",
+      "recy7ApEd2VqFMg5M"
+    ]
+  },
+  {
+    "id": "recrSF9UJePm0LpDn",
+    "description": "Deliver Citywide Address",
+    "type": "hq",
+    "cost": 800,
+    "budget_increase": 0,
+    "poll_increase": 5,
+    "required_systems": [
+      "rect9CX5MrxOKMoYh",
+      "recltMBkG5VjLm9lx",
+      "recZTp8fGmaQYZi9c",
+      "recy7ApEd2VqFMg5M"
+    ]
+  },
+  {
+    "id": "rect4ULhyM2VpT4aX",
+    "description": "Run a Social Media Campaign",
+    "type": "hq",
+    "cost": 0,
+    "budget_increase": 400,
+    "poll_increase": 0,
+    "required_systems": [
+      "reclFJ1zlKx41znpB",
+      "recZTp8fGmaQYZi9c"
+    ]
+  },
+  {
+    "id": "recTDp4HwUDKtrj7s",
+    "description": "Door-to-Door Resident Outreach",
+    "type": "local",
+    "cost": 300,
+    "budget_increase": 0,
+    "poll_increase": 3,
+    "required_systems": [
+      "recWCLV98Ee7Wmj0a",
+      "recXPadDc7sPspdpZ"
+    ]
+  },
+  {
+    "id": "recuHDUb0E5FHyqe7",
+    "description": "Write an Open Data Services Grant",
+    "type": "local",
+    "cost": 0,
+    "budget_increase": 500,
+    "poll_increase": 0,
+    "required_systems": [
+      "recWCLV98Ee7Wmj0a",
+      "recZTp8fGmaQYZi9c"
+    ]
+  },
+  {
+    "id": "recvkZkDbQbz8Atat",
+    "description": "Post Civic Challenge Story",
+    "type": "local",
+    "cost": 0,
+    "budget_increase": 300,
+    "poll_increase": 0,
+    "required_systems": [
+      "reclFJ1zlKx41znpB",
+      "recWCLV98Ee7Wmj0a"
+    ]
+  },
+  {
+    "id": "recwYP42s6EOWEl5u",
+    "description": "Secure Council Contingency Appropriation",
+    "type": "hq",
+    "cost": 0,
+    "budget_increase": 500,
+    "poll_increase": 0,
+    "required_systems": [
+      "recZTp8fGmaQYZi9c",
+      "recynXIBsStyEQbzs"
+    ]
+  }
+]

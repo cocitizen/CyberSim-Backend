@@ -1,0 +1,916 @@
+[
+  {
+    "id": "rec02b5yyzXjucSdP",
+    "title": "SaaS account takeover - no MFA on the Capital Projects System (2085)",
+    "description": "An attacker reuses a city contractor's leaked password to log into the SaaS Capital Projects System (which was set up without MFA or single sign-on) and starts altering project cost figures. Seeing suspicious activity, IT takes the system offline to stop the tampering.",
+    "recommendations": [
+      "Protect: CIS 6.3: Require MFA so a stolen password alone cannot grant access"
+    ],
+    "trigger_time": 1260000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2085",
+    "skipper_mitigation": "recyGgqZJg0IwkAfj",
+    "systems_to_disable": [
+      "recl65MUsdHPv4mWj"
+    ],
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "rec0gTOpZQAkWTXOl",
+    "title": "Former staffer's parting shot goes public (2170)",
+    "description": "NEWS - medium impact: The transferred staffer, whose access wasn't immediately revoked, uses it to leak unflattering internal screenshots to a blog on their way out. ",
+    "recommendations": [
+      "Govern: CIS 6.2: Revoke access promptly when staff or contractors leave or change roles"
+    ],
+    "trigger_time": 2460000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - All Actors",
+    "asset_code": "2170",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Detect"
+  },
+  {
+    "id": "rec0itQJjmacA9nal",
+    "title": "Boil-water alert fails as notification system is hacked (2155)",
+    "description": "READ TO TABLE: A water main break forces an urgent boil-water notice - but the city's vendor-operated mass notification platform has been hacked on the vendor's side and is offline. No city purchase could have prevented this.",
+    "recommendations": [
+      "Govern: CIS 15.4: Require security and breach-notification terms in vendor contracts"
+    ],
+    "trigger_time": 2280000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "IT Team",
+    "asset_code": "2155",
+    "skipper_mitigation": null,
+    "systems_to_disable": [
+      "rect9CX5MrxOKMoYh"
+    ],
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "rec59oHwxGzbI1TMi",
+    "title": "AI-doctored recording of 'contracts for donors' goes public (2160)",
+    "description": "READ TO TABLE: An AI-edited audio clip of a confidential call is released, appearing to capture a city official promising construction contracts to bond supporters.",
+    "recommendations": [
+      "Protect: CIS 3: Protect sensitive data and use verified channels for sensitive matters"
+    ],
+    "trigger_time": 2280000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - All Actors",
+    "asset_code": "2160",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": -3,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Recover"
+  },
+  {
+    "id": "rec6d5mww31jKUx27",
+    "title": "Meta Business Suite password-reset phishing (2180)",
+    "description": "The City Engineer administers the city's project-updates Facebook page through their PERSONAL Facebook account (that is how Meta pages work). A convincing 'Meta Business Suite' security alert lands in their personal inbox, they click without thinking, and enter their password on the fake page.",
+    "recommendations": [
+      "Protect: CIS 14.6: Train staff to recognize phishing and social engineering",
+      "Protect: Take9: Pause before acting on a password-reset email - go to the site directly instead of clicking the link."
+    ],
+    "trigger_time": 2580000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - Field Data Coordinator",
+    "asset_code": "2180",
+    "skipper_mitigation": "recIRvpseS7YAFx6c",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recDTKHHehhlGSaBo",
+    "budget_change": null,
+    "handbook_category": "Identify"
+  },
+  {
+    "id": "rec7qnRLW9O2wM0Ku",
+    "title": "Unusual logins flagged from overseas (2095)",
+    "description": "Confidential city data surfaces online. After an invesigation, the IT team found that city systems were successfully breached through logins coming from overseas IP addresses late at night. Because nothing was watching the network, the city can't say for sure what was taken or reassure residents.",
+    "recommendations": [
+      "Detect: CIS 13.3: Monitor the network to detect intrusions early"
+    ],
+    "trigger_time": 1380000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "IT Team",
+    "asset_code": "2095",
+    "skipper_mitigation": "rec7nxUsS92xhtK3n",
+    "systems_to_disable": null,
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "recABI3gUIYXRQNKh",
+    "title": "Toddler speed-dial (2045)",
+    "description": "At home, a City Hall staffer's toddler pocket-dials a known CRT organizer from an unlocked personal phone. The organizer overhears the staffer venting about internal disagreements and the Mayor.",
+    "recommendations": [
+      "Protect: CIS 4: Set device-use expectations and require passcodes",
+      "Protect: Take9: Lock your phone - a passcode prevents accidental dials and protects what's on it."
+    ],
+    "trigger_time": 720000,
+    "location": "hq",
+    "type": "Table",
+    "recipient_role": "Public Information Officer",
+    "asset_code": "2045",
+    "skipper_mitigation": "recN5FU8uJ4ozQ2Pd",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recmQjD4Am9RMHLzL",
+    "budget_change": null,
+    "handbook_category": "Protect"
+  },
+  {
+    "id": "recaIrwNT2B35qBxA",
+    "title": "Supervisor's laptop stolen at a community forum (2040)",
+    "description": "The District Operations Supervisor's city laptop - holding a resident engagement export and internal planning notes - is lost after a community forum. (Note: If MDM with remote-wipe (K) is in place, IT can wipe it before anyone reads it - but only if the team actually triggers the wipe.)",
+    "recommendations": [
+      "Protect: CIS 3.6: Encrypt device drives so a lost device is unreadable"
+    ],
+    "trigger_time": 660000,
+    "location": "local",
+    "type": "Table",
+    "recipient_role": "DPW - City Operations Supervisor",
+    "asset_code": "2040",
+    "skipper_mitigation": "recBFuK15LZOwzZLX",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recS3mf4h0MQpsfrU",
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "recAk9zZ8LA2yGg7J",
+    "title": "Background-check vendor was breached (2185)",
+    "description": "The outside firm the city hired to run background checks on volunteers discloses, weeks late, that it was breached. The personal information of volunteers - many of whom are high profile - is leaked, and several publicly denounce the leak - support dips.",
+    "recommendations": [
+      "Govern: CIS 15.4: Require security and breach-notification terms in vendor contracts"
+    ],
+    "trigger_time": 2700000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - All Actors",
+    "asset_code": "2185",
+    "skipper_mitigation": "rec25xSvrJmeLA4uA",
+    "systems_to_disable": null,
+    "poll_change": -1,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Identify"
+  },
+  {
+    "id": "recAVcfYapYXZu4Xz",
+    "title": "Ransomware locks city files before the vote (2220)",
+    "description": "READ TO TABLE: Days before the bond vote, ransomware locks city and field computers - including the resident outreach lists - with a ransom demand on screen.",
+    "recommendations": [
+      "Recover: CIS 11.4: Keep an isolated, offline or offsite backup copy"
+    ],
+    "trigger_time": 3180000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - All Actors",
+    "asset_code": "2220",
+    "skipper_mitigation": null,
+    "systems_to_disable": [
+      "recWCLV98Ee7Wmj0a",
+      "recynXIBsStyEQbzs"
+    ],
+    "poll_change": -3,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Recover"
+  },
+  {
+    "id": "recbOhtyHsxJVRBD9",
+    "title": "Comms blackout before the final hearing (2225)",
+    "description": "Activate the COOP plan's fallback channels (only available if CC purchased - no loss) to keep the hearing on track; otherwise pay $1,000 for emergency mobile-hotspot connectivity to bridge the outage. ",
+    "recommendations": [
+      "Recover: CIS 11: Maintain backups and a continuity plan"
+    ],
+    "trigger_time": 3300000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2225",
+    "skipper_mitigation": null,
+    "systems_to_disable": [
+      "recZTp8fGmaQYZi9c"
+    ],
+    "poll_change": -3,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": null
+  },
+  {
+    "id": "recC6JoHgwOdB0pIP",
+    "title": "Spoofed QR codes on bond flyers (2070)",
+    "description": "Flyers for the city's community forums have been reprinted around Olania with a malicious QR code sending residents to a fake 'bond information' page that harvests personal data. Some residents are already affected.",
+    "recommendations": [
+      "Respond: CIS 17.4: Maintain an incident-response plan with pre-drafted messaging",
+      "Protect: Take9: Only scan QR codes from trusted sources and check the URL before entering any details."
+    ],
+    "trigger_time": 1080000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - Field Data Coordinator",
+    "asset_code": "2070",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recrXwTZpn1m28pX6",
+    "budget_change": null,
+    "handbook_category": "Detect"
+  },
+  {
+    "id": "recCZaBetpP0wqwWn",
+    "title": "Outreach strategy leaked (2115)",
+    "description": "NEWS - medium impact: The city's draft public-engagement plan is leaked and spun as proof the city is improperly 'campaigning' with public resources.",
+    "recommendations": [
+      "Protect: CIS 6.3: Require MFA so a stolen password alone cannot grant access"
+    ],
+    "trigger_time": 1680000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - All Actors",
+    "asset_code": "2015",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": -3,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": null
+  },
+  {
+    "id": "recDBu9hXAeQjkIWA",
+    "title": "Photo sharing via personal USB (2090)",
+    "description": "A field crew member uses a personal USB drive to move community-forum photos onto a shared field-office computer so they can be posted online.",
+    "recommendations": [
+      "Protect: CIS 10.1: Run anti-malware that scans removable media on insertion"
+    ],
+    "trigger_time": 1320000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - Field Support Team",
+    "asset_code": "2090",
+    "skipper_mitigation": "recu7iIUPyoJh843h",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recAVcfYapYXZu4Xz",
+    "budget_change": null,
+    "handbook_category": "Detect"
+  },
+  {
+    "id": "recDTKHHehhlGSaBo",
+    "title": "City social media hacked - embarrassing post (2205)",
+    "description": "NEWS: The city's project-updates social media account is compromised and an embarrassing post mocking low-income residents goes out before anyone notices.",
+    "recommendations": [
+      "Protect: CIS 6.3: Require MFA so a stolen password alone cannot grant access"
+    ],
+    "trigger_time": 2940000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2205",
+    "skipper_mitigation": "recIRvpseS7YAFx6c",
+    "systems_to_disable": [
+      "reclFJ1zlKx41znpB"
+    ],
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": null
+  },
+  {
+    "id": "recERapMzDwHI9KSV",
+    "title": "Default password on the field-office Wi-Fi (2110)",
+    "description": "The Wi-Fi router at the Department of Public Works field office still uses its factory-default admin password, and the guest network isn't separated from staff devices. During outreach, field staff suddenly can't log into the Resident Engagement Database — their accounts keep getting kicked out, and something about the connection seems off",
+    "recommendations": [
+      "Protect: CIS 12: Secure and segment wireless networks"
+    ],
+    "trigger_time": 1620000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - Field Data Coordinator",
+    "asset_code": "2110",
+    "skipper_mitigation": "recFNLEKlqqPaOAg6",
+    "systems_to_disable": [
+      "recXPadDc7sPspdpZ"
+    ],
+    "poll_change": null,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Detect"
+  },
+  {
+    "id": "receS5qyYXmOcdKqe",
+    "title": "Vendor requests an urgent banking change (2120)",
+    "description": "Finance & Procurement receives an email from Olania Paving - a real city contractor - saying their bank details have changed and asking that the next progress payment go to a new account. The message is polished and references a genuine open invoice. (FACILITATOR: events card should show real-looking invoice.)",
+    "recommendations": [
+      "Protect: CIS 14.6: Train staff to recognize phishing and social engineering",
+      "Protect: Take9: Pause on any banking-change request - verify out-of-band on a known number, even from a real vendor."
+    ],
+    "trigger_time": 1740000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "Finance & Procurement Team",
+    "asset_code": "2120",
+    "skipper_mitigation": "recBFuK15LZOwzZLX",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recJiGMCR7XBXEsJ8",
+    "budget_change": null,
+    "handbook_category": "Identify"
+  },
+  {
+    "id": "recfrv0485lKozYsP",
+    "title": "Mayor's city email compromised (2065)",
+    "description": "NEWS: The Mayor's city email is accessed using the password reused from the retailer breach. Selected messages about bond planning are leaked to claim the city is improperly campaigning.",
+    "recommendations": [
+      "Protect: CIS 6.3: Require MFA so a stolen password alone cannot grant access",
+      "Protect: Take9: Never reuse passwords; change them immediately after a breach and use MFA where offered."
+    ],
+    "trigger_time": 1080000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2065",
+    "skipper_mitigation": "recA9oJ4CiSnNqeGV",
+    "systems_to_disable": null,
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "recfSp0eAZK7FH6Pl",
+    "title": "Personal tablet left at a community forum (2145)",
+    "description": "A DPW field worker used their personal tablet to take notes during a community forum, but misplaced it folllowing the event. The tablet - which didn't have a passcode - had a saved copy of the meeting participant list, as well as blunt notes about the discussion that took place during the forum. Screenshots of the notes and participant comments show up on a neighborhood list-serv, generating intense criticism.",
+    "recommendations": [
+      "Protect: CIS 4.11: Enforce Remote Wipe Capability on Portable End-User Devices",
+      "Protect: Take9: Pause before saving sensitive lists to a personal device - and lock your screen."
+    ],
+    "trigger_time": 2100000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - Field Support Team",
+    "asset_code": "2145",
+    "skipper_mitigation": "recN5FU8uJ4ozQ2Pd",
+    "systems_to_disable": null,
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "recH8llOgroHUdmPE",
+    "title": "Malware makes city computers unusable (2075)",
+    "description": "The vulnerability left unpatched on 'Old Bessie' is exploited directly: attackers pivot from that laptop into city systems and lock several workstations during a busy week of public meetings.",
+    "recommendations": [
+      "Protect: CIS 7.3: Turn on automatic operating-system updates"
+    ],
+    "trigger_time": 1140000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - All Actors",
+    "asset_code": "2075",
+    "skipper_mitigation": "rec8cZHYOoKhA5KDj",
+    "systems_to_disable": [
+      "recWCLV98Ee7Wmj0a",
+      "recynXIBsStyEQbzs"
+    ],
+    "poll_change": null,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": null
+  },
+  {
+    "id": "recHlqwgoe9ytlCIX",
+    "title": "National retailer password breach - NEWS (2015)",
+    "description": "NEWS: A major national retailer discloses a breach of customer passwords. Anyone who reused that password elsewhere is urged to change it.",
+    "recommendations": [
+      "Protect: CIS 6.3: Require MFA so a stolen password alone cannot grant access",
+      "Protect: Take9: Change reused passwords after any breach - use a unique password for every account (a password manager helps)."
+    ],
+    "trigger_time": 300000,
+    "location": "hq",
+    "type": "Table",
+    "recipient_role": "IT Team",
+    "asset_code": "2015",
+    "skipper_mitigation": "recA9oJ4CiSnNqeGV",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recfrv0485lKozYsP",
+    "budget_change": null,
+    "handbook_category": null
+  },
+  {
+    "id": "recJiGMCR7XBXEsJ8",
+    "title": "City wires contractor payment to fraudsters (2190)",
+    "description": "NEWS: A routine audit finds the 'progress payment' went to a fraudulent account. The money is gone, and CRT asks how a city that cannot verify an email can be trusted with $200 million.",
+    "recommendations": [
+      "Respond: CIS 17.4: Maintain an incident-response plan with pre-drafted messaging"
+    ],
+    "trigger_time": 2760000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2190",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "recLCfAi8URs7BThp",
+    "title": "Bid documents stolen (2175)",
+    "description": "Sealed cost estimates and contractor pricing are stolen through the fake portal login. CRT publishes excerpts, alleging insider dealing - and reminding voters of the former Council member's corruption scandal.",
+    "recommendations": [
+      "Protect: CIS 14.6: Train staff to recognize phishing and social engineering"
+    ],
+    "trigger_time": 2520000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2175",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": -3,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Detect"
+  },
+  {
+    "id": "recLq9kDuPyxapEB9",
+    "title": "Sensitive data pasted into a free AI chatbot (2150)",
+    "description": "Last month, racing to draft talking points for a public hearing, the Public Information Officer pasted a spreadsheet of resident complaints - which also included names, addresses, and utility account numbers - into a free public GenAI chatbot to 'summarize the themes.' Now a reporter has discovered those same details by querying the same chatbot. Headline: 'City of Olania feeds your data to AI.' The city cannot fully trace what was shared.",
+    "recommendations": [
+      "Govern: CIS 3.1: Adopt a documented data-management and secure-disposal process",
+      "Protect: Take9: Pause before sharing sensitive data - double-check who (or what) is asking before you paste it anywhere."
+    ],
+    "trigger_time": 2220000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "Public Information Officer",
+    "asset_code": "2150",
+    "skipper_mitigation": "recgNwL9mYQJWxGor",
+    "systems_to_disable": null,
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Protect"
+  },
+  {
+    "id": "recmApw9qCnQjPppK",
+    "title": "City external drive stolen from car (2035)",
+    "description": "To work over the weekend, the City Engineer copied bridge-inspection reports and draft bid evaluations onto a city-issued external hard drive - which is then stolen from their car when they went out for happy hour. Because the city has no removable-media encryption policy, the drive is easily read and files leak to CRT.",
+    "recommendations": [
+      "Protect: CIS 3.9: Encrypt removable media so a lost drive is unreadable"
+    ],
+    "trigger_time": 600000,
+    "location": "hq",
+    "type": "Table",
+    "recipient_role": "Capital Projects Manager",
+    "asset_code": "2035",
+    "skipper_mitigation": "recXxzdJYcSfl1AU1",
+    "systems_to_disable": null,
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": null
+  },
+  {
+    "id": "recMgd602xTorx7Np",
+    "title": "Malware corrupts field-office files (2100)",
+    "description": "READ TO TABLE: Field-office computers are infected with malware that corrupts critical files - resident lists, outreach plans, and event schedules.",
+    "recommendations": [
+      "Recover: CIS 11.2: Perform automated backups of critical data"
+    ],
+    "trigger_time": 1500000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - All Actors",
+    "asset_code": "2100",
+    "skipper_mitigation": "rec6fboipi8qah9XI",
+    "systems_to_disable": [
+      "recWCLV98Ee7Wmj0a"
+    ],
+    "poll_change": null,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "recmQjD4Am9RMHLzL",
+    "title": "Embarrassing remarks about the Mayor go public (2140)",
+    "description": "NEWS - high impact: The overheard remarks surface on local blogs, casting doubt on the professionalism of the city's leadership at a critical moment.",
+    "recommendations": [
+      "Protect: CIS 4: Set device-use expectations and require passcodes"
+    ],
+    "trigger_time": 2040000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2140",
+    "skipper_mitigation": "reczaCwiwOS4DscjD",
+    "systems_to_disable": null,
+    "poll_change": -3,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "recnNgQXPeIvFJFSa",
+    "title": "No policy for paper records - sensitive printouts mishandled (2105)",
+    "description": "Boxes of printed resident applications and old bid documents - full of names, addresses, and account numbers - have been piling up in an unlocked hallway and a recycling bin at the Administration Building, because the city has no policy for handling or disposing of paper records. A resident photographs the pile and posts it, and local coverage follows: 'City dumps residents' personal data in the open.'",
+    "recommendations": [
+      "Govern: CIS 3.1: Adopt a documented data-management and secure-disposal process"
+    ],
+    "trigger_time": 1560000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2105",
+    "skipper_mitigation": "recyiPm1IKUYOr8pf",
+    "systems_to_disable": null,
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Identify"
+  },
+  {
+    "id": "recoCnH1GfD8zqRrN",
+    "title": "Locked out of the resident engagement database (2210)",
+    "description": "The staffer who administers the city's resident engagement database (a SaaS product) leaves abruptly. The city had set the system up under a single SHARED admin login rather than per-user roles, so no one else can recover access - days before the final outreach push.",
+    "recommendations": [
+      "Govern: CIS 6.8: Use role-based access control instead of shared logins"
+    ],
+    "trigger_time": 3000000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - All Actors",
+    "asset_code": "2210",
+    "skipper_mitigation": "recuVYIY5iF6XzMI4",
+    "systems_to_disable": [
+      "recXPadDc7sPspdpZ"
+    ],
+    "poll_change": null,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "recP0JRgZf4DIfebC",
+    "title": "Strange traffic from the lobby printer (2025)",
+    "description": "A front-desk staffer notices the lobby printer's lights blinking at odd hours and it is 'printing' tiny jobs no one sent. Something is off.",
+    "recommendations": [
+      "Protect: CIS 4.7: Change default credentials and securely configure all devices"
+    ],
+    "trigger_time": 480000,
+    "location": "hq",
+    "type": "Table",
+    "recipient_role": "Finance & Procurement Team",
+    "asset_code": "2025",
+    "skipper_mitigation": "recI0iHSg1SCSxy1n",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recsVDcJmRPXlFcFH",
+    "budget_change": null,
+    "handbook_category": "Identify"
+  },
+  {
+    "id": "recpzdXjlveHFaeA6",
+    "title": "DDoS knocks the bond information page offline (2030)",
+    "description": "A DDoS attack floods the city's public website, taking it offline the day a new public information campaign is supposed to launch. CRT circulates screenshots: 'They can't keep a website running - and you'd trust them with $200 million?'",
+    "recommendations": [
+      "Protect: CIS 13: Subscribe to DDoS protection for public-facing sites"
+    ],
+    "trigger_time": 540000,
+    "location": "hq",
+    "type": "Table",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2030",
+    "skipper_mitigation": "rectiIEGBaSynKMlO",
+    "systems_to_disable": [
+      "recltMBkG5VjLm9lx"
+    ],
+    "poll_change": null,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Detect"
+  },
+  {
+    "id": "recqDEuI2utAYPxnK",
+    "title": "Over-shared folder exposes the speaker list and a draft op-ed (2125)",
+    "description": "To collaborate with a local 'Friends of Olania Infrastructure' volunteer group, a field staffer changes a cloud folder's sharing so the outside volunteers can access public outreach materials - but sets it to 'anyone with the link.' The folder holds the community-forum speaker contact list AND a still-in-draft op-ed written for a Council member to sign. The link gets forwarded beyond the volunteers, and a reporter ends up with both.",
+    "recommendations": [
+      "Protect: CIS 3.3: Restrict data access to named accounts on a least-privilege basis",
+      "Protect: Take9: Pause before changing a share setting - verify who really needs access instead of 'anyone with the link'."
+    ],
+    "trigger_time": 1800000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - Field Support Team",
+    "asset_code": "2125",
+    "skipper_mitigation": "recCuYIwvVgNT9dDy",
+    "systems_to_disable": null,
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Respond"
+  },
+  {
+    "id": "recrXwTZpn1m28pX6",
+    "title": "NEWS: 'City bond effort linked to scam' (2215)",
+    "description": "NEWS - medium impact: Because the city was slow to respond to the spoofed-QR scam, local TV runs the story: 'City bond effort linked to scam' - even though the city was also a victim. Resident trust takes a hit.",
+    "recommendations": [
+      "Respond: CIS 17.4: Maintain an incident-response plan with pre-drafted messaging"
+    ],
+    "trigger_time": 3120000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - All Actors",
+    "asset_code": "2215",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Identify"
+  },
+  {
+    "id": "recS3mf4h0MQpsfrU",
+    "title": "Internal planning notes exposed (2195)",
+    "description": "NEWS - high impact: Notes from the lost laptop - including blunt language about residents - leak to the press, casting the city's engagement effort as cynical.",
+    "recommendations": [
+      "Protect: CIS 4.11: Enforce Remote Wipe Capability on Portable End-User Devices"
+    ],
+    "trigger_time": 2820000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - All Actors",
+    "asset_code": "2195",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": -3,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Identify"
+  },
+  {
+    "id": "recS4G1fXnt4eFwE3",
+    "title": "Fake Capital Projects portal login page (2010)",
+    "description": "Staff receive an email with a link to a fake 'Capital Projects System' page claiming they must re-upload their current bid and contract documents following a major site update.' ",
+    "recommendations": [
+      "Protect: CIS 9: Filter malicious email and web links at the gateway",
+      "Protect: Take9: Pause before you click an emailed link or upload anything - go straight to the real site/app to verify, and watch for urgent 're-validate now' language."
+    ],
+    "trigger_time": 240000,
+    "location": "hq",
+    "type": "Table",
+    "recipient_role": "Finance & Procurement Team",
+    "asset_code": "2010",
+    "skipper_mitigation": "recHwtpI6UsKuXivB",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recLCfAi8URs7BThp",
+    "budget_change": null,
+    "handbook_category": "Protect"
+  },
+  {
+    "id": "recsVDcJmRPXlFcFH",
+    "title": "Residents' utility-billing data exfiltrated (2165)",
+    "description": "NEWS - high impact: The attackers who slipped in through the lobby printer pivot across the internal network to a city FILE SERVER holding exported utility-billing records - names, addresses, and financial details - and exfiltrate them. A state breach-notification clock starts.",
+    "recommendations": [
+      "Protect: CIS 4.7: Change default credentials and securely configure all devices"
+    ],
+    "trigger_time": 2340000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "IT Team",
+    "asset_code": "2165",
+    "skipper_mitigation": "recI0iHSg1SCSxy1n",
+    "systems_to_disable": null,
+    "poll_change": -3,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": null
+  },
+  {
+    "id": "rectUfzmD4cybOpUd",
+    "title": "Attackers exploit portal flaws - bond page defaced and offline (2130)",
+    "description": "Anonymous attackers exploit unpatched vulnerabilities in the city's custom-built BOND INFORMATION APP (the public tool residents use to look up projects and run the tax-impact calculator), defacing it and knocking it offline. CRT screenshots spread within the hour.",
+    "recommendations": [
+      "Identify: CIS 18: Conduct independent penetration testing of custom web apps"
+    ],
+    "trigger_time": 1860000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "IT Team",
+    "asset_code": "2130",
+    "skipper_mitigation": "reczaCwiwOS4DscjD",
+    "systems_to_disable": [
+      "recy7ApEd2VqFMg5M"
+    ],
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": null
+  },
+  {
+    "id": "rectwKgiBGT5gXdXV",
+    "title": "Spearphishing 'from the Mayor' (2005)",
+    "description": "An email appearing to come from the Mayor lands in field staff inboxes, asking them to send the latest resident engagement strategy 'for tonight's Commissioner briefing.' ",
+    "recommendations": [
+      "Protect: CIS 14.6: Train staff to recognize phishing and social engineering",
+      "Protect: Take9: Pause before sending data 'for the Mayor' - verify the request out-of-band; lures now reference people you know."
+    ],
+    "trigger_time": 180000,
+    "location": "local",
+    "type": "Table",
+    "recipient_role": "DPW - Field Support Team",
+    "asset_code": "2005",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recCZaBetpP0wqwWn",
+    "budget_change": null,
+    "handbook_category": "Identify"
+  },
+  {
+    "id": "recUAtOA0BvWkB4Uz",
+    "title": "Old Bessie refuses her medicine (2060)",
+    "description": "The DPW's office's ancient shared laptop - lovingly nicknamed 'Old Bessie' - pops up her hundredth 'restart to update' reminder. Since the team frequently uses the laptop for community forums and other external events, and the system takes so long to reboot, they have been hitting \"Remind me later\" for the past three months.",
+    "recommendations": [
+      "Protect: CIS 7.3: Turn on automatic operating-system updates"
+    ],
+    "trigger_time": 900000,
+    "location": "local",
+    "type": "Table",
+    "recipient_role": "DPW - Field Data Coordinator",
+    "asset_code": "2060",
+    "skipper_mitigation": "rec8cZHYOoKhA5KDj",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recH8llOgroHUdmPE",
+    "budget_change": null,
+    "handbook_category": "Identify"
+  },
+  {
+    "id": "recvBDwyswPh8wcrL",
+    "title": "Cleaning contractor quits (2000)",
+    "description": "The after-hours cleaning contractor for the Administration Building abruptly quits.",
+    "recommendations": [
+      "Govern: CIS 6.2: Revoke access promptly when staff or contractors leave or change roles"
+    ],
+    "trigger_time": 180000,
+    "location": "hq",
+    "type": "Table",
+    "recipient_role": "IT Team",
+    "asset_code": "2000",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recVnu2azTw0E9jPl",
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "recVdo02vtpzYT0kq",
+    "title": "Field staffer transfers out (2135)",
+    "description": "A field staffer transfers to another department after a disagreement over assignments, but still has administrator access to the city's social media pages.",
+    "recommendations": [
+      "Govern: CIS 6.2: Revoke access promptly when staff or contractors leave or change roles"
+    ],
+    "trigger_time": 1980000,
+    "location": "local",
+    "type": "Board",
+    "recipient_role": "DPW - Field Support Team",
+    "asset_code": "2135",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "rec0gTOpZQAkWTXOl",
+    "budget_change": null,
+    "handbook_category": null
+  },
+  {
+    "id": "recVnu2azTw0E9jPl",
+    "title": "Computers stolen by former cleaner (2055)",
+    "description": "READ TO TABLE: The former cleaning contractor uses an old key to enter City Hall after hours and steals several computers. Whether the data on them is exposed depends on whether the drives were encrypted.",
+    "recommendations": [
+      "Govern: CIS 6.2: Revoke access promptly when staff or contractors leave or change roles"
+    ],
+    "trigger_time": 840000,
+    "location": "hq",
+    "type": "Table",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2055",
+    "skipper_mitigation": null,
+    "systems_to_disable": [
+      "recynXIBsStyEQbzs"
+    ],
+    "poll_change": -2,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Respond"
+  },
+  {
+    "id": "recWrYFsFmrvYbkjN",
+    "title": "Website data deleted (2200)",
+    "description": "The contents of the city's website are deleted by the departed Communications Manager, whose access was never properly limited or revoked.",
+    "recommendations": [
+      "Govern: CIS 6.2: Revoke access promptly when staff or contractors leave or change roles"
+    ],
+    "trigger_time": 2880000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "City Hall - All Actors",
+    "asset_code": "2200",
+    "skipper_mitigation": null,
+    "systems_to_disable": [
+      "recltMBkG5VjLm9lx"
+    ],
+    "poll_change": null,
+    "followup_injection": null,
+    "budget_change": null,
+    "handbook_category": "Respond"
+  },
+  {
+    "id": "recyfEHXu15f9IP3j",
+    "title": "Phone call from the 'Council office' (2020)",
+    "description": "A caller claiming to be a City Council member's aide phones the field office asking for information about the residents who attended recent community forums 'for follow-up.'",
+    "recommendations": [
+      "Protect: CIS 14.6: Train staff to recognize phishing and social engineering",
+      "Protect: Take9: Pause on an unexpected phone request for resident data - hang up and call back on the office's published number."
+    ],
+    "trigger_time": 360000,
+    "location": "local",
+    "type": "Table",
+    "recipient_role": "DPW - City Operations Supervisor",
+    "asset_code": "2020",
+    "skipper_mitigation": null,
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "rec59oHwxGzbI1TMi",
+    "budget_change": null,
+    "handbook_category": null
+  },
+  {
+    "id": "recZ52Vqd3DlfNzdm",
+    "title": "Communications Manager resigns over pay dispute (2080)",
+    "description": "The Communications Manager who administers the city's website resigns over a pay dispute.",
+    "recommendations": [
+      "Govern: CIS 6.2: Revoke access promptly when staff or contractors leave or change roles"
+    ],
+    "trigger_time": 1200000,
+    "location": "hq",
+    "type": "Board",
+    "recipient_role": "Capital Projects Manager",
+    "asset_code": "2080",
+    "skipper_mitigation": "recuVYIY5iF6XzMI4",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recWrYFsFmrvYbkjN",
+    "budget_change": null,
+    "handbook_category": "Govern"
+  },
+  {
+    "id": "reczU562UviQJGTQ1",
+    "title": "Pirated software on a field computer (2050)",
+    "description": "A field staffer installs a 'free', unlicensed video-editing tool on a field-office computer to make bond-explainer clips.",
+    "recommendations": [
+      "Protect: CIS 2.5: Allowlist authorized software to block unauthorized installs"
+    ],
+    "trigger_time": 780000,
+    "location": "local",
+    "type": "Table",
+    "recipient_role": "DPW - Field Data Coordinator",
+    "asset_code": "2050",
+    "skipper_mitigation": "rec6fboipi8qah9XI",
+    "systems_to_disable": null,
+    "poll_change": null,
+    "followup_injection": "recMgd602xTorx7Np",
+    "budget_change": null,
+    "handbook_category": "Detect"
+  }
+]
