@@ -250,7 +250,7 @@ The slug must match the subdomain used to access the UI (e.g. `cso` for `cso.cyb
 ### Optional
 
 - `IMPORT_PASSWORD` — Password required to trigger a scenario import via the UI. Import is disabled if not set.
-- `SCENARIO_SLUG` — Backend fallback slug used when the frontend does not send one (see Multi-Scenario below).
+- `SCENARIO_SLUG` — Backend runtime fallback slug used when the frontend does not send one (see Multi-Scenario below). In local development, set this to the same value as the UI's `REACT_APP_SCENARIO_SLUG`.
 - `LOG_LEVEL` — Defaults to `error` in production, `info` in development.
 
 #### LOG_LEVEL options
@@ -280,11 +280,23 @@ The slug is sent to the backend as part of the CREATEGAME socket event and the `
 
 **Backend:** Uses the slug it receives from the frontend to look up the correct Airtable base in `AIRTABLE_BASE_IDS` and to scope all game data to the correct scenario in the database.
 
-`SCENARIO_SLUG` is a backend-only fallback used when the frontend does not send a slug — for example, during manual API calls, scripts, or in a single-scenario deployment where you want to hardcode the scenario server-side. The resolution order is:
+`SCENARIO_SLUG` is a backend-only runtime fallback used when the frontend does not send a slug — for example, during manual API calls, scripts, or in a single-scenario deployment where you want to hardcode the scenario server-side. The resolution order is:
 
 ```
 slug from frontend request  →  SCENARIO_SLUG env var  →  "cso"
 ```
+
+For local development against a non-`cso` scenario, keep the UI and backend runtime slugs aligned:
+
+```
+# CyberSim-UI/.env
+REACT_APP_SCENARIO_SLUG=tnr
+
+# CyberSim-Backend/.env
+SCENARIO_SLUG=tnr
+```
+
+`IMPORT_SCENARIO_SLUG` is separate: it is used only by `npm run import:scenario` to choose which Airtable scenario to import. It does not set the backend's runtime fallback for creating games. If `SCENARIO_SLUG` is unset, backend game creation can fall back to `cso`, which may produce confusing local-only mismatches where the UI loads one scenario's static data while the backend creates or joins runtime game state for another.
 
 ### Adding a new scenario
 

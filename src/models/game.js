@@ -37,12 +37,15 @@ const getGame = (id) =>
       'game.started_at',
       'game.paused',
       'game.millis_taken_before_started',
+      'scenario.slug as scenarioSlug',
+      'scenario.name as scenarioName',
       'i.injections',
       'm.mitigations',
       's.systems',
       'l.logs',
     )
     .where({ 'game.id': id })
+    .join('scenario', 'game.scenario_id', 'scenario.id')
     .joinRaw(
       `LEFT JOIN (SELECT gm.game_id, array_agg(to_json(gm)) AS mitigations FROM game_mitigation gm GROUP BY gm.game_id) m ON m.game_id = game.id`,
     )

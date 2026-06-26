@@ -29,6 +29,10 @@ describe('Create Game', () => {
     const game = await createGame(gameId);
 
     expect(game).toMatchObject(dummyGame);
+    expect(game).toMatchObject({
+      scenarioSlug: 'cso',
+      scenarioName: 'CSO Scenario',
+    });
 
     expect(sortByMitigationId(game.mitigations)).toMatchObject(
       sortByMitigationId(dummyGameMitigations),
