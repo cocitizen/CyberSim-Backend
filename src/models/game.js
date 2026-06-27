@@ -26,6 +26,17 @@ const ERR_SYSTEMS_NOT_AVAILABLE =
   'The required systems for this action are not available.';
 const ERR_CANNOT_START_FINALIZED_GAME = 'Cannot start finalized game';
 
+// Throws a clear error when a game row is missing — e.g. a stale socket
+// session pointing at a game that has ended or been reset. Prevents the
+// cryptic "Cannot read properties of undefined" crash in mutation handlers.
+const assertGameExists = (game) => {
+  if (!game) {
+    throw new Error(
+      'Game not found — it may have ended or been reset. Start or rejoin a game.',
+    );
+  }
+};
+
 const getGame = (id) =>
   db('game')
     .select(
@@ -131,6 +142,7 @@ const changeMitigation = async ({ mitigationId, mitigationValue, gameId }) => {
       )
       .where({ id: gameId })
       .first();
+    assertGameExists(game);
 
     const mitigationRow = await db('game_mitigation')
       .select('state', 'id')
@@ -213,7 +225,9 @@ const changeMitigation = async ({ mitigationId, mitigationValue, gameId }) => {
       throw error;
     }
 
-    throw new Error('Server error on change mitigation');
+    throw new Error(
+      'Something went wrong updating that item. Please try again.',
+    );
   }
 
   return getGame(gameId);
@@ -278,7 +292,9 @@ const startSimulation = async (gameId) => {
       throw error;
     }
     logger.error('startSimulation ERROR: %s', error?.stack || error);
-    throw new Error('Server error on start simulation');
+    throw new Error(
+      'Something went wrong starting the simulation. Please try again.',
+    );
   }
   return getGame(gameId);
 };
@@ -318,7 +334,9 @@ const pauseSimulation = async ({ gameId, finishSimulation = false }) => {
     } else {
       logger.error('pauseSimulation ERROR: %s', error?.stack || error);
     }
-    throw new Error('Server error on pause simulation');
+    throw new Error(
+      'Something went wrong pausing the simulation. Please try again.',
+    );
   }
   return getGame(gameId);
 };
@@ -346,6 +364,7 @@ const makeResponses = async ({
         `LEFT JOIN (SELECT gm.game_id, array_agg(to_json(gm)) AS mitigations FROM game_mitigation gm GROUP BY gm.game_id) m ON m.game_id = game.id`,
       )
       .first();
+    assertGameExists(game);
     const timeTaken = getTimeTaken(game);
     if (responseIds?.length) {
       const responses = await getResponsesById(responseIds, game.scenarioId);
@@ -513,7 +532,9 @@ const makeResponses = async ({
     ) {
       throw error;
     }
-    const e = new Error(`Server error in makeResponses: ${error.message}`);
+    const e = new Error(
+      'Something went wrong saving that response. Please try again.',
+    );
     e.cause = error;
     e.meta = { gameId, injectionId, responseIds }; // optional
     throw e;
@@ -521,19 +542,20 @@ const makeResponses = async ({
 };
 
 const deliverGameInjection = async ({ gameId, injectionId }) => {
+  const game = await db('game')
+    .select(
+      'started_at as startedAt',
+      'paused',
+      'millis_taken_before_started as millisTakenBeforeStarted',
+      'poll',
+      'budget',
+      'scenario_id as scenarioId',
+    )
+    .where({ id: gameId })
+    .first();
+  assertGameExists(game);
   try {
-    const game = await db('game')
-      .select(
-        'started_at as startedAt',
-        'paused',
-        'millis_taken_before_started as millisTakenBeforeStarted',
-        'poll',
-        'budget',
-        'scenario_id as scenarioId',
-      )
-      .where({ id: gameId })
-      .first();
-    const { systemsToDisable, pollChange, budgetChange } = await db('injection')
+    const injectionData = await db('injection')
       .select(
         'systems_to_disable as systemsToDisable',
         'poll_change as pollChange',
@@ -541,6 +563,12 @@ const deliverGameInjection = async ({ gameId, injectionId }) => {
       )
       .where({ id: injectionId, scenario_id: game.scenarioId })
       .first();
+    if (!injectionData) {
+      throw new Error(
+        `Injection ${injectionId} not found in scenario ${game.scenarioId} (frontend/backend scenario mismatch?)`,
+      );
+    }
+    const { systemsToDisable, pollChange, budgetChange } = injectionData;
     if (systemsToDisable?.length) {
       await db('game_system')
         .where({ game_id: gameId })
@@ -565,7 +593,9 @@ const deliverGameInjection = async ({ gameId, injectionId }) => {
       .update({ delivered: true, delivered_at: getTimeTaken(game) });
   } catch (error) {
     logger.error('deliverGameInjection ERROR: %s', error?.stack || error);
-    throw new Error('Server error on changing games injection deliverance');
+    throw new Error(
+      'Something went wrong delivering that event. Please try again.',
+    );
   }
   return getGame(gameId);
 };
@@ -598,7 +628,9 @@ const makeNonCorrectInjectionResponse = async ({
       'makeNonCorrectInjectionResponse ERROR: %s',
       error?.stack || error,
     );
-    throw new Error('Server error on making non correct injection response');
+    throw new Error(
+      'Something went wrong saving that response. Please try again.',
+    );
   }
   return getGame(gameId);
 };
@@ -616,6 +648,7 @@ const performAction = async ({ gameId, actionId }) => {
       )
       .where({ id: gameId })
       .first();
+    assertGameExists(game);
 
     const { cost, budgetIncrease, pollIncrease, requiredSystems } = await db(
       'action',
@@ -662,7 +695,9 @@ const performAction = async ({ gameId, actionId }) => {
       case ERR_SYSTEMS_NOT_AVAILABLE:
         throw error;
       default:
-        throw new Error('Server error on performing action');
+        throw new Error(
+          'Something went wrong performing that action. Please try again.',
+        );
     }
   }
   return getGame(gameId);
@@ -681,6 +716,7 @@ const performCurveball = async ({ gameId, curveballId }) => {
       )
       .where({ id: gameId })
       .first();
+    assertGameExists(game);
 
     const { budgetChange, pollChange, loseAllBudget } = await db('curveball')
       .select(
@@ -706,7 +742,9 @@ const performCurveball = async ({ gameId, curveballId }) => {
     });
   } catch (error) {
     logger.error('performCurveball ERROR: %s', error?.stack || error);
-    throw new Error('Server error on performing action');
+    throw new Error(
+      'Something went wrong triggering that curveball event. Please try again.',
+    );
   }
   return getGame(gameId);
 };

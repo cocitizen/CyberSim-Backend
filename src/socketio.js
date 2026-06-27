@@ -101,7 +101,7 @@ module.exports = (http) => {
         try {
           const game = await getGame(id);
           if (!game) {
-            return callback({ error: 'Game not found!' });
+            return callback({ error: 'Game not found.' });
           }
           if (gameId) {
             await socket.leave(gameId);
@@ -111,7 +111,9 @@ module.exports = (http) => {
           return callback({ game });
         } catch (error) {
           logger.error('JOINGAME ERROR: %s', error);
-          return callback({ error: 'Server error on join game!' });
+          return callback({
+            error: 'Something went wrong joining the game. Please try again.',
+          });
         }
       },
     );
